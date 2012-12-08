@@ -3,15 +3,17 @@
 /* @var $model LoginForm */
 /* @var $form CActiveForm  */
 
-$this->pageTitle=Yii::app()->name . ' - Login';
+$this->pageTitle=Yii::app()->name . ' - 登录';
 $this->breadcrumbs=array(
-	'Login',
+	'登录',
 );
 ?>
 
-<h1>Login</h1>
+<h1>登录</h1>
 
+<!--
 <p>Please fill out the following form with your login credentials:</p>
+--!>
 
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -21,32 +23,35 @@ $this->breadcrumbs=array(
 		'validateOnSubmit'=>true,
 	),
 )); ?>
-
+        <!--
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
+        --!>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'username'); ?>
+                <?php echo $form->labelEx($model,'用户名'); ?>
 		<?php echo $form->textField($model,'username'); ?>
 		<?php echo $form->error($model,'username'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
+		<?php echo $form->labelEx($model,'密码'); ?>
 		<?php echo $form->passwordField($model,'password'); ?>
-		<?php echo $form->error($model,'password'); ?>
+                <?php echo $form->error($model,'password'); ?>
+                <!--
 		<p class="hint">
 			Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>.
-		</p>
+                </p>
+                --!>
 	</div>
 
 	<div class="row rememberMe">
 		<?php echo $form->checkBox($model,'rememberMe'); ?>
-		<?php echo $form->label($model,'rememberMe'); ?>
+		<?php echo $form->label($model,'下次不再提示'); ?>
 		<?php echo $form->error($model,'rememberMe'); ?>
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Login'); ?>
+		<?php echo CHtml::submitButton('登录'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
