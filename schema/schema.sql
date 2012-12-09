@@ -46,26 +46,26 @@ CREATE TABLE tianyi_channels
     PRIMARY KEY (channel_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_common_articles
+CREATE TABLE tianyi_news
 (
-    article_id                  int not null auto_increment,
-    channel_id                  int not null,
-    article_url                 varchar(1024) default null,
-    article_name                varchar(256) not null,
-    article_icon                varchar(256) default null,
-    article_status              int not null default 1,
-    article_content             longblob not null,
-    article_summary             varchar(1024) default 1024,
-    article_audit_gmt           int not null,
-    article_create_gmt          int not null,
-    article_update_gmt          int not null,
-    article_click_count         int not null default 0, 
+    news_id                  int not null auto_increment,
+    news_url                 varchar(1024) default null,
+    news_name                varchar(256) not null,
+    news_icon                varchar(256) default null,
+    news_status              int not null default 1,
+    news_content             longblob not null,
+    news_summary             varchar(1024) default 1024,
+    news_audit_gmt           int not null,
+    news_create_gmt          int not null,
+    news_update_gmt          int not null,
+    news_click_count         int not null default 0, 
 
     /* foreign keys */
 
+    channel_id                  int not null,
     audit_user_id               int not null default 0,
     create_user_id              int not null,
-    PRIMARY KEY (article_id)
+    PRIMARY KEY (news_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
