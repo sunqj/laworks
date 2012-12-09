@@ -93,7 +93,9 @@ CREATE TABLE tianyi_enterprises
     enterprise_name             varchar(128) not null unique,
     enterprise_desc             varchar(1024) not null,
     enterprise_logo             varchar(1024) default null,
+    enterprise_audit            int not null default 0 COMMENT '0:关，1：开',
     enterprise_status           int not null default 1,
+    enterprise_user_history     int not null default 0 COMMENT '0:不记录，1:记录',
 
     PRIMARY KEY (enterprise_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -236,19 +238,6 @@ CREATE TABLE tianyi_votes
     enterprise_id               int not null,
     PRIMARY KEY (vote_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE tianyi_settings
-(
-    setting_id                  int not null auto_increment,
-    setting_audit               int not null default 0 COMMENT '0:关，1：开',
-    setting_user_history        int not null default 0 COMMENT '0:不记录，1:记录',
-
-    /* foreign keys */
-
-    enterprise_id               int not null,
-
-    PRIMARY KEY (setting_id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE tianyi_history
 (
