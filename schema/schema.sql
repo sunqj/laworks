@@ -6,7 +6,7 @@
 drop database leo_test;
 create database leo_test;
 use leo_test;
-
+SET sql_mode='NO_AUTO_VALUE_ON_ZERO';
 
 CREATE TABLE tianyi_articles
 (
@@ -310,6 +310,15 @@ CREATE TABLE tianyi_reply
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-/* fake data */
+/****************/
+/* initial data */
+/****************/
+/*permissions*/
+insert into tianyi_permissions(permission_id, permission_name, permission_desc) values(0, 'admin', '系统管理员'),  (1, 'enterprise_admin','企业管理员'), (2, 'enterprise_auditor','企业审核员'), (3, 'enterprise_user', '企业普通用户');
 
+/*users*/
+insert into tianyi_users(user_id, username, password, user_cell, permission_id, enterprise_id) values(0, 'admin', 'linuxred', '10000', 0, 0);
+
+/*enterprises*/
+insert into tianyi_enterprises(enterprise_id, enterprise_name, enterprise_desc) values(0, '中国电信', '中国电信'); 
 

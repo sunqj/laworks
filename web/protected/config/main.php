@@ -57,7 +57,7 @@ return array(
                         'connectionString' => 'mysql:host=localhost;dbname=leo_test',
                         'emulatePrepare' => true,
                         'username' => 'root',
-                        'password' => 'Red1linux',
+                        'password' => 'linuxred',
                         'charset' => 'utf8',
                 ),
                 
