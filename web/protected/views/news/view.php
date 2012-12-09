@@ -25,6 +25,7 @@ $this->menu=array(
 		'news_url',
 		'news_name',
 		'news_icon',
+		'news_type',
 		'news_status',
 		'news_content',
 		'news_summary',

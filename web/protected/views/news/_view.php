@@ -21,6 +21,10 @@
 	<?php echo CHtml::encode($data->news_icon); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('news_type')); ?>:</b>
+	<?php echo CHtml::encode($data->news_type); ?>
+	<br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('news_status')); ?>:</b>
 	<?php echo CHtml::encode($data->news_status); ?>
 	<br />
@@ -29,11 +33,11 @@
 	<?php echo CHtml::encode($data->news_content); ?>
 	<br />
 
+	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('news_summary')); ?>:</b>
 	<?php echo CHtml::encode($data->news_summary); ?>
 	<br />
 
-	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('news_audit_gmt')); ?>:</b>
 	<?php echo CHtml::encode($data->news_audit_gmt); ?>
 	<br />

@@ -34,6 +34,12 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'news_type'); ?>
+		<?php echo $form->textField($model,'news_type'); ?>
+		<?php echo $form->error($model,'news_type'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'news_status'); ?>
 		<?php echo $form->textField($model,'news_status'); ?>
 		<?php echo $form->error($model,'news_status'); ?>

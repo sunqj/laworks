@@ -8,6 +8,7 @@
  * @property string $news_url
  * @property string $news_name
  * @property string $news_icon
+ * @property integer $news_type
  * @property integer $news_status
  * @property string $news_content
  * @property string $news_summary
@@ -48,12 +49,12 @@ class News extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('news_name, news_content, news_audit_gmt, news_create_gmt, news_update_gmt, channel_id, create_user_id', 'required'),
-			array('news_status, news_audit_gmt, news_create_gmt, news_update_gmt, news_click_count, channel_id, audit_user_id, create_user_id', 'numerical', 'integerOnly'=>true),
+			array('news_type, news_status, news_audit_gmt, news_create_gmt, news_update_gmt, news_click_count, channel_id, audit_user_id, create_user_id', 'numerical', 'integerOnly'=>true),
 			array('news_url, news_summary', 'length', 'max'=>1024),
 			array('news_name, news_icon', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('news_id, news_url, news_name, news_icon, news_status, news_content, news_summary, news_audit_gmt, news_create_gmt, news_update_gmt, news_click_count, channel_id, audit_user_id, create_user_id', 'safe', 'on'=>'search'),
+			array('news_id, news_url, news_name, news_icon, news_type, news_status, news_content, news_summary, news_audit_gmt, news_create_gmt, news_update_gmt, news_click_count, channel_id, audit_user_id, create_user_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -78,6 +79,7 @@ class News extends CActiveRecord
 			'news_url' => 'News Url',
 			'news_name' => 'News Name',
 			'news_icon' => 'News Icon',
+			'news_type' => 'News Type',
 			'news_status' => 'News Status',
 			'news_content' => 'News Content',
 			'news_summary' => 'News Summary',
@@ -106,6 +108,7 @@ class News extends CActiveRecord
 		$criteria->compare('news_url',$this->news_url,true);
 		$criteria->compare('news_name',$this->news_name,true);
 		$criteria->compare('news_icon',$this->news_icon,true);
+		$criteria->compare('news_type',$this->news_type);
 		$criteria->compare('news_status',$this->news_status);
 		$criteria->compare('news_content',$this->news_content,true);
 		$criteria->compare('news_summary',$this->news_summary,true);

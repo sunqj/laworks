@@ -49,9 +49,10 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'news_url',
 		'news_name',
 		'news_icon',
+		'news_type',
 		'news_status',
-		'news_content',
 		/*
+		'news_content',
 		'news_summary',
 		'news_audit_gmt',
 		'news_create_gmt',

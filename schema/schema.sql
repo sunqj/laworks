@@ -52,6 +52,7 @@ CREATE TABLE tianyi_news
     news_url                 varchar(1024) default null,
     news_name                varchar(256) not null,
     news_icon                varchar(256) default null,
+    news_type                int not null default 0,
     news_status              int not null default 1,
     news_content             longblob not null,
     news_summary             varchar(1024) default 1024,

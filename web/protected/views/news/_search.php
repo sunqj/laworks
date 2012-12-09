@@ -32,6 +32,11 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'news_type'); ?>
+		<?php echo $form->textField($model,'news_type'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model,'news_status'); ?>
 		<?php echo $form->textField($model,'news_status'); ?>
 	</div>

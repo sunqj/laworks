@@ -24,3 +24,15 @@ should you have any questions.</p>
 <p>
 <a href="<?php echo YiiBase::app()->createUrl("user/index"); ?>">用户管理</a>
 </p>
+
+<p>
+<a href="<?php echo YiiBase::app()->createUrl("enterprise/admin"); ?>">企业管理</a>
+</p>
+
+<p>
+<a href="<?php echo YiiBase::app()->createUrl("channel/admin"); ?>">频道管理</a>
+</p>
+
+<p>
+<a href="<?php echo YiiBase::app()->createUrl("news/admin"); ?>">新闻管理</a>
+</p>
