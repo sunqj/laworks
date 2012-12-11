@@ -135,4 +135,31 @@ class User extends CActiveRecord
             'criteria'=>$criteria,
         ));
     }
+
+    public function getUsersByEnterpriseID($enterprise_id)
+    {
+        $dataProvider=new CActiveDataProvider('User', array(
+            'criteria'=>array(
+                'condition'=>"enterprise_id=$enterprise_id",
+            ),
+            'pagination'=>array(
+                'pageSize'=>20,
+            ),
+        )); 
+        return $dataProvider;
+    }
+
+    public function getUsersByPermissionID($permission_id)
+    {
+        $dataProvider=new CActiveDataProvider('User', array(
+            'criteria'=>array(
+                'condition'=>"permission_id=$permission_id",
+            ),
+            'pagination'=>array(
+                'pageSize'=>20,
+            ),
+        )); 
+        return $dataProvider;
+    }
+
 }

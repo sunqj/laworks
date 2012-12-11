@@ -42,7 +42,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'user-grid',
-	'dataProvider'=>$model->search(),
+	'dataProvider'=>$dataProvider,
 	'filter'=>$model,
 	'columns'=>array(
 		'user_id',
@@ -50,7 +50,8 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'password',
 		'user_cell',
 		'user_other',
-		'user_extra',
+		'enterprise_id',
+		//'user_extra',
 		/*
 		'user_image',
 		'user_email',
@@ -63,7 +64,6 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'user_last_login_time',
 		'user_last_check_time',
 		'permission_id',
-		'enterprise_id',
 		*/
 		array(
 			'class'=>'CButtonColumn',

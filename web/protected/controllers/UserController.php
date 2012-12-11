@@ -137,9 +137,22 @@ class UserController extends Controller
         $model->unsetAttributes();  // clear any default values
         if(isset($_GET['User']))
             $model->attributes=$_GET['User'];
+        $dataProvider = null;
+        if(isset($_GET['enterprise_id']))
+        {
+            $dataProvider = $model->getUsersByEnterpriseID($_GET['enterprise_id']);
+        }
+        elseif(isset($_GET['permission_id']))
+        {
+            $dataProvider = $model->getUsersByPermissionID($_GET['permission_id']);
+        }
+        else
+        {
+        }
 
         $this->render('admin',array(
             'model'=>$model,
+            'dataProvider'=>$dataProvider
         ));
     }
 

@@ -65,9 +65,7 @@ should you have any questions.</p>
         <p>
             <a href="<?php echo YiiBase::app()->createUrl("departent/admin"); ?>">部门管理</a>
         </p>
-
     <?php elseif($user->permission_id == 2): ?>
-
         <p>企业审核员</p>
     <?php else: ?>
         <p>普通用户</p>
