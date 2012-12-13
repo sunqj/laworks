@@ -8,18 +8,18 @@ $this->pageTitle=Yii::app()->name;
 
 <p>本系统是电信3G信息发布系统后台程序</p>
 
-<!-- 
-<p>You may change the content of this page by modifying the following two files:</p>
-<ul>
+
+<!-- <p>You may change the content of this page by modifying the following two files:</p> -->
+<!-- <ul> -->
         <li>View file: <code><?php echo __FILE__; ?></code></li>
         <li>Layout file: <code><?php echo $this->getLayoutFile('main'); ?></code></li>
-</ul> 
+<!-- </ul>  -->
 
-<p>For more details on how to further develop this application, please read
-the <a href="http://www.yiiframework.com/doc/">documentation</a>.
-Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,
-should you have any questions.</p> 
---!>
+<!-- <p>For more details on how to further develop this application, please read -->
+<!-- the <a href="http://www.yiiframework.com/doc/">documentation</a>. -->
+<!-- Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>, -->
+<!-- should you have any questions.</p>  -->
+
 <?php if(!$user): ?>
 <p>
 请登录
