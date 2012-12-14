@@ -19,7 +19,7 @@ $this->pageTitle=Yii::app()->name;
 <!-- the <a href="http://www.yiiframework.com/doc/">documentation</a>. -->
 <!-- Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>, -->
 <!-- should you have any questions.</p>  -->
-
+<?php echo Yii::app()->user->enterprise_id; ?>
 <?php if(!$user): ?>
 <p>
 请登录
@@ -42,6 +42,10 @@ $this->pageTitle=Yii::app()->name;
         <p>
         <a href="<?php echo YiiBase::app()->createUrl("news/admin"); ?>">新闻管理</a>
         </p>
+        <p>
+            <a href="<?php echo YiiBase::app()->createUrl("article/admin"); ?>">文章管理</a>
+        </p>
+        
     <?php elseif($user->permission_id == 1): ?>
         <p>企业管理员</p>
 
@@ -58,8 +62,7 @@ $this->pageTitle=Yii::app()->name;
         </p>
 
         <p>
-            <a href="<?php echo YiiBase::app()->createUrl("user/admin", 
-                array("enterprise_id" => $user->enterprise_id)); ?>">用户管理</a>
+            <a href="<?php echo YiiBase::app()->createUrl("user/admin"); ?>">用户管理</a>
         </p>
 
         <p>

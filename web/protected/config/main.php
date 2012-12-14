@@ -59,6 +59,8 @@ return array(
                         'username' => 'root',
                         'password' => 'linuxred',
                         'charset' => 'utf8',
+                        'enableProfiling' => YII_DEBUG,
+						'enableParamLogging' => YII_DEBUG
                 ),
                 
 		'errorHandler'=>array(
@@ -73,11 +75,13 @@ return array(
 					'levels'=>'error, warning',
 				),
 				// uncomment the following to show log messages on web pages
-				/*
+
 				array(
 					'class'=>'CWebLogRoute',
+					'levels' => 'trace',
+					'categories' => 'system.db.*'
 				),
-				*/
+
 			),
 		),
 	),

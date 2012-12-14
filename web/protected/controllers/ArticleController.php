@@ -1,6 +1,6 @@
 <?php
 
-class EnterpriseController extends Controller
+class ArticleController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -62,18 +62,21 @@ class EnterpriseController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Enterprise;
+		$model=new Article;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Enterprise']))
+		if(isset($_POST['Article']))
 		{
-			$model->attributes=$_POST['Enterprise'];
+			$model->attributes=$_POST['Article'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->enterprise_id));
+				$this->redirect(array('view','id'=>$model->article_id));
 		}
-
+        
+		#default value of column_id;
+		$model->column_id = 2;
+		
 		$this->render('create',array(
 			'model'=>$model,
 		));
@@ -91,11 +94,11 @@ class EnterpriseController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Enterprise']))
+		if(isset($_POST['Article']))
 		{
-			$model->attributes=$_POST['Enterprise'];
+			$model->attributes=$_POST['Article'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->enterprise_id));
+				$this->redirect(array('view','id'=>$model->article_id));
 		}
 
 		$this->render('update',array(
@@ -122,7 +125,7 @@ class EnterpriseController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Enterprise');
+		$dataProvider=new CActiveDataProvider('Article');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -133,13 +136,13 @@ class EnterpriseController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Enterprise('search');
+		$model=new Article('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Enterprise']))
-			$model->attributes=$_GET['Enterprise'];
+		if(isset($_GET['Article']))
+			$model->attributes=$_GET['Article'];
 
 		$this->render('admin',array(
-			'model'=>$model
+			'model'=>$model,
 		));
 	}
 
@@ -150,7 +153,7 @@ class EnterpriseController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Enterprise::model()->findByPk($id);
+		$model=Article::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -162,7 +165,7 @@ class EnterpriseController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='enterprise-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='article-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

@@ -25,7 +25,7 @@ class Permission extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tianyi_permissions';
+		return 'tianyi_permission';
 	}
 
 	/**
@@ -86,4 +86,31 @@ class Permission extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	/**
+	 * return permission type from database
+	 */
+	public function getPermissionType()
+	{
+		$ret_val = Permission::model()->findAll();
+		return CHtml::listData($ret_val, 
+				'permission_id', 'permission_name');
+	}
+	
+	public function  getEnterprisePermissionType()
+	{
+		$ret_val = Permission::model()->findByAttributes('permission_id>=2');
+		return CHtml::listData($ret_val, 'permission_id', 'permission_name');
+	}
 }
+
+
+
+
+
+
+
+
+
+
+

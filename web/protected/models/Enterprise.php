@@ -27,7 +27,7 @@ class Enterprise extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tianyi_enterprises';
+		return 'tianyi_enterprise';
 	}
 
 	/**

@@ -3,20 +3,20 @@
 /* @var $model User */
 
 $this->breadcrumbs=array(
-	'用户'=>array('index'),
+	'Users'=>array('index'),
 	$model->user_id,
 );
 
 $this->menu=array(
-	array('label'=>'用户列表', 'url'=>array('index')),
-	array('label'=>'用户创建', 'url'=>array('create')),
-	array('label'=>'用户修改', 'url'=>array('update', 'id'=>$model->user_id)),
-	array('label'=>'用户删除', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->user_id),'confirm'=>'确定删除？')),
-	array('label'=>'用户管理', 'url'=>array('admin')),
+	array('label'=>'List User', 'url'=>array('index')),
+	array('label'=>'Create User', 'url'=>array('create')),
+	array('label'=>'Update User', 'url'=>array('update', 'id'=>$model->user_id)),
+	array('label'=>'Delete User', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->user_id),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Manage User', 'url'=>array('admin')),
 );
 ?>
 
-<h1>用户查看#<?php echo $model->user_id; ?></h1>
+<h1>View User #<?php echo $model->user_id; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

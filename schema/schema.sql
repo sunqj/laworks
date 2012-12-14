@@ -8,7 +8,7 @@ create database leo_test;
 use leo_test;
 SET sql_mode='NO_AUTO_VALUE_ON_ZERO';
 
-CREATE TABLE tianyi_articles
+CREATE TABLE tianyi_article
 (
     article_id                  int not null auto_increment,
     article_tag                 varchar(256) default null,
@@ -35,7 +35,7 @@ CREATE TABLE tianyi_articles
     PRIMARY KEY (article_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_channels
+CREATE TABLE tianyi_channel
 (
     channel_id                  int not null auto_increment,
     channel_name                varchar(128) not null unique,
@@ -70,9 +70,9 @@ CREATE TABLE tianyi_news
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE tianyi_columns
+CREATE TABLE tianyi_column
 (
-    column_id                   int not null,
+    column_id                   int not null auto_increment,
     column_icon                 varchar(1024) default null, 
     column_name                 varchar(1024) default null,
     column_desc                 varchar(1024) default null,
@@ -88,7 +88,7 @@ CREATE TABLE tianyi_columns
     PRIMARY KEY (column_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_enterprises
+CREATE TABLE tianyi_enterprise
 (
     enterprise_id               int not null auto_increment,
     enterprise_name             varchar(128) not null unique,
@@ -101,7 +101,7 @@ CREATE TABLE tianyi_enterprises
     PRIMARY KEY (enterprise_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_departments
+CREATE TABLE tianyi_department
 (
     department_id               int not null auto_increment,
     department_name             varchar(64) not null,
@@ -115,7 +115,7 @@ CREATE TABLE tianyi_departments
     PRIMARY KEY (department_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_users_departments
+CREATE TABLE tianyi_user_department
 (
     dummy_id                    int not null auto_increment,
 
@@ -127,7 +127,7 @@ CREATE TABLE tianyi_users_departments
     PRIMARY KEY (dummy_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_notifications 
+CREATE TABLE tianyi_notification
 (
     notification_id             int not null auto_increment,
     notification_name           varchar(64) not null,
@@ -145,7 +145,7 @@ CREATE TABLE tianyi_notifications
     PRIMARY KEY (notification_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3;
 
-CREATE TABLE tianyi_notifications_users
+CREATE TABLE tianyi_notification_user
 (
     dummy_id int not null auto_increment,
     nu_received_flag            int not null default '0' COMMENT '0:没有收到，1：收到',
@@ -158,7 +158,7 @@ CREATE TABLE tianyi_notifications_users
     PRIMARY KEY  (dummy_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_options
+CREATE TABLE tianyi_option
 (
     option_id                   int not null auto_increment,
     option_count                int not null default 0,
@@ -171,7 +171,7 @@ CREATE TABLE tianyi_options
     PRIMARY KEY (option_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_permissions
+CREATE TABLE tianyi_permission
 (
     permission_id               int not null auto_increment,
     permission_name             varchar(1024) not null,
@@ -179,7 +179,7 @@ CREATE TABLE tianyi_permissions
     PRIMARY KEY (permission_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_users
+CREATE TABLE tianyi_user
 (
     user_id                     int not null auto_increment,
     username            	varchar(32) not null unique,
@@ -206,7 +206,7 @@ CREATE TABLE tianyi_users
     PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_users_votes
+CREATE TABLE tianyi_user_vote
 (
     dummy_id	                int not null auto_increment,
 
@@ -219,7 +219,7 @@ CREATE TABLE tianyi_users_votes
     PRIMARY KEY (dummy_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_votes
+CREATE TABLE tianyi_vote
 (
     vote_id                     int not null auto_increment,
     vote_url                    varchar(1024) default null,
@@ -253,7 +253,7 @@ CREATE TABLE tianyi_history
     PRIMARY KEY (history_id)
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_contacts
+CREATE TABLE tianyi_contact
 (
     contact_id                  int not null auto_increment,
     contact_name                varchar(256) not null,
@@ -304,11 +304,11 @@ CREATE TABLE tianyi_reply
 /* initial data */
 /****************/
 /*permissions*/
-insert into tianyi_permissions(permission_id, permission_name, permission_desc) values(0, 'admin', '系统管理员'),  (1, 'enterprise_admin','企业管理员'), (2, 'enterprise_auditor','企业审核员'), (3, 'enterprise_user', '企业普通用户');
+insert into tianyi_permission(permission_id, permission_name, permission_desc) values(0, 'admin', '系统管理员'),  (1, 'enterprise_admin','企业管理员'), (2, 'enterprise_auditor','企业审核员'), (3, 'enterprise_user', '企业普通用户');
 
 /*users*/
-insert into tianyi_users(user_id, username, password, user_cell, permission_id, enterprise_id) values(0, 'admin', 'linuxred', '10000', 0, 0);
+insert into tianyi_user(user_id, username, password, user_cell, permission_id, enterprise_id) values(0, 'admin', 'linuxred', '10000', 0, 0);
 
 /*enterprises*/
-insert into tianyi_enterprises(enterprise_id, enterprise_name, enterprise_desc) values(0, '中国电信', '中国电信'); 
+insert into tianyi_enterprise(enterprise_id, enterprise_name, enterprise_desc) values(0, '中国电信', '中国电信'); 
 

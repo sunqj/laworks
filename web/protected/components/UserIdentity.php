@@ -7,6 +7,8 @@
  */
 class UserIdentity extends CUserIdentity
 {
+	private $_id;
+	private $_enterprise_id;
     /**
      * Authenticates a user.
      * The example implementation makes sure if the username and password
@@ -17,18 +19,37 @@ class UserIdentity extends CUserIdentity
      */
     public function authenticate()
     {
-        $user = User::model()->findByAttributes(array('username' => $this->username));
-        if($user)
+        $username = strtolower($this->username);
+        print_r($this->username);
+        $user = User::model()->find('LOWER(username)=?', array($username));
+        
+        print_r($user->password);
+        if($user === null)
         {
-            $users = array($user->username => $user->password);
+            $this->errorCode = self::ERROR_USERNAME_INVALID;
         }
-
-        if(!isset($users[$this->username]))
-            $this->errorCode=self::ERROR_USERNAME_INVALID;
-        else if($users[$this->username]!==$this->password)
-            $this->errorCode=self::ERROR_PASSWORD_INVALID;
+        elseif ($user->password != $this->password)
+        {
+            $this->errorCode = self::ERROR_PASSWORD_INVALID;
+        }
         else
-            $this->errorCode=self::ERROR_NONE;
+        {
+            $this->errorCode = self::ERROR_NONE;
+            $this->_id = $user->user_id;
+            $this->setState("enterprise_id", $user->enterprise_id); 
+            $this->username = $user->username;
+        }
+        
         return !$this->errorCode;
+    }
+    
+    public function getId()
+    {
+    	return $this->_id;
+    }
+    
+    public function getEnterpriseId()
+    {
+        return $this->_enterprise_id;
     }
 }

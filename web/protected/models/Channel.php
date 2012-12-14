@@ -28,7 +28,7 @@ class Channel extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tianyi_channels';
+		return 'tianyi_channel';
 	}
 
 	/**

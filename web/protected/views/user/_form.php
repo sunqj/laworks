@@ -107,7 +107,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'permission_id'); ?>
-		<?php echo $form->textField($model,'permission_id'); ?>
+		<?php echo $form->dropDownList($model, 'permission_id', Permission::model()->getPermissionType()); ?>
 		<?php echo $form->error($model,'permission_id'); ?>
 	</div>
 

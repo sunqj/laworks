@@ -1,15 +1,15 @@
 <?php
-/* @var $this UserController */
-/* @var $model User */
+/* @var $this ArticleController */
+/* @var $model Article */
 
 $this->breadcrumbs=array(
-	'Users'=>array('index'),
+	'Articles'=>array('index'),
 	'Manage',
 );
 
 $this->menu=array(
-	array('label'=>'List User', 'url'=>array('index')),
-	array('label'=>'Create User', 'url'=>array('create')),
+	array('label'=>'List Article', 'url'=>array('index')),
+	array('label'=>'Create Article', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -18,7 +18,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('user-grid', {
+	$.fn.yiiGridView.update('article-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Users</h1>
+<h1>Manage Articles</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -41,31 +41,30 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'user-grid',
+	'id'=>'article-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'username',
-		'password',
-		'user_cell',
-		//'permission_id',
-		array('name' => "permission_id", 'filter' => Permission::model()->getPermissionType()),
-		
+		'article_id',
+		'article_tag',
+		'article_url',
+		'article_icon',
+		'article_type',
+		'article_name',
 		/*
-		'user_id',
-		'user_image',
-		'user_email',
-		'user_extra',
-		'user_other',
-		'user_status',
-		'user_hometel',
-		'user_realname',
-		'user_position',
-		'user_officetel',
-		'user_login_count',
-		'user_last_login_time',
-		'user_last_check_time',
+		'article_status',
+		'article_content',
+		'article_summary',
+		'article_isbanner',
+		'article_audit_gmt',
+		'article_create_gmt',
+		'article_update_gmt',
+		'article_click_count',
+		'article_reject_reason',
+		'column_id',
+		'audit_user_id',
 		'enterprise_id',
+		'create_user_id',
 		*/
 		array(
 			'class'=>'CButtonColumn',

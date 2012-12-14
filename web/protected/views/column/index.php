@@ -1,18 +1,18 @@
 <?php
-/* @var $this UserController */
+/* @var $this ColumnController */
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(
-	'Users',
+	'Columns',
 );
 
 $this->menu=array(
-	array('label'=>'Create User', 'url'=>array('create')),
-	array('label'=>'Manage User', 'url'=>array('admin')),
+	array('label'=>'Create Column', 'url'=>array('create')),
+	array('label'=>'Manage Column', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Users</h1>
+<h1>Columns</h1>
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
