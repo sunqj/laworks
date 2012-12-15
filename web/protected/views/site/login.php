@@ -11,9 +11,8 @@ $this->breadcrumbs=array(
 
 <h1>登录</h1>
 
-<!--
-<p>Please fill out the following form with your login credentials:</p>
---!>
+<!-- <p>Please fill out the following form with your login credentials:</p> -->
+
 
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -23,9 +22,9 @@ $this->breadcrumbs=array(
 		'validateOnSubmit'=>true,
 	),
 )); ?>
-        <!--
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-        --!>
+
+<!-- 	<p class="note">Fields with <span class="required">*</span> are required.</p> -->
+
 
 	<div class="row">
                 <?php echo $form->labelEx($model,'用户名'); ?>
@@ -37,11 +36,11 @@ $this->breadcrumbs=array(
 		<?php echo $form->labelEx($model,'密码'); ?>
 		<?php echo $form->passwordField($model,'password'); ?>
                 <?php echo $form->error($model,'password'); ?>
-                <!--
-		<p class="hint">
-			Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>.
-                </p>
-                --!>
+
+<!-- 		<p class="hint"> -->
+<!-- 			Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>. -->
+<!--        </p> -->
+
 	</div>
 
 	<div class="row rememberMe">
