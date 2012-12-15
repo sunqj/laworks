@@ -71,6 +71,8 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+		        'enterpriseTable' => array(self::BELONGS_TO, 'Enterprise', 'enterprise_id'),
+		        'permissionTable' => array(self::BELONGS_TO, 'Permission', 'permission_id'),
 		);
 	}
 
