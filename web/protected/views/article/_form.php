@@ -57,7 +57,15 @@
 	
 	<div class="row">
 		<?php echo $form->labelEx($model,'文章内容'); ?>
-		<?php echo $form->textArea($model,'article_content', array('cols' => 60, 'rows' => 40)); ?>
+		<?php $this->widget('application.extensions.editor.CKkceditor',array(
+                "model"=>$model,                # Data-Model
+                "attribute"=>'article_content',         # Attribute in the Data-Model
+                "height"=>'400px',
+                "width"=>'100%',
+            	"filespath"=>Yii::app()->basePath."/../upload/",
+            	"filesurl"=>Yii::app()->baseUrl."/upload/",
+             ));
+		 ?>
 		<?php echo $form->error($model,'article_content'); ?>
 	</div>
 

@@ -1,3 +1,6 @@
 web/assets/*
 web/protected/runtime/*
 .*
+web/upload/*
+web/js/*
+web/static/*
