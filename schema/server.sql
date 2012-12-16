@@ -215,7 +215,7 @@ CREATE TABLE tianyi_user
     user_id                     int not null auto_increment,
     username            	varchar(20) not null unique,
     password        	        varchar(24) not null,
-    user_cell                   varchar(12) not null,
+    user_cell                   varchar(12) default null,
     user_other                  varchar(256) default null,
     user_extra                  varchar(256) default null,
     user_image                  varchar(64) default null,
@@ -356,7 +356,8 @@ insert into tianyi_enterprise(enterprise_id, enterprise_name, enterprise_desc) v
 
 /* test data */
 /* enterprise */
-insert into tianyi_enterprise(enterprise_id, enterprise_name, enterprise_desc) values(1, 'laworks', 'laworks'); 
+insert into tianyi_enterprise(enterprise_name, enterprise_desc) values('laworks', 'laworks'); 
+insert into tianyi_enterprise(enterprise_name, enterprise_desc) values('stworks', 'stworks'); 
 
 /* user */
 insert into tianyi_user(user_id, username, password, user_cell, permission_id, enterprise_id) values(1, 'laadmin', 'linuxred', '10000', 1, 1);

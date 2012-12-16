@@ -28,6 +28,12 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'enterprise_id'); ?>
+		<?php echo $form->dropDownList($model, 'enterprise_id', Enterprise::model()->getEnterpriseList()); ?>
+		<?php echo $form->error($model,'enterprise_id'); ?>
+	</div>
+	
+	<div class="row">
 		<?php echo $form->labelEx($model,'permission_id'); ?>
 		<?php echo $form->dropDownList($model, 'permission_id', Permission::model()->getAdminPermissionList()); ?>
 		<?php echo $form->error($model,'permission_id'); ?>
@@ -112,12 +118,6 @@
 		<?php echo $form->labelEx($model,'user_extra'); ?>
 		<?php echo $form->textField($model,'user_extra',array('size'=>60,'maxlength'=>256)); ?>
 		<?php echo $form->error($model,'user_extra'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'enterprise_id'); ?>
-		<?php echo $form->textField($model,'enterprise_id'); ?>
-		<?php echo $form->error($model,'enterprise_id'); ?>
 	</div>
 
 */

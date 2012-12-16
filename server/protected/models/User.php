@@ -51,7 +51,7 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, user_cell, permission_id, enterprise_id', 'required'),
+			array('username, password, permission_id, enterprise_id', 'required'),
 			array('user_position, user_login_count, user_last_login_time, user_last_check_time, user_status, permission_id, enterprise_id', 'numerical', 'integerOnly'=>true),
 			array('username', 'length', 'max'=>20),
 			array('password', 'length', 'max'=>24),
@@ -73,6 +73,8 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+				'enterpriseTable' => array(self::BELONGS_TO, 'Enterprise', 'enterprise_id'),
+				'permissionTable' => array(self::BELONGS_TO, 'Permission', 'permission_id'),
 		);
 	}
 

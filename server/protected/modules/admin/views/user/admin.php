@@ -45,13 +45,20 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'user_id',
-		'username',
-		'password',
+		array('name'=>'user_id','htmlOptions'=>array('width'=>'20px')),
+		array('name' => 'username', 'type' => 'raw',
+			'value' => 'CHtml::link($data->username,array("user/view", \'id\' => $data->user_id), array("target" => "_blank"))',
+			'htmlOptions'=>array('width'=>'150px')),
+		array('name'=>'password','htmlOptions'=>array('width'=>'150px')),
+		array('name'=>'permission_id','filter'=>Permission::model()->getAdminPermissionList(),
+				'value'=>'$data->permissionTable->permission_name'),
+		array('name'=>'enterprise_id','filter'=>Enterprise::model()->getEnterpriseList(),
+				'value'=>'$data->enterpriseTable->enterprise_name'),
+
+		/*
 		'user_cell',
 		'user_other',
 		'user_extra',
-		/*
 		'user_image',
 		'user_email',
 		'user_hometel',
@@ -62,11 +69,13 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'user_last_login_time',
 		'user_last_check_time',
 		'user_status',
-		'permission_id',
-		'enterprise_id',
 		*/
+		
 		array(
 			'class'=>'CButtonColumn',
+			'template'=>'{update}{delete}',
+			'htmlOptions'=>array('width=30px'),
+			'headerHtmlOptions'=>array('width=34px'),
 		),
 	),
 )); ?>
