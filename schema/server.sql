@@ -213,17 +213,17 @@ create TABLE tianyi_content_type
 CREATE TABLE tianyi_user
 (
     user_id                     int not null auto_increment,
-    username            	varchar(32) not null unique,
-    password        	        varchar(64) not null,
-    user_cell                   varchar(20) not null,
-    user_other                  varchar(32) default null,
-    user_extra                  varchar(32) default null,
-    user_image                  varchar(256) default null,
-    user_email                  varchar(64) default null,
-    user_hometel                varchar(20) default null,
+    username            	varchar(20) not null unique,
+    password        	        varchar(24) not null,
+    user_cell                   varchar(12) not null,
+    user_other                  varchar(256) default null,
+    user_extra                  varchar(256) default null,
+    user_image                  varchar(64) default null,
+    user_email                  varchar(32) default null,
+    user_hometel                varchar(12) default null,
     user_realname       	varchar(32) default null,
     user_position               int default 1000,
-    user_officetel              varchar(20) default null,
+    user_officetel              varchar(12) default null,
     user_login_count            int default 0,
     user_last_login_time        int default null,
     user_last_check_time        int default null,
@@ -355,4 +355,8 @@ insert into tianyi_enterprise(enterprise_id, enterprise_name, enterprise_desc) v
 
 
 /* test data */
+/* enterprise */
 insert into tianyi_enterprise(enterprise_id, enterprise_name, enterprise_desc) values(1, 'laworks', 'laworks'); 
+
+/* user */
+insert into tianyi_user(user_id, username, password, user_cell, permission_id, enterprise_id) values(1, 'laadmin', 'linuxred', '10000', 1, 1);

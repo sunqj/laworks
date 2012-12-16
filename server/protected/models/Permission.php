@@ -83,4 +83,17 @@ class Permission extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public function getNormalPermissionList()
+	{
+	    $permissionList = Permission::model()->findAll($condition='permission_id > 1');
+	    return CHtml::listData($permissionList, 'permission_id', 'permission_name');
+	}
+	
+	public function  getAdminPermissionList()
+	{
+	    $permissionList = Permission::model()->findAll($condition='permission_id < 2');
+	    return CHtml::listData($permissionList, 'permission_id', 'permission_name');
+	}
+	
 }

@@ -54,7 +54,6 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		/*
 		'user_image',
 		'user_email',
-		'user_status',
 		'user_hometel',
 		'user_realname',
 		'user_position',
@@ -62,6 +61,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'user_login_count',
 		'user_last_login_time',
 		'user_last_check_time',
+		'user_status',
 		'permission_id',
 		'enterprise_id',
 		*/

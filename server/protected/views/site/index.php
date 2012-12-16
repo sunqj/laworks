@@ -4,6 +4,9 @@
 $this->pageTitle=Yii::app()->name;
 ?>
 
+<?php 
+
+/*
 <h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
 
 <p>Congratulations! You have successfully created your Yii application.</p>
@@ -18,6 +21,10 @@ $this->pageTitle=Yii::app()->name;
 the <a href="http://www.yiiframework.com/doc/">documentation</a>.
 Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,
 should you have any questions.</p>
+*/
+
+?>
+
 <?php if(Yii::app()->user->isGuest): ?>
 <p>
 请登录
@@ -41,10 +48,10 @@ should you have any questions.</p>
         <a href="<?php echo YiiBase::app()->createUrl("admin/news/admin"); ?>">新闻管理</a>
         </p>
         <p>
-            <a href="<?php echo YiiBase::app()->createUrl("admin/article/admin"); ?>">文章管理</a>
+            <a href="<?php echo YiiBase::app()->createUrl("admin/news/admin"); ?>">文章管理</a>
         </p>
         
-    <?php elseif(Yii::app()->permission_id == 1): ?>
+    <?php elseif(Yii::app()->user->permission_id == 1): ?>
         <p>企业管理员</p>
 
         <p>
