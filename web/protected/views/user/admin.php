@@ -45,11 +45,13 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'username',
+		array('name' => 'username', 'type' => 'raw',
+        'value' => 'CHtml::link($data->username,array("user/view", \'id\' => $data->user_id), array("target" => "_blank"))'),
 		'password',
 		'user_cell',
 		//'permission_id',
-		array('name' => "permission_id", 'filter' => Permission::model()->getPermissionType()),
+		array('name' => "permission_id", 'filter' => Permission::model()->getPermissionType(), 
+               'value'=> '$data->permissionTable->permission_name'),
 		
 		/*
 		'user_id',
@@ -69,6 +71,9 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		*/
 		array(
 			'class'=>'CButtonColumn',
+            'template'=>'{update}{delete}',
+            'htmlOptions'=>array('width=30px'),
+            'headerHtmlOptions'=>array('width=34px')
 		),
 	),
 )); ?>
