@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends Controller
+class NewsController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -62,16 +62,16 @@ class UserController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new User;
+		$model=new News;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['News']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['News'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->user_id));
+				$this->redirect(array('view','id'=>$model->news_id));
 		}
 
 		$this->render('create',array(
@@ -91,11 +91,11 @@ class UserController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['News']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['News'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->user_id));
+				$this->redirect(array('view','id'=>$model->news_id));
 		}
 
 		$this->render('update',array(
@@ -122,8 +122,10 @@ class UserController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('User', array('criteria' => array('condition'=>'permission_id=1')));
-		$this->render('index',array('dataProvider'=>$dataProvider));
+		$dataProvider=new CActiveDataProvider('News');
+		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
+		));
 	}
 
 	/**
@@ -131,10 +133,10 @@ class UserController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new User('search');
+		$model=new News('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['User']))
-			$model->attributes=$_GET['User'];
+		if(isset($_GET['News']))
+			$model->attributes=$_GET['News'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -148,7 +150,7 @@ class UserController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=User::model()->findByPk($id);
+		$model=News::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -160,12 +162,10 @@ class UserController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='news-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 	}
-	
-
 }

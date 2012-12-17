@@ -12,18 +12,18 @@ CREATE TABLE tianyi_article
 (
     article_id                  int not null auto_increment,
     article_tag                 varchar(256) default null,
-    article_url                 varchar(1024) not null,
+    article_url                 varchar(256) not null,
     article_icon                varchar(256) default null,
     article_type                int default 0,
-    article_name                varchar(256) not null,
+    article_name                varchar(64) not null,
     article_content             longblob not null,
-    article_summary             varchar(1024) default null,
+    article_summary             varchar(100) default null,
     article_isbanner            int default 0,
-    article_audit_gmt           int default null,
-    article_create_gmt          int not null,
-    article_update_gmt          int not null,
+    article_audit_gmt           int not null default 0,
+    article_create_gmt          int not null default 0,
+    article_update_gmt          int not null default 0,
     article_click_count         int not null default 0,  
-    article_reject_reason       varchar(512) default null,
+    article_reject_reason       varchar(256) default null,
 
     /*foreign keys*/
 
@@ -39,14 +39,14 @@ CREATE TABLE tianyi_article
 CREATE TABLE tianyi_channel
 (
     channel_id                  int not null auto_increment,
-    channel_name                varchar(128) not null unique,
-    channel_desc		varchar(512) default null,
-    channel_icon                varchar(1024) default null,
+    channel_name                varchar(20) not null unique,
+    channel_desc		varchar(100) default null,
+    channel_icon                varchar(256) default null,
     channel_index               int default 0,
 
     /*foreign keys*/
 
-    channel_status		int not null default 0,
+    role_status_id              int not null default 0,
 
     PRIMARY KEY (channel_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -54,15 +54,15 @@ CREATE TABLE tianyi_channel
 CREATE TABLE tianyi_news
 (
     news_id                     int not null auto_increment,
-    news_url                    varchar(1024) default null,
-    news_name                   varchar(256) not null,
+    news_url                    varchar(256) default null,
+    news_name                   varchar(64) not null,
     news_icon                   varchar(256) default null,
     news_type                   int not null default 0,
     news_content                longblob not null,
-    news_summary                varchar(1024) default 1024,
-    news_audit_gmt              int not null,
-    news_create_gmt             int not null,
-    news_update_gmt             int not null,
+    news_summary                varchar(100) default null,
+    news_audit_gmt              int not null default 0,
+    news_create_gmt             int not null default 0,
+    news_update_gmt             int not null default 0,
     news_click_count            int not null default 0, 
 
     /* foreign keys */
@@ -78,9 +78,9 @@ CREATE TABLE tianyi_news
 CREATE TABLE tianyi_column
 (
     column_id                   int not null auto_increment,
-    column_icon                 varchar(1024) default null, 
-    column_name                 varchar(1024) default null,
-    column_desc                 varchar(1024) default null,
+    column_icon                 varchar(256) default null, 
+    column_name                 varchar(20) default null,
+    column_desc                 varchar(100) default null,
     column_index                int not null default 0, 
     column_create_gmt           int not null default 0,
     column_update_gmt           int not null default 0,
@@ -253,16 +253,16 @@ CREATE TABLE tianyi_user_vote
 CREATE TABLE tianyi_vote
 (
     vote_id                     int not null auto_increment,
-    vote_url                    varchar(1024) default null,
+    vote_url                    varchar(256) default null,
     vote_type                   int not null default 0,
-    vote_name                   varchar(1024) not null,
-    vote_icon                   varchar(1024) default null,
-    vote_summary                varchar(1024) default null,
-    vote_content                varchar(1024) not null,
+    vote_name                   varchar(256) not null,
+    vote_icon                   varchar(256) default null,
+    vote_summary                varchar(100) default null,
+    vote_content                varchar(256) not null,
     vote_audit_userid           int not null,
     vote_create_userid          int not null,
-    vote_audit_time_gmt         int not null,
-    vote_create_time_gmt        int not null,
+    vote_audit_time_gmt         int not null default 0,
+    vote_create_time_gmt        int not null default 0,
 
     /* foreign keys */
 
@@ -352,6 +352,9 @@ insert into tianyi_content_type(content_type_id, content_type_name) values(0, "�
 
 /*enterprises*/
 insert into tianyi_enterprise(enterprise_id, enterprise_name, enterprise_desc) values(0, '中国电信', '中国电信'); 
+
+/*channels*/
+insert into tianyi_channel(channel_name) values('Tianyi Channel');
 
 
 /* test data */

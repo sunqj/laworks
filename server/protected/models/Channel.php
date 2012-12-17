@@ -1,18 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "tianyi_role_status".
+ * This is the model class for table "tianyi_channel".
  *
- * The followings are the available columns in table 'tianyi_role_status':
+ * The followings are the available columns in table 'tianyi_channel':
+ * @property integer $channel_id
+ * @property string $channel_name
+ * @property string $channel_desc
+ * @property string $channel_icon
+ * @property integer $channel_index
  * @property integer $role_status_id
- * @property string $role_status_name
  */
-class RoleStatus extends CActiveRecord
+class Channel extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return RoleStatus the static model class
+	 * @return Channel the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -24,7 +28,7 @@ class RoleStatus extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tianyi_role_status';
+		return 'tianyi_channel';
 	}
 
 	/**
@@ -35,11 +39,14 @@ class RoleStatus extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('role_status_name', 'required'),
-			array('role_status_name', 'length', 'max'=>64),
+			array('channel_name', 'required'),
+			array('channel_index, role_status_id', 'numerical', 'integerOnly'=>true),
+			array('channel_name', 'length', 'max'=>20),
+			array('channel_desc', 'length', 'max'=>100),
+			array('channel_icon', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('role_status_id, role_status_name', 'safe', 'on'=>'search'),
+			array('channel_id, channel_name, channel_desc, channel_icon, channel_index, role_status_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,6 +58,7 @@ class RoleStatus extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+		        'rolestatusTable' => array(self::BELONGS_TO, 'RoleStatus', 'role_status_id'),
 		);
 	}
 
@@ -60,8 +68,12 @@ class RoleStatus extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+			'channel_id' => 'Channel',
+			'channel_name' => 'Channel Name',
+			'channel_desc' => 'Channel Desc',
+			'channel_icon' => 'Channel Icon',
+			'channel_index' => 'Channel Index',
 			'role_status_id' => 'Role Status',
-			'role_status_name' => 'Role Status Name',
 		);
 	}
 
@@ -76,17 +88,15 @@ class RoleStatus extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->compare('channel_id',$this->channel_id);
+		$criteria->compare('channel_name',$this->channel_name,true);
+		$criteria->compare('channel_desc',$this->channel_desc,true);
+		$criteria->compare('channel_icon',$this->channel_icon,true);
+		$criteria->compare('channel_index',$this->channel_index);
 		$criteria->compare('role_status_id',$this->role_status_id);
-		$criteria->compare('role_status_name',$this->role_status_name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
-	}
-	
-	public function getAllRoleStatusList()
-	{
-	    $roleStatusList = RoleStatus::model()->findAll();
-	    return CHtml::listData($roleStatusList, 'role_status_id', 'role_status_name');
 	}
 }

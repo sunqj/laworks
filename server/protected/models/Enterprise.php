@@ -125,6 +125,7 @@ class Enterprise extends CActiveRecord
                 'criteria' => $criteria 
         ) );
     }
+    
     public function getEnterpriseList()
     {
         $enterpriseList = Enterprise::model ()->findAll ( $condition = 'enterprise_id > 0' );

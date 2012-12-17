@@ -47,10 +47,7 @@ should you have any questions.</p>
         <p>
         <a href="<?php echo YiiBase::app()->createUrl("admin/news/admin"); ?>">新闻管理</a>
         </p>
-        <p>
-            <a href="<?php echo YiiBase::app()->createUrl("admin/news/admin"); ?>">文章管理</a>
-        </p>
-        
+
     <?php elseif(Yii::app()->user->permission_id == 1): ?>
         <p>企业管理员</p>
 
