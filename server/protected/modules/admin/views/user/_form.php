@@ -69,7 +69,6 @@
 		<?php echo $form->error($model,'user_email'); ?>
 	</div>
 
-
 	<div class="row">
 		<?php echo $form->labelEx($model,'user_realname'); ?>
 		<?php echo $form->textField($model,'user_realname',array('size'=>32,'maxlength'=>32)); ?>

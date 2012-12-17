@@ -96,9 +96,9 @@ CREATE TABLE tianyi_column
 CREATE TABLE tianyi_enterprise
 (
     enterprise_id               int not null auto_increment,
-    enterprise_name             varchar(128) not null unique,
-    enterprise_desc             varchar(1024) not null,
-    enterprise_logo             varchar(1024) default null,
+    enterprise_name             varchar(20) not null unique,
+    enterprise_desc             varchar(256) default null,
+    enterprise_logo             varchar(256) default null,
 
     /* foreign keys */
 
@@ -361,3 +361,5 @@ insert into tianyi_enterprise(enterprise_name, enterprise_desc) values('stworks'
 
 /* user */
 insert into tianyi_user(user_id, username, password, user_cell, permission_id, enterprise_id) values(1, 'laadmin', 'linuxred', '10000', 1, 1);
+insert into tianyi_user(user_id, username, password, user_cell, permission_id, enterprise_id) values(2, 'laauditor', 'linuxred', '10000', 2, 1);
+insert into tianyi_user(user_id, username, password, user_cell, permission_id, enterprise_id) values(3, 'lauser', 'linuxred', '10000', 3, 1);

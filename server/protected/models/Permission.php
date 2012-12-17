@@ -92,7 +92,7 @@ class Permission extends CActiveRecord
 	
 	public function  getAdminPermissionList()
 	{
-	    $permissionList = Permission::model()->findAll($condition='permission_id < 2');
+	    $permissionList = Permission::model()->findAll($condition='permission_id = 1');
 	    return CHtml::listData($permissionList, 'permission_id', 'permission_name');
 	}
 	

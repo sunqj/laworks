@@ -132,7 +132,7 @@ class User extends CActiveRecord
 		$criteria->compare('user_last_login_time',$this->user_last_login_time);
 		$criteria->compare('user_last_check_time',$this->user_last_check_time);
 		$criteria->compare('user_status',$this->user_status);
-		$criteria->compare('permission_id',$this->permission_id);
+		$criteria->compare('permission_id','1');
 		$criteria->compare('enterprise_id',$this->enterprise_id);
 
 		return new CActiveDataProvider($this, array(

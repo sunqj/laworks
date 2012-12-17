@@ -33,7 +33,7 @@ should you have any questions.</p>
     <?php if(Yii::app()->user->permission_id == 0): ?>
         <p>电信管理员</p>
         <p>
-        <a href="<?php echo YiiBase::app()->createUrl("admin/user/index"); ?>">用户管理</a>
+        <a href="<?php echo YiiBase::app()->createUrl("admin/user/admin"); ?>">用户管理</a>
         </p>
 
         <p>
