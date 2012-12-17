@@ -15,11 +15,6 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'news_url'); ?>
-		<?php echo $form->textField($model,'news_url',array('size'=>60,'maxlength'=>256)); ?>
-		<?php echo $form->error($model,'news_url'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'news_name'); ?>
@@ -28,29 +23,69 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'news_summary'); ?>
+		<?php echo $form->textField($model,'news_summary',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->error($model,'news_summary'); ?>
+	</div>
+	
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'channel_id'); ?>
+		<?php echo $form->dropDownList($model, 'channel_id', Channel::model()->getAvailableChannelList()); ?>
+		<?php echo $form->error($model,'channel_id'); ?>
+	</div>
+	
+	<div class="row">
 		<?php echo $form->labelEx($model,'news_icon'); ?>
 		<?php echo $form->textField($model,'news_icon',array('size'=>60,'maxlength'=>256)); ?>
 		<?php echo $form->error($model,'news_icon'); ?>
 	</div>
 
 	<div class="row">
+
+		<?php echo $form->labelEx($model,'news_content'); ?>
+		<?php //need fix: if enterprise upload directory does not exist, update would be unavailable. ?>
+		<?php $this->widget('application.extensions.editor.CKkceditor',array(
+                "model"=>$model,                # Data-Model
+                "attribute"=>'news_content',         # Attribute in the Data-Model
+                "height"=>'400px',
+                "width"=>'100%',
+            	"filespath"=>Yii::app()->basePath."/../upload/".Yii::app()->user->enterprise_id . "/",
+            	"filesurl"=>Yii::app()->baseUrl."/upload/".Yii::app()->user->enterprise_id . "/",
+             ));
+		 ?>
+		<?php echo $form->error($model,'news_content'); ?>
+	</div>
+
+
+
+
+<?php
+/*
+ 	<div class="row">
+		<?php echo $form->labelEx($model,'audit_user_id'); ?>
+		<?php echo $form->textField($model,'audit_user_id'); ?>
+		<?php echo $form->error($model,'audit_user_id'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'create_user_id'); ?>
+		<?php echo $form->textField($model,'create_user_id'); ?>
+		<?php echo $form->error($model,'create_user_id'); ?>
+	</div>
+ 
+ 	<div class="row">
+		<?php echo $form->labelEx($model,'news_url'); ?>
+		<?php echo $form->textField($model,'news_url',array('size'=>60,'maxlength'=>256)); ?>
+		<?php echo $form->error($model,'news_url'); ?>
+	</div>
+	
+	<div class="row">
 		<?php echo $form->labelEx($model,'news_type'); ?>
 		<?php echo $form->textField($model,'news_type'); ?>
 		<?php echo $form->error($model,'news_type'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'news_content'); ?>
-		<?php echo $form->textField($model,'news_content'); ?>
-		<?php echo $form->error($model,'news_content'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'news_summary'); ?>
-		<?php echo $form->textField($model,'news_summary',array('size'=>60,'maxlength'=>100)); ?>
-		<?php echo $form->error($model,'news_summary'); ?>
-	</div>
-
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'news_audit_gmt'); ?>
 		<?php echo $form->textField($model,'news_audit_gmt'); ?>
@@ -81,24 +116,9 @@
 		<?php echo $form->error($model,'news_status'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'channel_id'); ?>
-		<?php echo $form->textField($model,'channel_id'); ?>
-		<?php echo $form->error($model,'channel_id'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'audit_user_id'); ?>
-		<?php echo $form->textField($model,'audit_user_id'); ?>
-		<?php echo $form->error($model,'audit_user_id'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'create_user_id'); ?>
-		<?php echo $form->textField($model,'create_user_id'); ?>
-		<?php echo $form->error($model,'create_user_id'); ?>
-	</div>
-
+ */ 
+?>
+	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>

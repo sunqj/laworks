@@ -48,7 +48,7 @@ class News extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('news_name, news_content, channel_id, create_user_id', 'required'),
+			array('news_name, news_content, channel_id', 'required'),
 			array('news_type, news_audit_gmt, news_create_gmt, news_update_gmt, news_click_count, news_status, channel_id, audit_user_id, create_user_id', 'numerical', 'integerOnly'=>true),
 			array('news_url, news_icon', 'length', 'max'=>256),
 			array('news_name', 'length', 'max'=>64),
@@ -124,5 +124,34 @@ class News extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function beforeSave()
+	{
+	    if(parent::beforeSave())
+	    {
+	        $now = time();
+	        if($this->isNewRecord)
+	        {
+	            // add a new record
+
+	            $this->news_create_gmt = $now;
+	            $this->news_audit_gmt = $now;
+	            $this->news_update_gmt = $now;
+	            $this->create_user_id = Yii::app()->user->getId();
+	            $this->audit_user_id = Yii::app()->user->getId();
+	        }
+	        else
+	        {
+	            // update an existed record
+	            $this->news_update_gmt = $now;
+	        }
+	        return true;
+	    }
+	    else
+	    {
+	         
+	        return false;
+	    }
 	}
 }

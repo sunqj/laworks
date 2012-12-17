@@ -99,4 +99,10 @@ class Channel extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public function getAvailableChannelList()
+	{
+	    $allChannelList = Channel::model()->findAll('role_status_id = 0');
+	    return CHtml::listData($allChannelList, 'channel_id', 'channel_name');
+	}
 }
