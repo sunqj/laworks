@@ -9,9 +9,7 @@
 	<?php echo CHtml::link(CHtml::encode($data->news_id), array('view', 'id'=>$data->news_id)); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('news_url')); ?>:</b>
-	<?php echo CHtml::encode($data->news_url); ?>
-	<br />
+
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('news_name')); ?>:</b>
 	<?php echo CHtml::encode($data->news_name); ?>
@@ -25,15 +23,19 @@
 	<?php echo CHtml::encode($data->news_type); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('news_content')); ?>:</b>
-	<?php echo CHtml::encode($data->news_content); ?>
-	<br />
-
 	<b><?php echo CHtml::encode($data->getAttributeLabel('news_summary')); ?>:</b>
 	<?php echo CHtml::encode($data->news_summary); ?>
 	<br />
 
 	<?php /*
+	<b><?php echo CHtml::encode($data->getAttributeLabel('news_url')); ?>:</b>
+	<?php echo CHtml::encode($data->news_url); ?>
+	<br />
+	
+	<b><?php echo CHtml::encode($data->getAttributeLabel('news_content')); ?>:</b>
+	<?php echo CHtml::encode($data->news_content); ?>
+	<br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('news_audit_gmt')); ?>:</b>
 	<?php echo CHtml::encode($data->news_audit_gmt); ?>
 	<br />

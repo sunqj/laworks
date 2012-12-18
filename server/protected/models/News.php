@@ -67,6 +67,7 @@ class News extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+		        'contenttypeTable' => array(self::BELONGS_TO, 'ContentType', 'news_type'),
 		);
 	}
 
@@ -134,7 +135,6 @@ class News extends CActiveRecord
 	        if($this->isNewRecord)
 	        {
 	            // add a new record
-
 	            $this->news_create_gmt = $now;
 	            $this->news_audit_gmt = $now;
 	            $this->news_update_gmt = $now;
