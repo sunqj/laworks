@@ -36,9 +36,28 @@
 	</div>
 	
 	<div class="row">
-		<?php echo $form->labelEx($model,'news_icon'); ?>
-		<?php echo $form->textField($model,'news_icon',array('size'=>60,'maxlength'=>256)); ?>
-		<?php echo $form->error($model,'news_icon'); ?>
+
+		
+		<?php $this->widget('application.extensions.MUploadify.MUploadify',array(
+		       'model'=>$model,
+		        'attribute'=>'uploadImage',
+		        'auto'=>true,
+		        'script'=>array('news/upload','id'=>$model->news_id),
+//   'name'=>'news_icon',
+//   'buttonText'=>Yii::t('application','haha'),
+		   
+//   'checkScript'=>array('news/upload','id'=>$model->news_id),
+//   'fileExt'=>'*.jpg;*.png;*.jpeg;*.gif',
+
+//    fileDesc=>Yii::t('application','Image files'),
+//   'uploadButton'=>false,
+		        
+  //'uploadButtonText'=>'Upload new',
+  //'uploadButtonTagname'=>'button',
+  //'uploadButtonOptions'=>array('class'=>'myButton'),
+  //'onAllComplete'=>'js:function(){alert("Pictures uploaded!";);}',
+));
+		?>
 	</div>
 
 	<div class="row">

@@ -28,7 +28,7 @@ class NewsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'upload'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -167,5 +167,28 @@ class NewsController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+
+	function actionUpload()
+	{
+	    $model = new News();
+	    if(isset($_POST['News']))
+	    {
+	        require Yii::app()->getBasePath() . '/utils/utils.php';
+	        $uploadImage = CUploadedFile::getInstance($model,'uploadImage');
+	        $targetFile = getArticleIconDir() . "/" . time() . "." . $uploadImage->getExtensionName();
+	        $uploadImage->saveAs($targetFile);
+	    }
+	}
+	
+	function init()
+	{
+	    if (isset ( $_POST ['SESSION_ID'] ))
+	    {
+	        $session = Yii::app ()->getSession ();
+	        $session->close ();
+	        $session->sessionID = $_POST ['SESSION_ID'];
+	        $session->open ();
+	    }
 	}
 }
