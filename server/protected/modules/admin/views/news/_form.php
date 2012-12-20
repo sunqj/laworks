@@ -34,8 +34,9 @@
 		<?php echo $form->dropDownList($model, 'channel_id', Channel::model()->getAvailableChannelList()); ?>
 		<?php echo $form->error($model,'channel_id'); ?>
 	</div>
-	
+		
 	<div class="row">
+	    <?php echo $form->labelEx($model,'news_icon'); ?>
 		<?php $this->widget('application.extensions.MUploadify.MUploadify',array(
 		        'model'=>$model,
 		        'attribute'=>'news_icon',
@@ -54,13 +55,14 @@
 		                {
 		                    var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
 		                    $("#img_prev").append(imgChild);
+		                    $("input:[name=\"News[news_icon]\"]").val(rArray[1]);
 		                }
 		                else
 		                {
 		                    alert(rArray[1]);
 		                }
                     }',            
-));
+            ));
 		?>
 
 
