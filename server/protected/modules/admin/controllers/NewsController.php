@@ -171,14 +171,32 @@ class NewsController extends Controller
 
 	function actionUpload()
 	{
-	    $model = new News();
 	    if(isset($_POST['News']))
 	    {
+	        $model = new News();
 	        require Yii::app()->getBasePath() . '/utils/utils.php';
-	        $uploadImage = CUploadedFile::getInstance($model,'uploadImage');
-	        $targetFile = getArticleIconDir() . "/" . time() . "." . $uploadImage->getExtensionName();
-	        $uploadImage->saveAs($targetFile);
+	        $uploadImage = CUploadedFile::getInstance($model,'news_icon');
+	        $fileExt = trim(strtolower($uploadImage->getExtensionName()));
+	        if($fileExt != 'jpg' && $fileExt != 'jpeg' && $fileExt != 'png' && $fileExt != 'gif')
+	        {
+	            //is not correct file type.
+	            echo "1:file extension not match.";
+	            return;
+	        }
+	        
+	        $fileName = time() . ".$fileExt";
+	        $targetFile = getArticleIconDirAbsolute() . $fileName;
+	        
+	        $ret = $uploadImage->saveAs($targetFile);
+	        
+	        if($ret == 1)
+	        {
+	            echo "0:" . getArticleIconDirRelative() . $fileName;
+	            return;
+	        }
 	    }
+	    echo "1:Unknow error";
+	    return;
 	}
 	
 	function init()

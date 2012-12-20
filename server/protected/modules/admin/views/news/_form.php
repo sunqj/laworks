@@ -36,32 +36,39 @@
 	</div>
 	
 	<div class="row">
-
-		
 		<?php $this->widget('application.extensions.MUploadify.MUploadify',array(
-		       'model'=>$model,
-		        'attribute'=>'uploadImage',
+		        'model'=>$model,
+		        'attribute'=>'news_icon',
 		        'auto'=>true,
 		        'script'=>array('news/upload','id'=>$model->news_id),
-//   'name'=>'news_icon',
-//   'buttonText'=>Yii::t('application','haha'),
-		   
-//   'checkScript'=>array('news/upload','id'=>$model->news_id),
-//   'fileExt'=>'*.jpg;*.png;*.jpeg;*.gif',
+		        'onComplete'=>'js:function(event, queueID, fileObj, response, data)
+		            {
+		                while(img_prev.firstChild)
+		                {
+		                    var oldNode = img_prev.removeChild(img_prev.firstChild);
+		                    oldNode = null;
+		                }
+		                rArray = response.split(":");
 
-//    fileDesc=>Yii::t('application','Image files'),
-//   'uploadButton'=>false,
-		        
-  //'uploadButtonText'=>'Upload new',
-  //'uploadButtonTagname'=>'button',
-  //'uploadButtonOptions'=>array('class'=>'myButton'),
-  //'onAllComplete'=>'js:function(){alert("Pictures uploaded!";);}',
+		                if(rArray[0] == 0)
+		                {
+		                    var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
+		                    $("#img_prev").append(imgChild);
+		                }
+		                else
+		                {
+		                    alert(rArray[1]);
+		                }
+                    }',            
 ));
 		?>
+
+
 	</div>
+	
+    <div id="img_prev" name="img_prev">    </div>
 
 	<div class="row">
-
 		<?php echo $form->labelEx($model,'news_content'); ?>
 		<?php //need fix: if enterprise upload directory does not exist, update would be unavailable. ?>
 		<?php $this->widget('application.extensions.editor.CKkceditor',array(
