@@ -55,7 +55,7 @@
 		                {
 		                    var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
 		                    $("#img_prev").append(imgChild);
-		                    $("input:[name=\"News[news_icon]\"]").val(rArray[1]);
+		                    $("#ytNews_news_icon").val(rArray[1]);
 		                }
 		                else
 		                {
