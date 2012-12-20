@@ -101,10 +101,6 @@ class NewsController extends Controller
         
         if (isset ( $_POST ['News'] ))
         {
-            echo "<pre>";
-            print_r ( $_POST ['News'] );
-            echo "</pre>";
-            exit ();
             $model->attributes = $_POST ['News'];
             if ($model->save ())
                 $this->redirect ( array (
