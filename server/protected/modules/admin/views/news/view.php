@@ -63,7 +63,12 @@ $this->menu=array(
                 'value' => $model->userTable->username,
             ),
         'news_click_count',
-        'news_url',
-        'news_content',
+        array(
+                'label' => 'Preview news',
+                'type' => 'raw',
+                'value' => CHtml::link($model->news_name, $model->news_url, array('target' => '_blank')),
+            ),
+        /*'news_url',
+        'news_content',*/
 	),
 )); ?>

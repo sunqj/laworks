@@ -131,11 +131,56 @@ class News extends CActiveRecord
 		));
 	}
 	
+	public function dumpContentToFile($fileName)
+	{
+	    $yearMonth = date('Ym');
+	    $absDir = getArticleStaticDirAbsolute(). "/" . $yearMonth . "/";
+	    if(!is_dir($absDir))
+	    {
+	        mkdir($absDir, 0777, true);
+	    }
+	    $fullFileName = $absDir . $fileName . ".html";
+	    $fullFilenameFp = fopen($fullFileName, 'w');
+	    $fileContent = 
+	    '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'.
+	    '<html>'. 
+	            '<head>' . 
+	                '<meta http-equiv="Content-type" content="text/html; charset=utf-8" />' . 
+	            '</head>' . 
+	            '<title>' . 
+	                '<h1>'. $this->news_name . '</h1>' . 
+        	    '</title>'. 
+        	    '<body>' . 
+            	    $this->news_content . 
+            	'</body>' . 
+        '</html>';
+	    
+	    $ret = fwrite($fullFilenameFp, $fileContent);
+	    if($ret < 0)
+	    {
+	        return null;
+	    }
+	    $ret = fclose($fullFilenameFp);
+	    if(!$ret)
+	    {
+	        return null;
+	    }
+	    $url = getArticleStaticDirRelative() . "/" . $yearMonth . "/" . $fileName . ".html";
+        return $url;	    
+	}
+	
 	public function beforeSave()
 	{
 	    if(parent::beforeSave())
 	    {
+	        require Yii::app ()->getBasePath () . '/utils/utils.php'; 
 	        $now = time();
+	        $url = $this->dumpContentToFile($now);
+	        if(!$url)
+	        {
+	            return false;
+	        }
+
 	        if($this->isNewRecord)
 	        {
 	            // add a new record
@@ -144,17 +189,23 @@ class News extends CActiveRecord
 	            $this->news_update_gmt = $now;
 	            $this->create_user_id = Yii::app()->user->getId();
 	            $this->audit_user_id = Yii::app()->user->getId();
+	            $this->news_url = $url;
 	        }
 	        else
 	        {
 	            // update an existed record
 	            $this->news_update_gmt = $now;
+	            if($this->news_url)
+	            {
+	                $htmlFile = $_SERVER['DOCUMENT_ROOT'] . $this->news_url;
+	                unlink($htmlFile);
+	            }
+	            $this->news_url = $url;
 	        }
 	        return true;
 	    }
 	    else
 	    {
-	         
 	        return false;
 	    }
 	}
