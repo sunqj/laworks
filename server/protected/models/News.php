@@ -67,7 +67,11 @@ class News extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		        'contenttypeTable' => array(self::BELONGS_TO, 'ContentType', 'news_type'),
+		        'contentTypeTable' => array(self::BELONGS_TO, 'ContentType', 'news_type'),
+		        'contentStatusTable' => array(self::BELONGS_TO, 'ContentStatus', 'news_status'),
+		        'channelTable' => array(self::BELONGS_TO, 'Channel', 'channel_id'),
+		        'userTable' => array(self::BELONGS_TO, 'User', 'create_user_id'),
+		        'userTable' => array(self::BELONGS_TO, 'User', 'audit_user_id'),
 		);
 	}
 

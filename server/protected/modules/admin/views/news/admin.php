@@ -47,14 +47,14 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		'news_id',
 		'news_name',
-		'news_icon',
  		array('name'=>'news_type', 'filter'=>ContentType::model()->getAllContentTypeList(), 
-                 'value'=>'$data->contenttypeTable->content_type_name'),
+                 'value'=>'$data->contentTypeTable->content_type_name'),
 
 		/*
 		'news_url',
-		 'news_content',
+		'news_content',
 		'news_summary',
+	    'news_icon',
 		'news_audit_gmt',
 		'news_create_gmt',
 		'news_update_gmt',

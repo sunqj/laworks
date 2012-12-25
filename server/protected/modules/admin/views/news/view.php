@@ -22,19 +22,48 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 		'news_id',
-		'news_url',
 		'news_name',
-		'news_icon',
-		'news_type',
-		'news_content',
-		'news_summary',
-		'news_audit_gmt',
-		'news_create_gmt',
-		'news_update_gmt',
-		'news_click_count',
-		'news_status',
-		'channel_id',
-		'audit_user_id',
-		'create_user_id',
+	    'news_summary',
+        array(
+                'label' => 'News icon',
+                'type' => 'raw',
+                'value' => CHtml::image($model->news_icon, 'news icon', array('style' => 'max-width:100px')),
+                ),
+	    array(
+	            'label' => 'News Type',
+	            'value' => $model->contentTypeTable->content_type_name,
+	         ),
+        array(
+                'label' => 'News audit time',
+                'value' => date('Y-m-d', $model->news_audit_gmt)
+             ),
+		array(
+                'label' => 'News create time',
+                'value' => date('Y-m-d', $model->news_create_gmt)
+             ),
+        array(
+                'label' => 'News update time',
+                'value' => date('Y-m-d', $model->news_update_gmt)
+             ),
+
+        array(
+                'label' => 'News status',
+                'value' => $model->contentStatusTable->content_status_name,
+            ),
+        array(
+                'label' => 'News Channel',
+                'value' => $model->channelTable->channel_name,
+            ),
+        array(
+                'label' => 'Create user id',
+                'value' => $model->userTable->username,
+            ),
+        array(
+                'label' => 'Audit user id',
+                'value' => $model->userTable->username,
+            ),
+        'news_click_count',
+        'news_url',
+        'news_content',
 	),
 )); ?>
