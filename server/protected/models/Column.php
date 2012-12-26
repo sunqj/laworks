@@ -42,7 +42,6 @@ class Column extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('enterprise_id', 'required'),
 			array('column_index, column_create_gmt, column_update_gmt, column_status, enterprise_id', 'numerical', 'integerOnly'=>true),
 			array('column_icon', 'length', 'max'=>256),
 			array('column_name', 'length', 'max'=>20),
@@ -110,6 +109,24 @@ class Column extends CActiveRecord
 		));
 	}
 	
-	
+	public function beforeSave()
+	{
+	    if(parent::beforeSave())
+	    {
+	        $now = time();
+	        if($this->isNewRecord)
+	        {
+	            // add a new record
+	            $this->column_create_gmt = $now;
+	            $this->enterprise_id = Yii::app()->user->enterprise_id;
+	        }
+	        $this->column_update_gmt = $now;
+	        return true;
+	    }
+	    else
+	    {
+	        return false;
+	    }
+	}
 	
 }
