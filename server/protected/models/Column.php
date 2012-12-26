@@ -129,4 +129,9 @@ class Column extends CActiveRecord
 	    }
 	}
 	
+	public function getEnterpriseColumnList($enterprise_id)
+	{
+	    $columnList = Column::model()->findAll("enterprise_id = $enterprise_id");
+	    return CHtml::listData($columnList, 'column_id', 'column_name');
+	}
 }
