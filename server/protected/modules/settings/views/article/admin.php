@@ -45,29 +45,58 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'article_id',
-		'article_tag',
+        array('name'  => 'article_id','htmlOptions'=>array('width'=>'20px')),
+	        
+        array('name'  => 'article_name','htmlOptions'=>array('width'=>'240px')),
+	        
+        array('name'  => 'article_type',
+              'filter'=> ContentType::model()->getAllContentTypeList(),
+              'value' => '$data->contentTypeTable->content_type_name',
+              'htmlOptions' => array('width'=>'60px')),
+	        
+        array('name'=>'column_id',
+              'filter'=> Column::model()->getEnterpriseColumnList(Yii::app()->user->enterprise_id),
+              'value' => '$data->columnTable->column_name',
+              'htmlOptions'=>array('width'=>'60px')),
+	        
+        array('name'=>'article_isbanner',
+              'filter'=> $model->getBannerList(),
+              'value' => '$data->getBannerValue($data->article_isbanner)',
+              'htmlOptions'=>array('width'=>'40px')),
+
+        array('name'=>'create_user_id',
+              'filter' => User::model()->getEnterpriseAdminList(Yii::app()->user->getId()),
+              'value'  =>'$data->userTable->username',
+              'htmlOptions'=>array('width'=>'60px')),
+
+	    array('name'=>'article_create_gmt',
+              //'value' => 'date("Ymd H:i:s", $data->article_create_gmt)',
+              'value' => 'date("Y-m-d", $data->article_create_gmt)',
+              'htmlOptions'=>array('width'=>'80px')),
+
+        array(
+                'class'=>'CButtonColumn',
+                'template'=>'{update}{delete}',
+                'htmlOptions'=>array('width=30px'),
+                'headerHtmlOptions'=>array('width=34px'),
+        ),
+		/*
 		'article_url',
 		'article_icon',
-		'article_type',
-		'article_name',
-		/*
+		'article_tag',
 		'article_content',
 		'article_summary',
-		'article_isbanner',
 		'article_audit_gmt',
-		'article_create_gmt',
+		'article_status',		
 		'article_update_gmt',
 		'article_click_count',
 		'article_reject_reason',
-		'article_status',
-		'column_id',
 		'audit_user_id',
 		'enterprise_id',
-		'create_user_id',
-		*/
 		array(
 			'class'=>'CButtonColumn',
 		),
+		*/
+
 	),
 )); ?>

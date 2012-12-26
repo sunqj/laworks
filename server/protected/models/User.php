@@ -140,4 +140,10 @@ class User extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public function getEnterpriseAdminList($enterpriseId)
+	{
+	    $userList = User::model()->findAll("enterprise_id = $enterpriseId and permission_id = 1");
+	    return CHtml::listData($userList, 'user_id', 'username');
+	}
 }
