@@ -218,9 +218,12 @@ class Article extends CActiveRecord
                 '<meta http-equiv="Content-type" content="text/html; charset=utf-8" />' . 
             '</head>' . 
             '<title>' . 
-                '<h1>' . $this->article_name . '</h1>' . 
+                $this->article_name .
             '</title>' . 
             '<body>' . 
+                '<h1>' 
+                        . $this->article_name . 
+                '</h1>' .
                 $this->article_content . 
             '</body>' . 
         '</html>';

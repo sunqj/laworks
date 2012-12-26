@@ -148,9 +148,12 @@ class News extends CActiveRecord
 	                '<meta http-equiv="Content-type" content="text/html; charset=utf-8" />' . 
 	            '</head>' . 
 	            '<title>' . 
-	                '<h1>'. $this->news_name . '</h1>' . 
+	                $this->news_name .
         	    '</title>'. 
         	    '<body>' . 
+        	        '<h1>' . 
+        	            $this->news_name . 
+        	        '</h1>' .
             	    $this->news_content . 
             	'</body>' . 
         '</html>';
