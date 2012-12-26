@@ -46,8 +46,16 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'filter'=>$model,
 	'columns'=>array(
 		'enterprise_id',
-		'enterprise_name',
-
+		array('name' => 'enterprise_name', 
+              'type' => 'raw',
+              'value' => 'CHtml::link($data->enterprise_name, array("enterprise/view", "id"=>$data->enterprise_id), array("target", "_blank"))'
+            ),
+        array(
+                'class'=>'CButtonColumn',
+                'template'=>'{view}{delete}',
+                'htmlOptions'=>array('width=30px'),
+                'headerHtmlOptions'=>array('width=34px'),
+            ),
 		/*
 		'enterprise_desc',
 		'enterprise_logo',
@@ -55,11 +63,6 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'enterprise_audit',
 		'enterprise_user_history',
 		*/
-		array(
-			'class'=>'CButtonColumn',
-			'template'=>'{view}{delete}',
-			'htmlOptions'=>array('width=30px'),
-			'headerHtmlOptions'=>array('width=34px'),
-		),
+
 	),
 )); ?>

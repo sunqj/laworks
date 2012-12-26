@@ -48,13 +48,13 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		array('name'=>'user_id','htmlOptions'=>array('width'=>'20px')),
 		array('name' => 'username', 'type' => 'raw',
-			'value' => 'CHtml::link($data->username,array("user/view", \'id\' => $data->user_id), array("target" => "_blank"))',
+			'value' => 'CHtml::link($data->username,array("user/view", "id" => $data->user_id), array("target" => "_blank"))',
 			'htmlOptions'=>array('width'=>'150px')),
 		array('name'=>'password','htmlOptions'=>array('width'=>'150px')),
 		array('name'=>'permission_id','filter'=>Permission::model()->getAdminPermissionList(),
 				'value'=>'$data->permissionTable->permission_name'),
-		array('name'=>'enterprise_id','filter'=>Enterprise::model()->getEnterpriseList(),
-				'value'=>'$data->enterpriseTable->enterprise_name'),
+        array('name'=>'enterprise_id','filter'=>Enterprise::model()->getEnterpriseList(),
+                'value'=>'$data->enterpriseTable->enterprise_name'),
 
 		/*
 		'user_cell',

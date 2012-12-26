@@ -15,21 +15,21 @@
 	<?php echo CHtml::encode($data->news_name); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('news_icon')); ?>:</b>
-	<?php echo CHtml::encode($data->news_icon); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('news_type')); ?>:</b>
-	<?php echo CHtml::encode($data->news_type); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('news_summary')); ?>:</b>
+    <b><?php echo CHtml::encode($data->getAttributeLabel('news_summary')); ?>:</b>
 	<?php echo CHtml::encode($data->news_summary); ?>
+	<br />
+	
+	<b><?php echo CHtml::encode($data->getAttributeLabel('news_type')); ?>:</b>
+	<?php echo CHtml::encode($data->contentTypeTable->content_type_name); ?>
 	<br />
 
 	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('news_url')); ?>:</b>
 	<?php echo CHtml::encode($data->news_url); ?>
+	<br />
+	
+	<b><?php echo CHtml::encode($data->getAttributeLabel('news_icon')); ?>:</b>
+	<?php echo CHtml::encode($data->news_icon); ?>
 	<br />
 	
 	<b><?php echo CHtml::encode($data->getAttributeLabel('news_content')); ?>:</b>
