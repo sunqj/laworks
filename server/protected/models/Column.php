@@ -61,6 +61,8 @@ class Column extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+		        'roleStatusTable' => array(self::BELONGS_TO, 'RoleStatus', 'column_status'),
+		        'enterpriseTable' => array(self::BELONGS_TO, 'Enterprise', 'enterprise_id'),
 		);
 	}
 
@@ -107,4 +109,7 @@ class Column extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	
+	
 }

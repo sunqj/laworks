@@ -45,19 +45,31 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'column_id',
-		'column_icon',
-		'column_name',
-		'column_desc',
-		'column_index',
-		'column_create_gmt',
+		array('name' => 'column_id', 'htmlOptions' => array('width' => '50')),
+        array('name' => 'column_name', 'type' => 'raw',
+              'value'=>'CHtml::link($data->column_name,array("column/view", "id"=>$data->column_id), array("target"=>"_blank"))', 
+              'htmlOptions' => array('width' => '160')
+                ),
+		array('name' => 'column_desc', 'htmlOptions' => array('width' => '160')),
+		array('name' => 'column_index', 'htmlOptions' => array('width' => '80')),
+        array('name' => 'column_status', 'filter'=>RoleStatus::model()->getAllRoleStatusList(),
+              'value'=>'$data->roleStatusTable->role_status_name', 
+              'htmlOptions' => array('width' => '90')),
+        array(
+        'class'=>'CButtonColumn',
+        'template'=>'{update}{delete}',
+        'htmlOptions'=>array('width=30px'),
+        'headerHtmlOptions'=>array('width=34px'),
+        ),
 		/*
 		'column_update_gmt',
-		'column_status',
+		'column_icon',
 		'enterprise_id',
-		*/
+		'column_create_gmt',
+		'column_status',
 		array(
 			'class'=>'CButtonColumn',
 		),
+		*/
 	),
 )); ?>
