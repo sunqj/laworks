@@ -26,6 +26,7 @@ $this->menu=array(
 		'channel_desc',
 		'channel_icon',
 		'channel_index',
-		'role_status_id',
+        array('label' => 'Channel Status', 
+              'value' => $model->roleStatusTable->role_status_name),
 	),
 )); ?>

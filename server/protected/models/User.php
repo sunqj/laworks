@@ -75,6 +75,7 @@ class User extends CActiveRecord
 		return array(
 				'enterpriseTable' => array(self::BELONGS_TO, 'Enterprise', 'enterprise_id'),
 				'permissionTable' => array(self::BELONGS_TO, 'Permission', 'permission_id'),
+		        'roleStatusTable' => array(self::BELONGS_TO, 'RoleStatus', 'user_status'),
 		);
 	}
 

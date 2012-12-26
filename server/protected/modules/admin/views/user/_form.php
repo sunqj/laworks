@@ -57,11 +57,7 @@
 		<?php echo $form->error($model,'user_hometel'); ?>
 	</div>
 	
-	<div class="row">
-		<?php echo $form->labelEx($model,'user_image'); ?>
-		<?php echo $form->textField($model,'user_image',array('size'=>60,'maxlength'=>64)); ?>
-		<?php echo $form->error($model,'user_image'); ?>
-	</div>
+
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'user_email'); ?>
@@ -83,6 +79,12 @@
 
 <?php 
 /*
+  	<div class="row">
+		<?php echo $form->labelEx($model,'user_image'); ?>
+		<?php echo $form->textField($model,'user_image',array('size'=>60,'maxlength'=>64)); ?>
+		<?php echo $form->error($model,'user_image'); ?>
+	</div>
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'user_login_count'); ?>
 		<?php echo $form->textField($model,'user_login_count'); ?>

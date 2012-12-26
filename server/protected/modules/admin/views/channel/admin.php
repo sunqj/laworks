@@ -53,7 +53,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		array('name'=>'channel_icon','htmlOptions'=>array('width'=>100)),
 		array('name'=>'channel_index','htmlOptions'=>array('width'=>100)),
 		array('name'=>'role_status_id','filter'=>RoleStatus::model()->getAllRoleStatusList(),
-                'value'=>'$data->rolestatusTable->role_status_name'),
+                'value'=>'$data->roleStatusTable->role_status_name'),
 		array(
 			'class'=>'CButtonColumn',
                     'template'=>'{update}{delete}',
