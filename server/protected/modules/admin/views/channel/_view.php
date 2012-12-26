@@ -26,7 +26,7 @@
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('role_status_id')); ?>:</b>
-	<?php echo CHtml::encode($data->role_status_id); ?>
+	<?php echo CHtml::encode($data->roleStatusTable->role_status_name); ?>
 	<br />
 
 
