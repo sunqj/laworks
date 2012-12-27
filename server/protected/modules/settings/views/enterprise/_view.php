@@ -21,10 +21,6 @@
 	<?php echo CHtml::encode($data->enterprise_logo); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('enterprise_status')); ?>:</b>
-	<?php echo CHtml::encode($data->enterprise_status); ?>
-	<br />
-
 	<b><?php echo CHtml::encode($data->getAttributeLabel('enterprise_audit')); ?>:</b>
 	<?php echo CHtml::encode($data->enterprise_audit); ?>
 	<br />
@@ -33,5 +29,14 @@
 	<?php echo CHtml::encode($data->enterprise_user_history); ?>
 	<br />
 
+    <?php
+    /*
+    
+    <b><?php echo CHtml::encode($data->getAttributeLabel('enterprise_status')); ?>:</b>
+	<?php echo CHtml::encode($data->enterprise_status); ?>
+	<br />
+
+    */ 
+    ?>
 
 </div>

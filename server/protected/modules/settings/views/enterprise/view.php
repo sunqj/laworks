@@ -3,16 +3,12 @@
 /* @var $model Enterprise */
 
 $this->breadcrumbs=array(
-	'Enterprises'=>array('index'),
-	$model->enterprise_id,
+	'Enterprises'=>array('view', 'id' =>$model->enterprise_id)
 );
 
+
 $this->menu=array(
-	array('label'=>'List Enterprise', 'url'=>array('index')),
-	array('label'=>'Create Enterprise', 'url'=>array('create')),
-	array('label'=>'Update Enterprise', 'url'=>array('update', 'id'=>$model->enterprise_id)),
-	array('label'=>'Delete Enterprise', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->enterprise_id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Enterprise', 'url'=>array('admin')),
+	array('label'=>'Settings', 'url'=>array('update', 'id'=>$model->enterprise_id)),
 );
 ?>
 
@@ -21,12 +17,15 @@ $this->menu=array(
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'enterprise_id',
 		'enterprise_name',
 		'enterprise_desc',
-		'enterprise_logo',
-		'enterprise_status',
-		'enterprise_audit',
-		'enterprise_user_history',
+        array('label' => 'Audit status',
+              'value' => $model->auditLink->role_status_name),
+        array('label' => 'User History',
+              'value' => $model->userHistoryLink->role_status_name),
+        array(
+        'label' => 'Enterprise logo',
+        'type' => 'raw',
+        'value' => CHtml::image($model->enterprise_logo, 'Enterprise logo', array('style' => 'max-width:100px'))),
 	),
 )); ?>

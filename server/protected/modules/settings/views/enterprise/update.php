@@ -3,16 +3,11 @@
 /* @var $model Enterprise */
 
 $this->breadcrumbs=array(
-	'Enterprises'=>array('index'),
-	$model->enterprise_id=>array('view','id'=>$model->enterprise_id),
-	'Update',
+	'Enterprises'=>array('view', 'id' =>$model->enterprise_id)
 );
 
 $this->menu=array(
-	array('label'=>'List Enterprise', 'url'=>array('index')),
-	array('label'=>'Create Enterprise', 'url'=>array('create')),
 	array('label'=>'View Enterprise', 'url'=>array('view', 'id'=>$model->enterprise_id)),
-	array('label'=>'Manage Enterprise', 'url'=>array('admin')),
 );
 ?>
 

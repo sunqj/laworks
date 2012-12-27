@@ -81,7 +81,10 @@ class Enterprise extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array ();
+        return array (
+                'auditLink' => Array(self::BELONGS_TO, 'RoleStatus', 'enterprise_audit'),
+                'userHistoryLink' => Array(self::BELONGS_TO, 'RoleStatus', 'enterprise_user_history'),
+                );
     }
     
     /**
@@ -125,6 +128,8 @@ class Enterprise extends CActiveRecord
                 'criteria' => $criteria 
         ) );
     }
+    
+
     
     public function getEnterpriseList()
     {

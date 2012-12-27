@@ -70,6 +70,10 @@ should you have any questions.</p>
         <p>
             <a href="<?php echo YiiBase::app()->createUrl("settings/department/admin"); ?>">部门管理</a>
         </p>
+        
+        <p>
+            <a href="<?php echo YiiBase::app()->createUrl("settings/enterprise/view", array('id' => Yii::app()->user->enterprise_id)); ?>">企业设置</a>
+        </p>
     <?php elseif(Yii::app()->user->permission_id == 2): ?>
         <p>企业审核员</p>
     <?php else: ?>
