@@ -123,7 +123,8 @@ class UserController extends Controller
 	public function actionIndex()
 	{
 	    $enterprise_id = Yii::app()->user->enterprise_id;
-		$dataProvider=new CActiveDataProvider('User', array('criteria' => array('condition'=>"enterprise_id = $enterprise_id")));
+		$dataProvider=new CActiveDataProvider('User', array('criteria' => array('condition'=>"enterprise_id = $enterprise_id 
+		        and permission_id > 1")));
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
