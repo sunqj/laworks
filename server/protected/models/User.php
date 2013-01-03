@@ -51,17 +51,18 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, permission_id, enterprise_id', 'required'),
-			array('user_position, user_login_count, user_last_login_time, user_last_check_time, user_status, permission_id, enterprise_id', 'numerical', 'integerOnly'=>true),
-			array('username', 'length', 'max'=>20),
-			array('password', 'length', 'max'=>24),
+			array('username, password, permission_id', 'required'),
+			array('user_position, user_login_count, user_last_login_time, user_last_check_time, user_status, permission_id, 
+			        enterprise_id', 'numerical', 'integerOnly'=>true),
+			array('username, user_email, password, user_realname', 'length', 'max'=>20),
 			array('user_cell, user_hometel, user_officetel', 'length', 'max'=>12),
 			array('user_other, user_extra', 'length', 'max'=>256),
 			array('user_image', 'length', 'max'=>64),
-			array('user_email, user_realname', 'length', 'max'=>32),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('user_id, username, password, user_cell, user_other, user_extra, user_image, user_email, user_hometel, user_realname, user_position, user_officetel, user_login_count, user_last_login_time, user_last_check_time, user_status, permission_id, enterprise_id', 'safe', 'on'=>'search'),
+			array('user_id, username, password, user_cell, user_other, user_extra, user_image, user_email, user_hometel, 
+			        user_realname, user_position, user_officetel, user_login_count, user_last_login_time, user_last_check_time, 
+			        user_status, permission_id, enterprise_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -133,17 +134,54 @@ class User extends CActiveRecord
 		$criteria->compare('user_last_login_time',$this->user_last_login_time);
 		$criteria->compare('user_last_check_time',$this->user_last_check_time);
 		$criteria->compare('user_status',$this->user_status);
-		$criteria->compare('permission_id','1');
-		$criteria->compare('enterprise_id',$this->enterprise_id);
-
+		if(Yii::app()->user->id == 0)
+		{
+		    $criteria->compare('permission_id','1');
+		}
+		else
+		{
+		    $criteria->compare('enterprise_id',$this->enterprise_id);
+		    $criteria->compare('permission_id', '>1');
+		}
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	public function beforeSave()
+	{
+	    if (parent::beforeSave ())
+	    {
+	        if ($this->isNewRecord)
+	        {
+	            // add a new record
+	            if(Yii::app()->user->Id != 0)
+	            {
+                    $this->enterprise_id = Yii::app()->user->enterprise_id;
+	            }                
+	        }
+	        else
+	        {
+	            // update an existed record
+                
+	        }
+	        return true;
+	    }
+	    else
+	    {
+	        return false;
+	    }
 	}
 	
 	public function getEnterpriseAdminList($enterpriseId)
 	{
 	    $userList = User::model()->findAll("enterprise_id = $enterpriseId and permission_id = 1");
+	    return CHtml::listData($userList, 'user_id', 'username');
+	}
+	
+	public function getEnterpriseUserList($enterpriseId)
+	{
+	    $userList = User::model()->findall("enterprise_id = $enterpriseId and permission_id > 1");
 	    return CHtml::listData($userList, 'user_id', 'username');
 	}
 }
