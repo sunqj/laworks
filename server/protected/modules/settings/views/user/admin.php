@@ -51,7 +51,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
         array('name'  => 'permission_id',
               'filter'=> Permission::model()->getNormalPermissionList(),
               'value' => '$data->permissionTable->permission_name',
-              'htmlOptions' => array('width'=>'60px')),
+              'htmlOptions' => array('width'=>'120px')),
         array('name' => 'user_position', 'htmlOptions' => array('width' => '100')),
         array('name' => 'user_cell', 'htmlOptions' => array('width' => '100')),
         array('name' => 'user_realname', 'htmlOptions' => array('width' => '100')),

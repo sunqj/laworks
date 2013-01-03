@@ -137,12 +137,15 @@ class User extends CActiveRecord
 		if(Yii::app()->user->id == 0)
 		{
 		    $criteria->compare('permission_id','1');
+		    $criteria->compare('enterprise_id', $this->enterprise_id);
 		}
 		else
 		{
 		    $criteria->compare('enterprise_id',"=$this->enterprise_id");
-		    $criteria->compare('permission_id', ">1");
+		    $criteria->compare('permission_id', $this->permission_id);
+		    $criteria->compare('permission_id', '>1');
 		}
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
