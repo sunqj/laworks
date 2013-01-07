@@ -17,6 +17,11 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'notification_url'); ?>
+		<?php echo $form->textField($model,'notification_url',array('size'=>60,'maxlength'=>100)); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model,'notification_name'); ?>
 		<?php echo $form->textField($model,'notification_name',array('size'=>60,'maxlength'=>64)); ?>
 	</div>

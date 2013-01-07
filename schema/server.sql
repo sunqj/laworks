@@ -138,14 +138,15 @@ CREATE TABLE tianyi_user_department
 CREATE TABLE tianyi_notification
 (
     notification_id             int not null auto_increment,
+    notification_url            varchar(100) not null,
     notification_name           varchar(64) not null,
-    notification_desc           varchar(1024) not null,
+    notification_desc           longblob not null,
     notification_audit_gmt      int not null default 0,
     notification_create_gmt     int not null default 0,
 
     /* foreign keys */
-    notification_status         int not null default 1 COMMENT '通知状态，1：没审核，2：已经审核',
-    department_id               int not null,
+    notification_status         int not null default 0, 
+    department_id               int not null default 0,
     audit_user_id               int default 0,
     enterprise_id               int not null,
     create_user_id              int not null,

@@ -43,7 +43,7 @@ class Notification extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('notification_name, notification_desc, department_id, enterprise_id, create_user_id', 'required'),
+			array('notification_name, notification_desc, department_id', 'required'),
 			array('notification_audit_gmt, notification_create_gmt, notification_status, department_id, audit_user_id, enterprise_id, create_user_id', 'numerical', 'integerOnly'=>true),
 			array('notification_name', 'length', 'max'=>64),
 			array('notification_desc', 'length', 'max'=>1024),
@@ -61,6 +61,8 @@ class Notification extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+				'contentStatusTable' => array(self::BELONGS_TO, 'ContentStatus', 'notification_status'),
+				'userTable' => array(self::BELONGS_TO, 'User', 'create_user_id'),
 		);
 	}
 

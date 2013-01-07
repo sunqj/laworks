@@ -23,8 +23,39 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'notification_desc'); ?>
-		<?php echo $form->textField($model,'notification_desc',array('size'=>60,'maxlength'=>1024)); ?>
-		<?php echo $form->error($model,'notification_desc'); ?>
+		<?php //need fix: if enterprise upload directory does not exist, update would be unavailable. ?>
+		<?php 
+		        require Yii::app ()->getBasePath() . '/utils/utils.php';
+		        $this->widget('application.extensions.editor.CKkceditor',array(
+                "model"=>$model,                # Data-Model
+                "attribute"=>'notification_desc',         # Attribute in the Data-Model
+                "height"=>'400px',
+                "width"=>'100%',
+            	"filespath"=>getArticleIconDirAbsolute(),
+            	"filesurl"=>getArticleIconDirRelative(),
+             ));
+		 ?>
+		<?php echo $form->error($model,'article_content'); ?>
+	</div>
+	
+	
+	<div class="row">
+		<?php echo $form->labelEx($model,'department_id'); ?>
+		<?php echo $form->textField($model,'department_id'); ?>
+		<?php echo $form->error($model,'department_id'); ?>
+	</div>
+
+	<div class="row buttons">
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+	</div>
+
+<?php 
+/*
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'notification_status'); ?>
+		<?php echo $form->textField($model,'notification_status'); ?>
+		<?php echo $form->error($model,'notification_status'); ?>
 	</div>
 
 	<div class="row">
@@ -40,15 +71,9 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'notification_status'); ?>
-		<?php echo $form->textField($model,'notification_status'); ?>
-		<?php echo $form->error($model,'notification_status'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'department_id'); ?>
-		<?php echo $form->textField($model,'department_id'); ?>
-		<?php echo $form->error($model,'department_id'); ?>
+		<?php echo $form->labelEx($model,'notification_url'); ?>
+		<?php echo $form->textField($model,'notification_url',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->error($model,'notification_url'); ?>
 	</div>
 
 	<div class="row">
@@ -69,10 +94,11 @@
 		<?php echo $form->error($model,'create_user_id'); ?>
 	</div>
 
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-	</div>
 
+ */
+
+?>	
+	
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->

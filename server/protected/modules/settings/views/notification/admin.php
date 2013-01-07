@@ -45,20 +45,33 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'notification_id',
 		'notification_name',
 		'notification_desc',
-		'notification_audit_gmt',
-		'notification_create_gmt',
-		'notification_status',
+
+		array('name'=>'create_user_id',
+		'filter' => User::model()->getEnterpriseAdminList(Yii::app()->user->getId()),
+		'value'  =>'$data->userTable->username',
+		'htmlOptions'=>array('width'=>'100px')),
+		array('name'=>'notification_create_gmt',
+		'value' => 'date("Y-m-d H:i:s", $data->notification_create_gmt)',
+		),
 		/*
+		'create_user_id',
+		'notification_create_gmt',
+		'notification_url',
+		'notification_id',
+		'notification_audit_gmt',
+		'notification_status',
 		'department_id',
 		'audit_user_id',
 		'enterprise_id',
-		'create_user_id',
+
 		*/
-		array(
-			'class'=>'CButtonColumn',
-		),
+        array(
+                'class'=>'CButtonColumn',
+                'template'=>'{update}{delete}',
+                'htmlOptions'=>array('width=30px'),
+                'headerHtmlOptions'=>array('width=34px'),
+        ),
 	),
 )); ?>
