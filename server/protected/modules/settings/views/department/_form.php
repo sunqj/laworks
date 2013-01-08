@@ -23,26 +23,43 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'department_desc'); ?>
-		<?php echo $form->textField($model,'department_desc',array('size'=>60,'maxlength'=>1024)); ?>
+		<?php echo $form->textArea($model,'department_desc', array('cols'=>80,'rows'=>20)); ?>
 		<?php echo $form->error($model,'department_desc'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'department_status'); ?>
-		<?php echo $form->textField($model,'department_status'); ?>
+		<?php echo  $form->dropDownList($model, 'department_status', RoleStatus::model()->getAllRoleStatusList()); ?>
 		<?php echo $form->error($model,'department_status'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'enterprise_id'); ?>
-		<?php echo $form->textField($model,'enterprise_id'); ?>
-		<?php echo $form->error($model,'enterprise_id'); ?>
+	
+	    <?php $checkboxList = $form->checkBoxList($model, 'userList',
+	            User::model()->getEnterprisePhoneUserList(Yii::app()->user->enterprise_id),
+	            array('template'=>'<span class="check">{label}{input}</span>', 'separator'=>' '));
+	          $checkboxList = str_replace('<label', '<span', $checkboxList);
+	          $checkboxList = str_replace('</label', '</span', $checkboxList);
+	          echo $checkboxList; 
+	    ?>
 	</div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
 
+<?php 
+/*
+	<div class="row">
+		<?php echo $form->labelEx($model,'enterprise_id'); ?>
+		<?php echo $form->textField($model,'enterprise_id'); ?>
+		<?php echo $form->error($model,'enterprise_id'); ?>
+	</div>
+
+ */
+
+?>
+	
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->

@@ -184,7 +184,13 @@ class User extends CActiveRecord
 	
 	public function getEnterpriseUserList($enterpriseId)
 	{
-	    $userList = User::model()->findall("enterprise_id = $enterpriseId and permission_id > 1");
+	    $userList = User::model()->findAll("enterprise_id = $enterpriseId and permission_id > 1");
+	    return CHtml::listData($userList, 'user_id', 'username');
+	}
+	
+	public function getEnterprisePhoneUserList($enterpriseId)
+	{
+	    $userList = User::model()->findAll("enterprise_id = $enterpriseId and permission_id = 3");
 	    return CHtml::listData($userList, 'user_id', 'username');
 	}
 }

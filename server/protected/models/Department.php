@@ -12,11 +12,24 @@
  */
 class Department extends CActiveRecord
 {
-	/**
+    public $userList = null;
+    // get user list for this department 
+    public function getDepartmentUserList()
+    {
+        if(!$this->department_id)
+        {
+            return null;
+        }
+        $userList = UserDepartment::model()->findAll("department_id = $this->department_id");
+        return CHtml::listData($userList, 'user_id','username');
+    }
+    
+    /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return Department the static model class
 	 */
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -38,7 +51,7 @@ class Department extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('department_name, department_desc, enterprise_id', 'required'),
+			array('department_name', 'required'),
 			array('department_status, enterprise_id', 'numerical', 'integerOnly'=>true),
 			array('department_name', 'length', 'max'=>64),
 			array('department_desc', 'length', 'max'=>1024),
@@ -56,6 +69,8 @@ class Department extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+		        'roleStatusTable' => array(self::BELONGS_TO, 'tianyi_role_status', 'department_status'),
+		        'userTable' => array(self::BELONGS_TO, 'tianyi_user', 'user_id'),
 		);
 	}
 

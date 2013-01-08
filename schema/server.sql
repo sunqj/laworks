@@ -113,11 +113,11 @@ CREATE TABLE tianyi_department
 (
     department_id               int not null auto_increment,
     department_name             varchar(64) not null,
-    department_desc             varchar(1024) not null,
+    department_desc             varchar(1024) default null,
 
     /* foreign keys */
 
-    department_status           int not null default 1,
+    department_status           int not null default 0,
     enterprise_id               int not null,
 
     PRIMARY KEY (department_id)
@@ -366,4 +366,4 @@ insert into tianyi_enterprise(enterprise_name, enterprise_desc) values('stworks'
 /* user */
 insert into tianyi_user(user_id, username, password, user_cell, permission_id, enterprise_id) values(1, 'laadmin', 'linuxred', '10000', 1, 1);
 insert into tianyi_user(user_id, username, password, user_cell, permission_id, enterprise_id) values(2, 'laauditor', 'linuxred', '10000', 2, 1);
-insert into tianyi_user(user_id, username, password, user_cell, permission_id, enterprise_id) values(3, 'lauser', 'linuxred', '10000', 3, 1);
+insert into tianyi_user(username, password, user_cell, permission_id, enterprise_id) values('lauser1', 'linuxred', '10000', 3, 1), ('lauser2', 'linuxred', '10000', 3, 1), ('lauser3', 'linuxred', '10000', 3, 1), ('lauser4', 'linuxred', '10000', 3, 1);
