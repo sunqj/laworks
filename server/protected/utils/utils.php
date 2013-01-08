@@ -22,8 +22,6 @@ function getEnterpriseLogoDirRelative()
     return $dir;
 }
 
-
-
 function getArticleIconDirAbsolute()
 {
     $dir = getUploadDirAbsolute() . "article_icon/" . Yii::app()->user->enterprise_id . "/";
@@ -48,8 +46,6 @@ function getArticleImageDirRelative()
     $dir = getUploadDirRelative () . "article_image/" . Yii::app()->user->enterprise_id . "/";
     return $dir;
 }
-
-
 
 function getVoteImageDirAbsolute()
 {
@@ -79,12 +75,22 @@ function getVoteIcondirRelative()
 
 function getArticleStaticDirAbsolute()
 {
-    return Yii::app()->getBasePath() . "/../static/" . Yii::app()->user->enterprise_id;
+    return Yii::app()->getBasePath() . "/../static/article" . Yii::app()->user->enterprise_id;
 }
 
 function getArticleStaticDirRelative()
 {
-    return "/server/static/" . Yii::app()->user->enterprise_id;
+    return "/server/static/article" . Yii::app()->user->enterprise_id;
+}
+
+function getNotificationStaticDirAbsolute()
+{
+    return Yii::app()->getBasePath() . "/../static/notification" . Yii::app()->user->enterprise_id;
+}
+
+function getNotificationStaticDirRelative()
+{
+    return "/server/static/notification" . Yii::app()->user->enterprise_id;
 }
 
 function getColumnIconDirAbsolute()
