@@ -115,7 +115,7 @@ class Notification extends CActiveRecord
 	public function dumpContentToFile($fileName)
 	{
 	    $yearMonth = date ( 'Ym' );
-	    $absDir = getArticleStaticDirAbsolute () . "/" . $yearMonth . "/";
+	    $absDir = getNotificationStaticDirAbsolute() . "/" . $yearMonth . "/";
 	    if (! is_dir ( $absDir ))
 	    {
 	        mkdir ( $absDir, 0777, true );
@@ -149,7 +149,7 @@ class Notification extends CActiveRecord
 	    {
 	        return null;
 	    }
-	    $url = getArticleStaticDirRelative () . "/" . $yearMonth . "/" . $fileName . ".html";
+	    $url = getNotificationStaticDirRelative() . "/" . $yearMonth . "/" . $fileName . ".html";
 	    return $url;
 	}
 	
@@ -169,23 +169,11 @@ class Notification extends CActiveRecord
 	        if ($this->isNewRecord)
 	        {
 	            // add a new record
-	            $this->article_create_gmt = $now;
-	            $this->article_audit_gmt = $now;
-	            $this->article_update_gmt = $now;
+	            $this->notification_create_gmt = $now;
+	            $this->notification_audit_gmt = $now;
 	            $this->create_user_id = Yii::app ()->user->getId ();
 	            $this->audit_user_id = Yii::app ()->user->getId ();
-	            $this->article_url = $url;
-	        }
-	        else
-	        {
-	            // update an existed record
-	            $this->article_update_gmt = $now;
-	            if ($this->article_url)
-	            {
-	                $htmlFile = $_SERVER ['DOCUMENT_ROOT'] . $this->article_url;
-	                unlink ( $htmlFile );
-	            }
-	            $this->article_url = $url;
+	            $this->notification_url = $url;
 	        }
 	        return true;
 	    }

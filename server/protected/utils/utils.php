@@ -75,22 +75,22 @@ function getVoteIcondirRelative()
 
 function getArticleStaticDirAbsolute()
 {
-    return Yii::app()->getBasePath() . "/../static/article" . Yii::app()->user->enterprise_id;
+    return Yii::app()->getBasePath() . "/../static/article/" . Yii::app()->user->enterprise_id;
 }
 
 function getArticleStaticDirRelative()
 {
-    return "/server/static/article" . Yii::app()->user->enterprise_id;
+    return "/server/static/article/" . Yii::app()->user->enterprise_id;
 }
 
 function getNotificationStaticDirAbsolute()
 {
-    return Yii::app()->getBasePath() . "/../static/notification" . Yii::app()->user->enterprise_id;
+    return Yii::app()->getBasePath() . "/../static/notification/" . Yii::app()->user->enterprise_id;
 }
 
 function getNotificationStaticDirRelative()
 {
-    return "/server/static/notification" . Yii::app()->user->enterprise_id;
+    return "/server/static/notification/" . Yii::app()->user->enterprise_id;
 }
 
 function getColumnIconDirAbsolute()
