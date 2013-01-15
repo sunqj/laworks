@@ -70,8 +70,21 @@ class DepartmentController extends Controller
 		if(isset($_POST['Department']))
 		{
 			$model->attributes=$_POST['Department'];
+			$str = "user list:" . implode(",", $model->userList);
+			Yii::log($str);
 			if($model->save())
+			{
+			    //here is a performance issue, we should make a little tuning here.
+			    //we should insert create all new record with one shot instead of one by one.
+			    foreach($model->userList as $userid)
+			    {
+			        $userDepartment = new UserDepartment;
+			        $userDepartment->user_id = $userid;
+			        $userDepartment->department_id = $model->department_id;
+			        $userDepartment->save();
+			    }
 				$this->redirect(array('view','id'=>$model->department_id));
+			}
 		}
 
 		$this->render('create',array(
@@ -95,7 +108,10 @@ class DepartmentController extends Controller
 		{
 			$model->attributes=$_POST['Department'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->department_id));
+			{
+			    $this->redirect(array('view','id'=>$model->department_id));
+			}
+				
 		}
 
 		$this->render('update',array(

@@ -37,9 +37,9 @@
 	
 	    <?php $checkboxList = $form->checkBoxList($model, 'userList',
 	            User::model()->getEnterprisePhoneUserList(Yii::app()->user->enterprise_id),
-	            array('template'=>'<span class="check">{label}{input}</span>', 'separator'=>' '));
+	            array('template'=>'<span class="check">{label}&nbsp{input}</span> &nbsp', 'separator'=>' '));
 	          $checkboxList = str_replace('<label', '<span', $checkboxList);
-	          $checkboxList = str_replace('</label', '</span', $checkboxList);
+	          $checkboxList = str_replace('</label>', '</span>', $checkboxList);
 	          echo $checkboxList; 
 	    ?>
 	</div>

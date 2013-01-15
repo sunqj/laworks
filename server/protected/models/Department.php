@@ -12,7 +12,7 @@
  */
 class Department extends CActiveRecord
 {
-    public $userList = null;
+    public $userList = Array();
     // get user list for this department 
     public function getDepartmentUserList()
     {
@@ -57,7 +57,8 @@ class Department extends CActiveRecord
 			array('department_desc', 'length', 'max'=>1024),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('department_id, department_name, department_desc, department_status, enterprise_id', 'safe', 'on'=>'search'),
+			array('department_id, department_name, department_desc, department_status, enterprise_id, userList', 'safe', 'on'=>'search'),
+		    array('userList', 'safe', 'on'=>'insert'),
 		);
 	}
 
