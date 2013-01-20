@@ -103,7 +103,9 @@ class DepartmentController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
+		
+		$model->userList = $model->getDepartmentUserIdList();
+		Yii::log("update, user list:" . implode(',', $model->userList));
 		if(isset($_POST['Department']))
 		{
 			$model->attributes=$_POST['Department'];

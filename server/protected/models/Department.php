@@ -29,12 +29,31 @@ class Department extends CActiveRecord
     
     public function getDepartmentUserNameString()
     {
+    	if(!$this->department_id)
+    	{
+    		return null;
+    	}
         $userList = $this->getDepartmentUserList();
         if(!$userList)
         {
             return null;
         }
         return implode(",", $userList);
+    }
+    
+    public function getDepartmentUserIdList()
+    {
+    	if(!$this->department_id)
+    	{
+    		return null;
+    	}
+    	$userIdList = Array();
+    	$userList = UserDepartment::model()->findAll("department_id = $this->department_id");
+    	foreach($userList as $user)
+    	{
+    		array_push($userIdList, $user->user_id);
+    	}
+    	return $userIdList;
     }
     
     /**
