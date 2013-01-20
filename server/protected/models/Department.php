@@ -24,6 +24,19 @@ class Department extends CActiveRecord
         return CHtml::listData($userList, 'user_id','username');
     }
     
+    // get user name string for this department
+    // eg: user1,user2,user3...
+    
+    public function getDepartmentUserNameString()
+    {
+        $userList = $this->getDepartmentUserList();
+        if(!$userList)
+        {
+            return null;
+        }
+        return implode(",", $userList);
+    }
+    
     /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -70,7 +83,7 @@ class Department extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		        'roleStatusTable' => array(self::BELONGS_TO, 'tianyi_role_status', 'department_status'),
+		        'roleStatusTable' => array(self::BELONGS_TO, 'RoleStatus', 'department_status'),
 		        'userTable' => array(self::BELONGS_TO, 'tianyi_user', 'user_id'),
 		);
 	}

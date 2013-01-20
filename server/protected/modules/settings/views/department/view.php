@@ -21,10 +21,13 @@ $this->menu=array(
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'department_id',
 		'department_name',
 		'department_desc',
-		'department_status',
-		'enterprise_id',
+        array('label' => 'Department Status',
+                'value' => $model->roleStatusTable->role_status_name),
+        array('label' => 'Department User',
+                'value' => $model->getDepartmentUserNameString())
+		//'enterprise_id',
+        //'department_id',
 	),
 )); ?>
