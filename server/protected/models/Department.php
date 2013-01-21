@@ -54,9 +54,41 @@ class Department extends CActiveRecord
         return $userIdList;
     }
     
+    //all relations in user_department table should be deleted before delete the department record
     public function beforeDelete()
     {
         $userIdList = UserDepartment::model()->deleteAll("department_id = $this->department_id");
+        return true;
+    }
+    
+    //should create relation after create the department
+    public function afterSave()
+    {
+        //here is a performance issue, we should make a little tuning here.
+        //we should insert create all new record with one shot instead of one by one.
+        foreach($this->userList as $userid)
+        {
+            $userDepartment = new UserDepartment;
+            $userDepartment->user_id = $userid;
+            $userDepartment->department_id = $this->department_id;
+            $userDepartment->save();
+        }
+        return true;
+    }
+    
+    public function beforeUpdate()
+    {
+        Yii::log("before update, user list:" . implode(",", $this->userList));
+        $userIdList = UserDepartment::model()->deleteAll("department_id = $this->department_id");
+        //here is a performance issue, we should make a little tuning here.
+        //we should insert create all new record with one shot instead of one by one.
+        foreach($this->userList as $userid)
+        {
+            $userDepartment = new UserDepartment;
+            $userDepartment->user_id = $userid;
+            $userDepartment->department_id = $this->department_id;
+            $userDepartment->save();
+        }
         return true;
     }
     

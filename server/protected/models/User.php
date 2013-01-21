@@ -19,9 +19,15 @@
  * @property integer $user_status
  * @property integer $permission_id
  * @property integer $enterprise_id
+ * @property integer $contacts_id
  */
 class User extends CActiveRecord
 {
+    
+    public $user_cell;
+    public $user_officetel;
+    public $user_hometel;
+    
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -59,6 +65,8 @@ class User extends CActiveRecord
 			array('user_id, username, password, user_other, user_extra, user_image, user_email,  
 			        user_realname, user_position, user_login_count, user_last_login_time, user_last_check_time, 
 			        user_status, permission_id, enterprise_id', 'safe', 'on'=>'search'),
+		    array('user_cell, user_hometel, user_officetel', 'safe', 'on' => 'insert'),
+		    array('user_cell, user_hometel, user_officetel', 'safe', 'on' => 'update'),
 		);
 	}
 
@@ -154,12 +162,24 @@ class User extends CActiveRecord
 	            if(Yii::app()->user->Id != 0)
 	            {
                     $this->enterprise_id = Yii::app()->user->enterprise_id;
+                    if($this->user_cell || $this->user_officetel || $this->user_hometel)
+                    {
+                        $contacts = new Contacts;
+                        $contacts->contacts_cell = $this->user_cell;
+                        $contacts->contacts_officetel = $this->user_officetel;
+                        $contacts->contacts_home = $this->user_hometel;
+                        $contacts->save();
+                    }
 	            }                
 	        }
 	        else
 	        {
 	            // update an existed record
-                
+                $contacts = Contacts::model()->findByPk($this->contacts_id);
+                $contacts->contacts_cell = $this->user_cell;
+                $contacts->contacts_officetel = $this->user_officetel;
+                $contacts->contacts_home = $this->user_hometel;
+                $contacts->save();
 	        }
 	        return true;
 	    }

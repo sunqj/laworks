@@ -73,15 +73,6 @@ class DepartmentController extends Controller
 			Yii::log("create, user list:" . implode(",", $model->userList));
 			if($model->save())
 			{
-			    //here is a performance issue, we should make a little tuning here.
-			    //we should insert create all new record with one shot instead of one by one.
-			    foreach($model->userList as $userid)
-			    {
-			        $userDepartment = new UserDepartment;
-			        $userDepartment->user_id = $userid;
-			        $userDepartment->department_id = $model->department_id;
-			        $userDepartment->save();
-			    }
 				$this->redirect(array('view','id'=>$model->department_id));
 			}
 		}
@@ -109,17 +100,6 @@ class DepartmentController extends Controller
 			$model->attributes=$_POST['Department'];
 			if($model->save())
 			{
-			    Yii::log("update, user list:" . implode(",", $model->userList));
-			    $userIdList = UserDepartment::model()->deleteAll("department_id = $model->department_id");
-			    //here is a performance issue, we should make a little tuning here.
-			    //we should insert create all new record with one shot instead of one by one.
-			    foreach($model->userList as $userid)
-			    {
-			        $userDepartment = new UserDepartment;
-			        $userDepartment->user_id = $userid;
-			        $userDepartment->department_id = $model->department_id;
-			        $userDepartment->save();
-			    }
 			    $this->redirect(array('view','id'=>$model->department_id));
 			}
 
