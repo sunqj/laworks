@@ -216,15 +216,12 @@ CREATE TABLE tianyi_user
     user_id                     int not null auto_increment,
     username            	varchar(20) not null unique,
     password        	        varchar(24) not null,
-    user_cell                   varchar(12) default null,
     user_other                  varchar(256) default null,
     user_extra                  varchar(256) default null,
     user_image                  varchar(64) default null,
     user_email                  varchar(32) default null,
-    user_hometel                varchar(12) default null,
     user_realname       	varchar(32) default null,
     user_position               int default 1000,
-    user_officetel              varchar(12) default null,
     user_login_count            int default 0,
     user_last_login_time        int default null,
     user_last_check_time        int default null,
@@ -236,6 +233,35 @@ CREATE TABLE tianyi_user
     enterprise_id               int not null,
 
     PRIMARY KEY (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE tianyi_contacts
+(
+    contacts_id                 int not null auto_increment,
+    contacts_name               varchar(20) not null default 'non-name',
+    contacts_cell               varchar(12) default null,
+    contacts_hometel            varchar(12) default null,
+    contacts_officetel          varchar(12) default null,
+
+    
+    /* foreign keys */
+    user_id                     int default -1,
+
+    PRIMARY KEY (contacts_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE tianyi_user_contacts
+(
+    dummy_id	                int not null auto_increment,
+
+    /* foreign keys */
+
+    user_id                     int not null,
+    contacts_id                   int not null,
+
+    PRIMARY KEY (dummy_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE tianyi_user_vote
@@ -285,21 +311,6 @@ CREATE TABLE tianyi_history
     PRIMARY KEY (history_id)
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE tianyi_contact
-(
-    contact_id                  int not null auto_increment,
-    contact_name                varchar(256) not null,
-    contact_index               int not null default '1' COMMENT '排序,值越小，越靠前',
-    contact_number              varchar(21) not null,
-    contact_position            varchar(256) default null,
-
-    /* foreign keys */
-
-    user_id                     int not null,
-
-    PRIMARY KEY (contact_id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
 CREATE TABLE tianyi_topic
 (
     topic_id                   int not null auto_increment,
@@ -339,7 +350,7 @@ CREATE TABLE tianyi_reply
 insert into tianyi_permission(permission_id, permission_name) values(0, '系统管理员'),  (1, '企业管理员'), (2, '企业审核员'), (3, '企业普通用户');
 
 /*users*/
-insert into tianyi_user(user_id, username, password, user_cell, permission_id, enterprise_id) values(0, 'admin', 'linuxred', '10000', 0, 0);
+insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values(0, 'admin', 'linuxred', 0, 0);
 
 
 /*role_status*/
@@ -364,6 +375,6 @@ insert into tianyi_enterprise(enterprise_name, enterprise_desc) values('laworks'
 insert into tianyi_enterprise(enterprise_name, enterprise_desc) values('stworks', 'stworks'); 
 
 /* user */
-insert into tianyi_user(user_id, username, password, user_cell, permission_id, enterprise_id) values(1, 'laadmin', 'linuxred', '10000', 1, 1);
-insert into tianyi_user(user_id, username, password, user_cell, permission_id, enterprise_id) values(2, 'laauditor', 'linuxred', '10000', 2, 1);
-insert into tianyi_user(username, password, user_cell, permission_id, enterprise_id) values('lauser1', 'linuxred', '10000', 3, 1), ('lauser2', 'linuxred', '10000', 3, 1), ('lauser3', 'linuxred', '10000', 3, 1), ('lauser4', 'linuxred', '10000', 3, 1);
+insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values(1, 'laadmin', 'linuxred', 1, 1);
+insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values(2, 'laauditor', 'linuxred', 2, 1);
+insert into tianyi_user(username, password, permission_id, enterprise_id) values('lauser1', 'linuxred', 3, 1), ('lauser2', 'linuxred', 3, 1), ('lauser3', 'linuxred', 3, 1), ('lauser4', 'linuxred', 3, 1);

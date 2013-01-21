@@ -1,22 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "tianyi_contact".
+ * This is the model class for table "tianyi_contacts".
  *
- * The followings are the available columns in table 'tianyi_contact':
- * @property integer $contact_id
- * @property string $contact_name
- * @property integer $contact_index
- * @property string $contact_number
- * @property string $contact_position
+ * The followings are the available columns in table 'tianyi_contacts':
+ * @property integer $contacts_id
+ * @property string $contacts_name
+ * @property string $contacts_cell
+ * @property string $contacts_hometel
+ * @property string $contacts_officetel
  * @property integer $user_id
  */
-class Contact extends CActiveRecord
+class Contacts extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Contact the static model class
+	 * @return Contacts the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -28,7 +28,7 @@ class Contact extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tianyi_contact';
+		return 'tianyi_contacts';
 	}
 
 	/**
@@ -39,13 +39,12 @@ class Contact extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('contact_name, contact_number, user_id', 'required'),
-			array('contact_index, user_id', 'numerical', 'integerOnly'=>true),
-			array('contact_name, contact_position', 'length', 'max'=>256),
-			array('contact_number', 'length', 'max'=>21),
+			array('user_id', 'numerical', 'integerOnly'=>true),
+			array('contacts_name', 'length', 'max'=>20),
+			array('contacts_cell, contacts_hometel, contacts_officetel', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('contact_id, contact_name, contact_index, contact_number, contact_position, user_id', 'safe', 'on'=>'search'),
+			array('contacts_id, contacts_name, contacts_cell, contacts_hometel, contacts_officetel, user_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,11 +65,11 @@ class Contact extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'contact_id' => 'Contact',
-			'contact_name' => 'Contact Name',
-			'contact_index' => 'Contact Index',
-			'contact_number' => 'Contact Number',
-			'contact_position' => 'Contact Position',
+			'contacts_id' => 'Contacts',
+			'contacts_name' => 'Contacts Name',
+			'contacts_cell' => 'Contacts Cell',
+			'contacts_hometel' => 'Contacts Hometel',
+			'contacts_officetel' => 'Contacts Officetel',
 			'user_id' => 'User',
 		);
 	}
@@ -86,11 +85,11 @@ class Contact extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('contact_id',$this->contact_id);
-		$criteria->compare('contact_name',$this->contact_name,true);
-		$criteria->compare('contact_index',$this->contact_index);
-		$criteria->compare('contact_number',$this->contact_number,true);
-		$criteria->compare('contact_position',$this->contact_position,true);
+		$criteria->compare('contacts_id',$this->contacts_id);
+		$criteria->compare('contacts_name',$this->contacts_name,true);
+		$criteria->compare('contacts_cell',$this->contacts_cell,true);
+		$criteria->compare('contacts_hometel',$this->contacts_hometel,true);
+		$criteria->compare('contacts_officetel',$this->contacts_officetel,true);
 		$criteria->compare('user_id',$this->user_id);
 
 		return new CActiveDataProvider($this, array(
