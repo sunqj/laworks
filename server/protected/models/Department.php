@@ -37,6 +37,29 @@ class Department extends CActiveRecord
         return implode(",", $userList);
     }
     
+    //get user id list for this department
+    //eg: (3, 4, 5)
+    public function getDepartmentUserIdList()
+    {
+        if(!$this->department_id)
+        {
+            return null;
+        }
+        $userIdList = Array();
+        $userList = UserDepartment::model()->findAll("department_id = $this->department_id");
+        foreach($userList as $user)
+        {
+            array_push($userIdList, $user->user_id);
+        }
+        return $userIdList;
+    }
+    
+    public function beforeDelete()
+    {
+        $userIdList = UserDepartment::model()->deleteAll("department_id = $this->department_id");
+        return true;
+    }
+    
     /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -72,6 +95,7 @@ class Department extends CActiveRecord
 			// Please remove those attributes that should not be searched.
 			array('department_id, department_name, department_desc, department_status, enterprise_id, userList', 'safe', 'on'=>'search'),
 		    array('userList', 'safe', 'on'=>'insert'),
+		    array('userList', 'safe', 'on'=>'update'),
 		);
 	}
 
@@ -84,7 +108,7 @@ class Department extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 		        'roleStatusTable' => array(self::BELONGS_TO, 'RoleStatus', 'department_status'),
-		        'userTable' => array(self::BELONGS_TO, 'tianyi_user', 'user_id'),
+		        'userTable' => array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
 

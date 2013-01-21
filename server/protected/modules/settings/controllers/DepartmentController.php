@@ -70,8 +70,7 @@ class DepartmentController extends Controller
 		if(isset($_POST['Department']))
 		{
 			$model->attributes=$_POST['Department'];
-			$str = "user list:" . implode(",", $model->userList);
-			Yii::log($str);
+			Yii::log("create, user list:" . implode(",", $model->userList));
 			if($model->save())
 			{
 			    //here is a performance issue, we should make a little tuning here.
@@ -104,16 +103,28 @@ class DepartmentController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
+		
 		if(isset($_POST['Department']))
 		{
 			$model->attributes=$_POST['Department'];
 			if($model->save())
 			{
+			    Yii::log("update, user list:" . implode(",", $model->userList));
+			    $userIdList = UserDepartment::model()->deleteAll("department_id = $model->department_id");
+			    //here is a performance issue, we should make a little tuning here.
+			    //we should insert create all new record with one shot instead of one by one.
+			    foreach($model->userList as $userid)
+			    {
+			        $userDepartment = new UserDepartment;
+			        $userDepartment->user_id = $userid;
+			        $userDepartment->department_id = $model->department_id;
+			        $userDepartment->save();
+			    }
 			    $this->redirect(array('view','id'=>$model->department_id));
 			}
-				
-		}
 
+		}
+		$model->userList = $model->getDepartmentUserIdList();
 		$this->render('update',array(
 			'model'=>$model,
 		));
