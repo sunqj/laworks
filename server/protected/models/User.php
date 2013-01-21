@@ -167,7 +167,7 @@ class User extends CActiveRecord
                         $contacts = new Contacts;
                         $contacts->contacts_cell = $this->user_cell;
                         $contacts->contacts_officetel = $this->user_officetel;
-                        $contacts->contacts_home = $this->user_hometel;
+                        $contacts->contacts_hometel = $this->user_hometel;
                         $contacts->save();
                     }
 	            }                
@@ -178,7 +178,7 @@ class User extends CActiveRecord
                 $contacts = Contacts::model()->findByPk($this->contacts_id);
                 $contacts->contacts_cell = $this->user_cell;
                 $contacts->contacts_officetel = $this->user_officetel;
-                $contacts->contacts_home = $this->user_hometel;
+                $contacts->contacts_hometel = $this->user_hometel;
                 $contacts->save();
 	        }
 	        return true;
