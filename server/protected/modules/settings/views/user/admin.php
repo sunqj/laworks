@@ -54,7 +54,6 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
               'htmlOptions' => array('width'=>'120px')),
         array('name' => 'user_position', 'htmlOptions' => array('width' => '100')),
         array('name' => 'user_realname', 'htmlOptions' => array('width' => '100')),
-        array('name' => 'contacts_id', 'htmlOptions' => array('width' => '100')),
 		/*
 		'user_cell',
 		'user_realname',

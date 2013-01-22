@@ -81,10 +81,6 @@
 		<?php echo $form->textField($model,'enterprise_id'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model,'contacts_id'); ?>
-		<?php echo $form->textField($model,'contacts_id'); ?>
-	</div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search'); ?>

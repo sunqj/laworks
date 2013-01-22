@@ -40,12 +40,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'user_id'); ?>
-		<?php echo $form->textField($model,'user_id'); ?>
-		<?php echo $form->error($model,'user_id'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'enterprise_id'); ?>
 		<?php echo $form->textField($model,'enterprise_id'); ?>
 		<?php echo $form->error($model,'enterprise_id'); ?>

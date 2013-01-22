@@ -231,7 +231,6 @@ CREATE TABLE tianyi_user
     user_status                 int not null default 0,
     permission_id               int not null,
     enterprise_id               int not null,
-    contacts_id                 int default -1,
 
     PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -247,7 +246,6 @@ CREATE TABLE tianyi_contacts
 
     
     /* foreign keys */
-    user_id                     int default -1,
     enterprise_id               int default -1,
 
     PRIMARY KEY (contacts_id)

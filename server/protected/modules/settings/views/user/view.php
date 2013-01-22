@@ -42,7 +42,6 @@ $this->menu=array(
         'user_other',
         'user_extra',
 		'user_email',
-        'contacts_id',
         //'user_image',
         //'enterprise_id',
 	),

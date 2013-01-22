@@ -25,10 +25,6 @@
 	<?php echo CHtml::encode($data->contacts_officetel); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('user_id')); ?>:</b>
-	<?php echo CHtml::encode($data->user_id); ?>
-	<br />
-
 	<b><?php echo CHtml::encode($data->getAttributeLabel('enterprise_id')); ?>:</b>
 	<?php echo CHtml::encode($data->enterprise_id); ?>
 	<br />

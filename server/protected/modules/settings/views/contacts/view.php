@@ -26,7 +26,6 @@ $this->menu=array(
 		'contacts_cell',
 		'contacts_hometel',
 		'contacts_officetel',
-		'user_id',
 		'enterprise_id',
 	),
 )); ?>

@@ -37,11 +37,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'user_id'); ?>
-		<?php echo $form->textField($model,'user_id'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'enterprise_id'); ?>
 		<?php echo $form->textField($model,'enterprise_id'); ?>
 	</div>

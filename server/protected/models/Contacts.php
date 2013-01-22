@@ -9,7 +9,6 @@
  * @property string $contacts_cell
  * @property string $contacts_hometel
  * @property string $contacts_officetel
- * @property integer $user_id
  * @property integer $enterprise_id
  */
 class Contacts extends CActiveRecord
@@ -40,12 +39,12 @@ class Contacts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, enterprise_id', 'numerical', 'integerOnly'=>true),
+			array('enterprise_id', 'numerical', 'integerOnly'=>true),
 			array('contacts_name', 'length', 'max'=>20),
 			array('contacts_cell, contacts_hometel, contacts_officetel', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('contacts_id, contacts_name, contacts_cell, contacts_hometel, contacts_officetel, user_id, enterprise_id', 'safe', 'on'=>'search'),
+			array('contacts_id, contacts_name, contacts_cell, contacts_hometel, contacts_officetel, enterprise_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,7 +70,6 @@ class Contacts extends CActiveRecord
 			'contacts_cell' => 'Contacts Cell',
 			'contacts_hometel' => 'Contacts Hometel',
 			'contacts_officetel' => 'Contacts Officetel',
-			'user_id' => 'User',
 			'enterprise_id' => 'Enterprise',
 		);
 	}
@@ -92,7 +90,6 @@ class Contacts extends CActiveRecord
 		$criteria->compare('contacts_cell',$this->contacts_cell,true);
 		$criteria->compare('contacts_hometel',$this->contacts_hometel,true);
 		$criteria->compare('contacts_officetel',$this->contacts_officetel,true);
-		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('enterprise_id',$this->enterprise_id);
 
 		return new CActiveDataProvider($this, array(

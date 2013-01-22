@@ -51,12 +51,6 @@
 		<?php echo $form->error($model,'user_email'); ?>
 	</div>
 	
-	<div class="row">
-		<?php echo $form->labelEx($model,'contacts_id'); ?>
-		<?php echo $form->textField($model,'contacts_id'); ?>
-		<?php echo $form->error($model,'contacts_id'); ?>
-	</div>
-	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
