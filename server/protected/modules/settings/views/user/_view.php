@@ -16,18 +16,6 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('password')); ?>:</b>
 	<?php echo CHtml::encode($data->password); ?>
 	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('user_cell')); ?>:</b>
-	<?php echo CHtml::encode($data->user_cell); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('user_officetel')); ?>:</b>
-	<?php echo CHtml::encode($data->user_officetel); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('user_hometel')); ?>:</b>
-	<?php echo CHtml::encode($data->user_hometel); ?>
-	<br />
 	
 	<b><?php echo CHtml::encode($data->getAttributeLabel('permission_id')); ?>:</b>
 	<?php echo CHtml::encode($data->permissionTable->permission_name); ?>

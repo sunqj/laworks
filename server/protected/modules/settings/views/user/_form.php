@@ -28,18 +28,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'user_cell'); ?>
-		<?php echo $form->textField($model,'user_cell',array('size'=>20,'maxlength'=>20)); ?>
-		<?php echo $form->error($model,'user_cell'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'user_hometel'); ?>
-		<?php echo $form->textField($model,'user_hometel',array('size'=>20,'maxlength'=>20)); ?>
-		<?php echo $form->error($model,'user_hometel'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'user_realname'); ?>
 		<?php echo $form->textField($model,'user_realname',array('size'=>20,'maxlength'=>20)); ?>
 		<?php echo $form->error($model,'user_realname'); ?>
@@ -49,12 +37,6 @@
 		<?php echo $form->labelEx($model,'user_position'); ?>
 		<?php echo $form->textField($model,'user_position'); ?>
 		<?php echo $form->error($model,'user_position'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'user_officetel'); ?>
-		<?php echo $form->textField($model,'user_officetel',array('size'=>20,'maxlength'=>20)); ?>
-		<?php echo $form->error($model,'user_officetel'); ?>
 	</div>
 
 	<div class="row">
@@ -69,8 +51,11 @@
 		<?php echo $form->error($model,'user_email'); ?>
 	</div>
 	
-
-	
+	<div class="row">
+		<?php echo $form->labelEx($model,'contacts_id'); ?>
+		<?php echo $form->textField($model,'contacts_id'); ?>
+		<?php echo $form->error($model,'contacts_id'); ?>
+	</div>
 	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>

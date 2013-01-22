@@ -18,57 +18,37 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'username'); ?>
-		<?php echo $form->textField($model,'username',array('size'=>32,'maxlength'=>32)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'user_cell'); ?>
-		<?php echo $form->textField($model,'user_cell',array('size'=>20,'maxlength'=>20)); ?>
+		<?php echo $form->textField($model,'username',array('size'=>20,'maxlength'=>20)); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'user_other'); ?>
-		<?php echo $form->textField($model,'user_other',array('size'=>32,'maxlength'=>32)); ?>
+		<?php echo $form->textField($model,'user_other',array('size'=>60,'maxlength'=>256)); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'user_extra'); ?>
-		<?php echo $form->textField($model,'user_extra',array('size'=>32,'maxlength'=>32)); ?>
+		<?php echo $form->textField($model,'user_extra',array('size'=>60,'maxlength'=>256)); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'user_image'); ?>
-		<?php echo $form->textField($model,'user_image',array('size'=>60,'maxlength'=>256)); ?>
+		<?php echo $form->textField($model,'user_image',array('size'=>60,'maxlength'=>64)); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'user_email'); ?>
-		<?php echo $form->textField($model,'user_email',array('size'=>60,'maxlength'=>64)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'user_status'); ?>
-		<?php echo $form->textField($model,'user_status'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'user_hometel'); ?>
-		<?php echo $form->textField($model,'user_hometel',array('size'=>20,'maxlength'=>20)); ?>
+		<?php echo $form->textField($model,'user_email',array('size'=>32,'maxlength'=>32)); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'user_realname'); ?>
-		<?php echo $form->textField($model,'user_realname',array('size'=>32,'maxlength'=>32)); ?>
+		<?php echo $form->textField($model,'user_realname',array('size'=>20,'maxlength'=>20)); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'user_position'); ?>
 		<?php echo $form->textField($model,'user_position'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'user_officetel'); ?>
-		<?php echo $form->textField($model,'user_officetel',array('size'=>20,'maxlength'=>20)); ?>
 	</div>
 
 	<div class="row">
@@ -87,6 +67,11 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'user_status'); ?>
+		<?php echo $form->textField($model,'user_status'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model,'permission_id'); ?>
 		<?php echo $form->textField($model,'permission_id'); ?>
 	</div>
@@ -94,6 +79,11 @@
 	<div class="row">
 		<?php echo $form->label($model,'enterprise_id'); ?>
 		<?php echo $form->textField($model,'enterprise_id'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'contacts_id'); ?>
+		<?php echo $form->textField($model,'contacts_id'); ?>
 	</div>
 
 	<div class="row buttons">

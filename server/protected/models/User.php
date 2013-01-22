@@ -23,11 +23,6 @@
  */
 class User extends CActiveRecord
 {
-    
-    public $user_cell;
-    public $user_officetel;
-    public $user_hometel;
-    
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -57,16 +52,15 @@ class User extends CActiveRecord
 			array('username, password, permission_id', 'required'),
 			array('user_position, user_login_count, user_last_login_time, user_last_check_time, user_status, permission_id, 
 			        enterprise_id', 'numerical', 'integerOnly'=>true),
-			array('username, user_email, password, user_realname', 'length', 'max'=>20),
+			array('username, password, user_realname', 'length', 'max'=>20),
+		    array('user_email', 'length', 'max'=>32),
 			array('user_other, user_extra', 'length', 'max'=>256),
 			array('user_image', 'length', 'max'=>64),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('user_id, username, password, user_other, user_extra, user_image, user_email,  
 			        user_realname, user_position, user_login_count, user_last_login_time, user_last_check_time, 
-			        user_status, permission_id, enterprise_id', 'safe', 'on'=>'search'),
-		    array('user_cell, user_hometel, user_officetel', 'safe', 'on' => 'insert'),
-		    array('user_cell, user_hometel, user_officetel', 'safe', 'on' => 'update'),
+			        user_status, permission_id, enterprise_id, contacts_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -108,6 +102,7 @@ class User extends CActiveRecord
 			'user_status' => 'User Status',
 			'permission_id' => 'Permission',
 			'enterprise_id' => 'Enterprise',
+		    'contacts_id' => 'Contacts',
 		);
 	}
 
@@ -146,6 +141,7 @@ class User extends CActiveRecord
 		    $criteria->compare('permission_id', $this->permission_id);
 		    $criteria->compare('permission_id', '>1');
 		}
+		$criteria->compare('contacts_id',$this->contacts_id);
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
