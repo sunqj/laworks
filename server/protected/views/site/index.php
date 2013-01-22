@@ -68,6 +68,10 @@ should you have any questions.</p>
         </p>
 
         <p>
+            <a href="<?php echo YiiBase::app()->createUrl("settings/contacts/admin"); ?>">通讯录管理</a>
+        </p>
+        
+        <p>
             <a href="<?php echo YiiBase::app()->createUrl("settings/department/admin"); ?>">部门管理</a>
         </p>
         
