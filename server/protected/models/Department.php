@@ -29,6 +29,10 @@ class Department extends CActiveRecord
     
     public function getDepartmentUserNameString()
     {
+    	if(!$this->department_id)
+    	{
+    		return null;
+    	}
         $userList = $this->getDepartmentUserList();
         if(!$userList)
         {
