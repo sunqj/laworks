@@ -248,6 +248,7 @@ CREATE TABLE tianyi_contacts
     
     /* foreign keys */
     user_id                     int default -1,
+    enterprise_id               int default -1,
 
     PRIMARY KEY (contacts_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
