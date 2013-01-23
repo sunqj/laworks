@@ -40,26 +40,6 @@
 	</div>
     
 	<div class="row">
-		<?php echo $form->labelEx($model,'user_cell'); ?>
-		<?php echo $form->textField($model,'user_cell',array('size'=>12,'maxlength'=>12)); ?>
-		<?php echo $form->error($model,'user_cell'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'user_officetel'); ?>
-		<?php echo $form->textField($model,'user_officetel',array('size'=>12,'maxlength'=>12)); ?>
-		<?php echo $form->error($model,'user_officetel'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'user_hometel'); ?>
-		<?php echo $form->textField($model,'user_hometel',array('size'=>12,'maxlength'=>12)); ?>
-		<?php echo $form->error($model,'user_hometel'); ?>
-	</div>
-	
-
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'user_email'); ?>
 		<?php echo $form->textField($model,'user_email',array('size'=>32,'maxlength'=>32)); ?>
 		<?php echo $form->error($model,'user_email'); ?>

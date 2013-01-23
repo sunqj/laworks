@@ -45,8 +45,9 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'contacts_id',
-		'contacts_name',
+    array('name' => 'contacts_name', 'type' => 'raw',
+        'value'=>'CHtml::link($data->contacts_name, array("contacts/view", "id"=>$data->contacts_id), array("target"=>"_blank"))',
+        'htmlOptions' => array('width' => '160')),
 		'contacts_cell',
 		'contacts_hometel',
 		'contacts_officetel',

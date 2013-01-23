@@ -231,6 +231,7 @@ CREATE TABLE tianyi_user
     user_status                 int not null default 0,
     permission_id               int not null,
     enterprise_id               int not null,
+    contacts_id                 int not null default 0,
 
     PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -239,29 +240,15 @@ CREATE TABLE tianyi_user
 CREATE TABLE tianyi_contacts
 (
     contacts_id                 int not null auto_increment,
-    contacts_name               varchar(20) not null default 'non-name',
+    contacts_name               varchar(20) not null,
     contacts_cell               varchar(12) default null,
     contacts_hometel            varchar(12) default null,
     contacts_officetel          varchar(12) default null,
 
-    
     /* foreign keys */
-    enterprise_id               int default -1,
+    enterprise_id               int not null,
 
     PRIMARY KEY (contacts_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-CREATE TABLE tianyi_user_contacts
-(
-    dummy_id	                int not null auto_increment,
-
-    /* foreign keys */
-
-    user_id                     int not null,
-    contacts_id                   int not null,
-
-    PRIMARY KEY (dummy_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE tianyi_user_vote
@@ -378,3 +365,13 @@ insert into tianyi_enterprise(enterprise_name, enterprise_desc) values('stworks'
 insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values(1, 'laadmin', 'linuxred', 1, 1);
 insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values(2, 'laauditor', 'linuxred', 2, 1);
 insert into tianyi_user(username, password, permission_id, enterprise_id) values('lauser1', 'linuxred', 3, 1), ('lauser2', 'linuxred', 3, 1), ('lauser3', 'linuxred', 3, 1), ('lauser4', 'linuxred', 3, 1);
+
+/* contacts */
+insert into tianyi_contacts(contacts_name, contacts_cell, contacts_hometel, contacts_officetel, enterprise_id) 
+values
+('contacts1', '10001', '20001', '30001', 1), 
+('contacts2', '10002', '20002', '30002', 1), 
+('contacts3', '10003', '20003', '30003', 1), 
+('contacts4', '10004', '20004', '30004', 1);
+
+

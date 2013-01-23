@@ -5,12 +5,8 @@
 
 <div class="view">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('contacts_id')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->contacts_id), array('view', 'id'=>$data->contacts_id)); ?>
-	<br />
-
 	<b><?php echo CHtml::encode($data->getAttributeLabel('contacts_name')); ?>:</b>
-	<?php echo CHtml::encode($data->contacts_name); ?>
+	<?php echo CHtml::link(CHtml::encode($data->contacts_name), array('view', 'id'=>$data->contacts_id)); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('contacts_cell')); ?>:</b>
@@ -24,10 +20,5 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('contacts_officetel')); ?>:</b>
 	<?php echo CHtml::encode($data->contacts_officetel); ?>
 	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('enterprise_id')); ?>:</b>
-	<?php echo CHtml::encode($data->enterprise_id); ?>
-	<br />
-
 
 </div>

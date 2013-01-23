@@ -22,11 +22,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'user_cell'); ?>
-		<?php echo $form->textField($model,'user_cell',array('size'=>12,'maxlength'=>12)); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'user_other'); ?>
 		<?php echo $form->textField($model,'user_other',array('size'=>60,'maxlength'=>256)); ?>
 	</div>
@@ -47,11 +42,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'user_hometel'); ?>
-		<?php echo $form->textField($model,'user_hometel',array('size'=>12,'maxlength'=>12)); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'user_realname'); ?>
 		<?php echo $form->textField($model,'user_realname',array('size'=>32,'maxlength'=>32)); ?>
 	</div>
@@ -59,11 +49,6 @@
 	<div class="row">
 		<?php echo $form->label($model,'user_position'); ?>
 		<?php echo $form->textField($model,'user_position'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'user_officetel'); ?>
-		<?php echo $form->textField($model,'user_officetel',array('size'=>12,'maxlength'=>12)); ?>
 	</div>
 
 	<div class="row">

@@ -4,7 +4,7 @@
 
 $this->breadcrumbs=array(
 	'Contacts'=>array('index'),
-	$model->contacts_id,
+	$model->contacts_name,
 );
 
 $this->menu=array(
@@ -16,16 +16,14 @@ $this->menu=array(
 );
 ?>
 
-<h1>View Contacts #<?php echo $model->contacts_id; ?></h1>
+<h1>View Contacts #<?php echo $model->contacts_name; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'contacts_id',
 		'contacts_name',
 		'contacts_cell',
 		'contacts_hometel',
 		'contacts_officetel',
-		'enterprise_id',
 	),
 )); ?>

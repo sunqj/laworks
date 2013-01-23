@@ -46,7 +46,6 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		array('name'=>'user_id','htmlOptions'=>array('width'=>'20px')),
 		array('name' => 'username', 'type' => 'raw',
 			'value' => 'CHtml::link($data->username,array("user/view", "id" => $data->user_id), array("target" => "_blank"))',
 			'htmlOptions'=>array('width'=>'150px')),

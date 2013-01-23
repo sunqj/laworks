@@ -45,6 +45,14 @@
 		<?php echo $form->error($model,'permission_id'); ?>
 	</div>
 	
+    <div class="row">
+		<?php echo $form->labelEx($model,'contacts_id'); ?>
+		<?php echo $form->dropDownList($model, 'contacts_id', 
+		        Contacts::model()->getEnterpriseContactsList(Yii::app()->user->enterprise_id),
+		        array('prompt' => '--select--')); ?>
+		<?php echo $form->error($model,'contacts_id'); ?>
+	</div>
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'user_email'); ?>
 		<?php echo $form->textField($model,'user_email',array('size'=>32,'maxlength'=>32)); ?>

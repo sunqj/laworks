@@ -19,9 +19,11 @@
  * @property integer $user_status
  * @property integer $permission_id
  * @property integer $enterprise_id
+ * @property integer $contacts_id
  */
 class User extends CActiveRecord
 {
+    
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -50,7 +52,7 @@ class User extends CActiveRecord
 		return array(
 			array('username, password, permission_id', 'required'),
 			array('user_position, user_login_count, user_last_login_time, user_last_check_time, user_status, permission_id, 
-			        enterprise_id', 'numerical', 'integerOnly'=>true),
+			        enterprise_id, contacts_id', 'numerical', 'integerOnly'=>true),
 			array('username, password, user_realname', 'length', 'max'=>20),
 		    array('user_email', 'length', 'max'=>32),
 			array('user_other, user_extra', 'length', 'max'=>256),
@@ -59,7 +61,7 @@ class User extends CActiveRecord
 			// Please remove those attributes that should not be searched.
 			array('user_id, username, password, user_other, user_extra, user_image, user_email,  
 			        user_realname, user_position, user_login_count, user_last_login_time, user_last_check_time, 
-			        user_status, permission_id, enterprise_id', 'safe', 'on'=>'search'),
+			        user_status, permission_id, enterprise_id, contacts_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,6 +76,7 @@ class User extends CActiveRecord
 				'enterpriseTable' => array(self::BELONGS_TO, 'Enterprise', 'enterprise_id'),
 				'permissionTable' => array(self::BELONGS_TO, 'Permission', 'permission_id'),
 		        'roleStatusTable' => array(self::BELONGS_TO, 'RoleStatus', 'user_status'),
+		        'contactsTable' => array(self::BELONGS_TO, 'Contacts', 'contacts_id'),
 		);
 	}
 
@@ -98,6 +101,7 @@ class User extends CActiveRecord
 			'user_status' => 'User Status',
 			'permission_id' => 'Permission',
 			'enterprise_id' => 'Enterprise',
+		    'contacts_id' => 'Contacts',
 		);
 	}
 
@@ -136,7 +140,7 @@ class User extends CActiveRecord
 		    $criteria->compare('permission_id', $this->permission_id);
 		    $criteria->compare('permission_id', '>1');
 		}
-		
+		$criteria->compare('contacts_id',$this->contacts_id);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -144,26 +148,20 @@ class User extends CActiveRecord
 
 	public function beforeSave()
 	{
-	    if (parent::beforeSave ())
-	    {
-	        if ($this->isNewRecord)
-	        {
-	            // add a new record
-	            if(Yii::app()->user->Id != 0)
-	            {
-                    $this->enterprise_id = Yii::app()->user->enterprise_id;
-	            }                
-	        }
-	        else
-	        {
-
-	        }
-	        return true;
-	    }
-	    else
+	    if(!parent::beforeSave())
 	    {
 	        return false;
 	    }
+
+        if ($this->isNewRecord)
+        {
+            // add a new record
+            if(Yii::app()->user->Id != 0)
+            {
+                $this->enterprise_id = Yii::app()->user->enterprise_id;
+            }                
+        }
+        return true;
 	}
 	
 	public function getEnterpriseAdminList($enterpriseId)

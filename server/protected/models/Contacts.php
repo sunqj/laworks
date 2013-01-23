@@ -13,6 +13,14 @@
  */
 class Contacts extends CActiveRecord
 {
+    // get all contacts belongs to same enterprise
+    public function getEnterpriseContactsList($enterpriseId)
+    {
+        $contactsList = Contacts::model()->findAll("enterprise_id = $enterpriseId");
+        $ret_val = CHtml::listData($contactsList, 'contacts_id', 'contacts_name');
+        return $ret_val;
+    }
+    
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -39,6 +47,7 @@ class Contacts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+		    array('contacts_name', 'required'),
 			array('enterprise_id', 'numerical', 'integerOnly'=>true),
 			array('contacts_name', 'length', 'max'=>20),
 			array('contacts_cell, contacts_hometel, contacts_officetel', 'length', 'max'=>12),
@@ -59,6 +68,22 @@ class Contacts extends CActiveRecord
 		);
 	}
 
+	
+	//set enterprise_id for record
+	public function  beforeSave()
+	{
+	    if(!parent::beforeSave())
+	    {
+	        return false;
+	    }
+	     
+	    if($this->isNewRecord)
+	    {
+	        $this->enterprise_id = Yii::app()->user->enterprise_id;
+	    }
+	    
+	    return true;
+	}
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -84,7 +109,6 @@ class Contacts extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('contacts_id',$this->contacts_id);
 		$criteria->compare('contacts_name',$this->contacts_name,true);
 		$criteria->compare('contacts_cell',$this->contacts_cell,true);
