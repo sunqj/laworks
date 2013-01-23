@@ -68,6 +68,12 @@ class Contacts extends CActiveRecord
 		);
 	}
 
+	//set user->contacts_id to zero before delete contacts.
+	public function beforeDelete()
+	{
+	    User::model()->updateAll(array("contacts_id" => 0), "contacts_id = $this->contacts_id");
+	    return true;
+	}
 	
 	//set enterprise_id for record
 	public function  beforeSave()
