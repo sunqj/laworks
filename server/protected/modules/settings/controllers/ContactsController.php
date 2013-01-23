@@ -32,11 +32,11 @@ class ContactsController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'import'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete', 'import'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -127,7 +127,70 @@ class ContactsController extends Controller
 			'dataProvider'=>$dataProvider,
 		));
 	}
+	
+	/**
+	 * import users and contacts from an excel file
+	 */
 
+	public function  actionImport()
+	{
+	    $this->render('import');
+	}
+	
+	/**
+	 * upload excel file from client
+	 */
+	public function  actionUpload()
+	{
+	    if (isset ( $_POST[''] ))
+	    {
+	        require Yii::app ()->getBasePath () . '/utils/utils.php';
+	        $uploadImage = CUploadedFile::getInstanceByName ('test');
+	        $fileExt = trim ( strtolower ( $uploadImage->getExtensionName () ) );
+	        if ($fileExt != 'xls')
+	        {
+	            // is not correct file type.
+	            echo "1:file extension not match.";
+	            return;
+	        }
+	    
+	        $fileName = time () . ".$fileExt";
+	        $targetFile = getArticleIconDirAbsolute () . $fileName;
+	    
+	        $ret = $uploadImage->saveAs ( $targetFile );
+	    
+	        if ($ret == 1)
+	        {
+	            echo "0:" . getArticleIconDirRelative () . $fileName;
+	            return;
+	        }
+	    }
+	    echo "1:Unknow error";
+	    return;
+	}
+	
+	/**
+	 * replace session id for MUploadify
+	 */
+	function init()
+	{
+	    if (isset ( $_POST ['SESSION_ID'] ))
+	    {
+	        $session = Yii::app ()->getSession ();
+	        $session->close ();
+	        $session->sessionID = $_POST ['SESSION_ID'];
+	        $session->open ();
+	    }
+	}
+	
+	/**
+	 * preview the result of import 
+	 */
+	public function actionPreview()
+	{
+	    
+	}
+	
 	/**
 	 * Manages all models.
 	 */
