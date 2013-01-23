@@ -7,6 +7,7 @@ drop database leo_test;
 create database leo_test;
 use leo_test;
 SET sql_mode='NO_AUTO_VALUE_ON_ZERO';
+/* test... */
 
 CREATE TABLE tianyi_article
 (
