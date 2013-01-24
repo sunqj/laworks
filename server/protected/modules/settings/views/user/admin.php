@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 $this->menu=array(
 	array('label'=>'List User', 'url'=>array('index')),
 	array('label'=>'Create User', 'url'=>array('create')),
-    array('label'=>'Import Contacts', 'url' => array('contacts/import')),
+    array('label'=>'Import Contacts', 'url' => array('contacts/upload')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
