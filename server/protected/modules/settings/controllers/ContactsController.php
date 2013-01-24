@@ -32,11 +32,11 @@ class ContactsController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'import'),
+				'actions'=>array('create','update', 'excelupload', 'import', 'upload', 'preview'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete', 'import'),
+				'actions'=>array('admin','delete', 'excelupload', 'import', 'upload', 'preview'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -132,20 +132,34 @@ class ContactsController extends Controller
 	 * import users and contacts from an excel file
 	 */
 
-	public function  actionImport()
+	public function  actionUpload()
 	{
-	    $this->render('import');
+	    if(isset($_POST['uploadFile']))
+	    {
+	        $this->redirect(array('preview', 'filename'=>$_POST['uploadFile']));
+	    }
+	    $this->render('upload');
 	}
+	
+	/**
+	 * preview imported excel
+	 */
+	public function actionPreview()
+	{
+	    $excelFile = $_GET['filename'];
+	    $this->render('preview', array('file' => $excelFile));
+	}
+	
 	
 	/**
 	 * upload excel file from client
 	 */
-	public function  actionUpload()
+	public function  actionExcelUpload()
 	{
-	    if (isset ( $_POST[''] ))
+	    if (isset ( $_POST['excelUpdload'] ))
 	    {
 	        require Yii::app ()->getBasePath () . '/utils/utils.php';
-	        $uploadImage = CUploadedFile::getInstanceByName ('test');
+	        $uploadImage = CUploadedFile::getInstanceByName ('excelUpdload');
 	        $fileExt = trim ( strtolower ( $uploadImage->getExtensionName () ) );
 	        if ($fileExt != 'xls')
 	        {
@@ -155,13 +169,12 @@ class ContactsController extends Controller
 	        }
 	    
 	        $fileName = time () . ".$fileExt";
-	        $targetFile = getArticleIconDirAbsolute () . $fileName;
-	    
+	        $targetFile = getExcelFileDirAbsolute() . $fileName;
 	        $ret = $uploadImage->saveAs ( $targetFile );
 	    
 	        if ($ret == 1)
 	        {
-	            echo "0:" . getArticleIconDirRelative () . $fileName;
+	            echo "0:" . $fileName;
 	            return;
 	        }
 	    }
@@ -181,14 +194,6 @@ class ContactsController extends Controller
 	        $session->sessionID = $_POST ['SESSION_ID'];
 	        $session->open ();
 	    }
-	}
-	
-	/**
-	 * preview the result of import 
-	 */
-	public function actionPreview()
-	{
-	    
 	}
 	
 	/**

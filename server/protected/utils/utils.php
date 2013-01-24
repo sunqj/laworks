@@ -105,5 +105,14 @@ function getColumnIconDirRelative()
     return $dir;
 }
 
+function getExcelFileDirAbsolute()
+{
+    $dir = getUploadDirAbsolute() . "excel/" . Yii::app()->user->enterprise_id . "/";
+    return $dir;
+}
 
-
+function getExcelFileDirRelative()
+{
+    $dir = getUploadDirRelative() . "excel/" . Yii::app()->user->enterprise_id . "/";
+    return $dir;
+}
