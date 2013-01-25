@@ -19,5 +19,15 @@ $this->menu=array(
 <h1>Preview Contacts</h1>
 
 
-<?php echo $file; ?>
+<?php 
+    //echo $file;
+    require Yii::app ()->getBasePath () . '/utils/utils.php';
+    require Yii::app()->getBasePath() . '/lib/phpexcel/PHPExcel/IOFactory.php';
+    $filePath = getExcelFileDirAbsolute() . $file;
+    echo $filePath;
+    $objPHPExcel = PHPExcel_IOFactory::load($filePath);
+    $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+    var_dump($sheetData);
+    
+?>
 
