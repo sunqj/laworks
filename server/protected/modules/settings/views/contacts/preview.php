@@ -21,13 +21,10 @@ $this->menu=array(
 
 <?php 
     //echo $file;
-    require Yii::app ()->getBasePath () . '/utils/utils.php';
-    require Yii::app()->getBasePath() . '/lib/phpexcel/PHPExcel/IOFactory.php';
-    $filePath = getExcelFileDirAbsolute() . $file;
-    echo $filePath;
-    $objPHPExcel = PHPExcel_IOFactory::load($filePath);
-    $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
-    var_dump($sheetData);
-    
+    $ret_val = Contacts::parseExcelFileToArray($file);
+
+        var_dump($ret_val);
+        echo "</br></br>";
+
 ?>
 

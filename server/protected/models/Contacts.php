@@ -126,4 +126,66 @@ class Contacts extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public static function parseExcelFileToArray($file)
+	{
+	    require Yii::app ()->getBasePath () . '/utils/utils.php';
+	    require Yii::app()->getBasePath() . '/lib/phpexcel/PHPExcel/IOFactory.php';
+	    
+	    $filePath = getExcelFileDirAbsolute() . $file;
+	    $objPHPExcel = PHPExcel_IOFactory::load($filePath);
+	    $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+	    
+	    $badUserList = Array();
+	    $goodUserList = Array();
+	    $goodContactList = Array();
+	    $newDepartmentList = Array();
+	    
+	    //remove header line.
+	    array_shift($sheetData);
+	    
+	    
+	    $cellArray = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow('D', 0);
+	    $valueArray = Array();
+	    foreach($cellArray as $cell)
+	    {
+	        array_push($valueArray, $cell->getCellValue());
+	    }
+	    return $valueArray;
+	    return $cellArray;
+	    //return $sheetData;
+	    
+	    //parse excel file
+	    foreach($sheetData as $line)
+	    {
+	        //remove user that did not have cell phone number
+	        if($line['D'] == null)
+	        {
+	            array_push($badUserList, $line);
+	            continue;
+	        }
+	    }
+	    
+	    //return $sheetData;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
