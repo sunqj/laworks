@@ -135,38 +135,162 @@ class Contacts extends CActiveRecord
 	    $filePath = getExcelFileDirAbsolute() . $file;
 	    $objPHPExcel = PHPExcel_IOFactory::load($filePath);
 	    $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
-	    
-	    $badUserList = Array();
-	    $goodUserList = Array();
-	    $goodContactList = Array();
-	    $newDepartmentList = Array();
-	    
+	   
 	    //remove header line.
 	    array_shift($sheetData);
 	    
-	    
-	    $cellArray = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow('D', 0);
-	    $valueArray = Array();
-	    foreach($cellArray as $cell)
-	    {
-	        array_push($valueArray, $cell->getCellValue());
-	    }
-	    return $valueArray;
-	    return $cellArray;
 	    //return $sheetData;
+	    //following arrays should be returned.
+	    $userArray = Array();
+	    $cellArray = Array();
+	    $badLineArray = Array();
+	    $contactsArray = Array();
+	    $newDepartmentArray = Array();
+	    $duplicateLineArray = Array();
+	    $userDepartmentArray = Array();
 	    
-	    //parse excel file
+	    //temp arrays
+	    $excelDepartmentArray = Array();
+	    
+	    //temp values
+	    $enterpriseId = Yii::app()->user->enterprise_id;
+	    $permissionId = '4'; //all users are cell phone user.
+	    $enterpriseLoginType = 0; // login type 0 => IMSI, 1 => username/password
+	    
+	    //line number
+	    $lineIndex = 2;
+	    $userAddType = 0; //user type 0 => only add user, 1 => only add contacts, 2=> add user and contacts 
+	    
+	    define('UATYPE_USER_ONLY', '0');
+	    define('UATYPE_CONTACTS_ONLY', '1');
+	    define('UATYPE_USER_CONTACTS', '2');
+	    //parse excel file line by line
+	    //
+	    //example
+        //A         B            C           D          E        F           G           H
+        //联系人姓名  手机号码      办公室电话    家庭电话	    排序编号  特别数据	    部门名        1
+        //Leo       18049229109	 87401234    67401234   0        1111111    软件部,硬件部  2
+
 	    foreach($sheetData as $line)
 	    {
-	        //remove user that did not have cell phone number
-	        if($line['D'] == null)
+	        //--data initialization
+	        //contacts       
+	        $contacts = new Contacts;
+	        $contacts->contacts_name = $line['A'] ? $line['A'] : $line['B'];
+	        $contacts->contacts_cell = $line['B'];
+	        $contacts->contacts_officetel     = $line['C'];
+	        $contacts->contacts_hometel       = $line['D'];
+	        $contacts->enterprise_id = $enterpriseId;
+	        
+	        //users
+	        $user = new User;
+	        $user->username         = $line['B'];
+	        $user->password         = $line['B'];
+	        $user->permission_id    = $permissionId;
+	        $user->enterprise_id    = $enterpriseId;
+	        $user->user_extra       = $line['F'];
+	        $user->user_position    = $line['E'];
+	        
+	        // cellphone duplicate
+	        if(isset($cellArray[strval($line['B'])]))
 	        {
-	            array_push($badUserList, $line);
+	            $duplicateLineArray[$lineIndex] = strval($line['B']);
+	            ++$lineIndex;
 	            continue;
 	        }
+	        else
+	        {
+	            if(trim($line['B']) != null)
+	            {
+	                $cellArray[strval($line['B'])] = $lineIndex;
+	            }
+	        }
+	        
+
+	        $lineDepartment = explode(',', $line['G']);
+	        
+	        if(trim(strval($line['H'])) != "")
+	        {
+	            $userAddType = strval($line['H']);
+	        }
+	        //--data initialization
+	        
+
+	        //---data verification and trim
+	        
+	        // add user only
+	        if($userAddType == UATYPE_USER_ONLY)
+	        {
+	            if(trim($line['B']) == null)
+	            {
+	                $badLineArray["$lineIndex"] = 'username is null. username:' . $line['B'] ;
+	                ++$lineIndex;
+	                continue;
+	            }
+	            
+	            $userArray[$lineIndex] = $user;
+	            
+	            array_merge($excelDepartmentArray, $lineDepartment);
+	            $userDepartmentArray["$lineIndex"] = $line['G'];
+	            
+	            ++$lineIndex;
+	            continue;
+	        }
+	        // add contacts only
+	        elseif($userAddType == UATYPE_CONTACTS_ONLY)
+	        {
+	            if(trim($line['B']) == null && trim($line['C']) == null 
+	                    && trim($line['D']) == null)
+	            {
+	                $badLineArray["$lineIndex"] = 'cell, officetel and hometel are all null. username:' . $line['B'] ;
+	                ++$lineIndex;
+	                continue;
+	            }
+	            
+	            $contactsArray[$lineIndex] = $contacts;
+	            ++$lineIndex;
+	            continue;
+	        }
+                // add user and contacts
+            elseif ($userAddType == UATYPE_USER_CONTACTS)
+            {
+                if ((trim ( $user ['username'] ) == null) || 
+                    (trim ( $line ['B'] ) == null && trim ( $line ['C'] ) == null && trim ( $line ['D'] ) == null))
+                {
+                    $badLineArray [$lineIndex] = 'username or all cell, officetel or hometel are null.  username:' . $line['B'] ;
+                    ++ $lineIndex;
+                    continue;
+                }
+                
+                // user table and contacts table
+                $contactsArray["$lineIndex"] = $contacts;
+                $userArray["$lineIndex"] = $user;
+                
+                // department table and user_department table
+                array_merge($excelDepartmentArray, $lineDepartment);
+                $userDepartmentArray["$lineIndex"] = $line['G'];
+                
+                ++$lineIndex;
+                continue;
+            }
+	        // others
+	        else 
+	        {
+	            
+	        }
 	    }
+
+	    $retVal = array(
+	            'user'            => $userArray,
+	            'cell'            => $cellArray,
+	            'contacts'        => $contactsArray,
+	            'department'      => $newDepartmentArray,
+	            'userDepartment'  => $userDepartmentArray,
+	            'duplicateLine'   => $duplicateLineArray,
+	            'badLine'         => $badLineArray,
+	            );
 	    
-	    //return $sheetData;
+	    return $retVal;
 	}
 }
 

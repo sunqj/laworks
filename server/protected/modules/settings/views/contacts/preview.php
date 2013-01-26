@@ -21,10 +21,23 @@ $this->menu=array(
 
 <?php 
     //echo $file;
-    $ret_val = Contacts::parseExcelFileToArray($file);
+    $retVal = Contacts::parseExcelFileToArray($file);
 
-        var_dump($ret_val);
-        echo "</br></br>";
+    //var_dump($retVal['user']);
+    //var_dump($retVal['user']);
+    echo "</br></br>";
+    var_dump($retVal['cell']);
+    echo "</br></br>";
+    //var_dump($retVal['contacts']);
+    //echo "</br></br>";
+    var_dump($retVal['department']);
+    echo "</br></br>";
+    var_dump($retVal['userDepartment']);
+    echo "</br></br>";
+    var_dump($retVal['duplicateLine']);
+    echo "</br></br>";
+    var_dump($retVal['badLine']);
+    echo "</br></br>";
 
 ?>
 
