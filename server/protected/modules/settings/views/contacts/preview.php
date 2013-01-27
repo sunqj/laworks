@@ -16,28 +16,83 @@ $this->menu=array(
 
 ?>
 
-<h1>Preview Contacts</h1>
+<h1>Preview Result</h1>
 
+<?php
+    if(count($contacts))
+    {
+        echo "<h2>Contacts </h2>";
+    } 
 
-<?php 
-    //echo $file;
-    $retVal = Contacts::parseExcelFileToArray($file);
-
-    //var_dump($retVal['user']);
-    //var_dump($retVal['user']);
-    echo "</br></br>";
-    var_dump($retVal['cell']);
-    echo "</br></br>";
-    //var_dump($retVal['contacts']);
-    //echo "</br></br>";
-    var_dump($retVal['department']);
-    echo "</br></br>";
-    var_dump($retVal['userDepartment']);
-    echo "</br></br>";
-    var_dump($retVal['duplicateLine']);
-    echo "</br></br>";
-    var_dump($retVal['badLine']);
-    echo "</br></br>";
-
+    foreach($contacts as $model)
+    {
+        $this->widget('zii.widgets.CDetailView', array(
+                'data'=>$model,
+                'attributes'=>array(
+                        'contacts_name',
+                        'contacts_cell',
+                        'contacts_hometel',
+                        'contacts_officetel',
+                ),
+        ));
+        echo "</br>";
+    }
 ?>
 
+
+<?php
+    if(count($user))
+    {
+        echo "<h2>User </h2>";
+    } 
+
+    foreach($user as $model)
+    {
+        $this->widget('zii.widgets.CDetailView', array(
+                'data'=>$model,
+                'attributes'=>array(
+                        'username',
+                        'password',
+                        'permission_id',
+                        'enterprise_id',
+                ),
+        ));
+        echo "</br>";
+    }
+?>
+
+<?php 
+    if(count($department))
+    {
+        echo "<h2>Department </h2>";
+    }
+    foreach ($department as $model)
+    {
+        $this->widget('zii.widgets.CDetailView', array(
+                'data'=>$model,
+                'attributes'=>array(
+                        'department_name',
+                ),
+        ));
+        echo "</br>";
+    }
+?>
+
+<?php
+    if(count($userDepartment))
+    {
+        echo "<h2> User Department </h2>";
+    } 
+    foreach($userDepartment as $model)
+    {
+        $this->widget('zii.widgets.CDetailView', array(
+                'data'=>$model,
+                'attributes'=>array(
+                        'department_id',
+                        'user_id',
+                ),
+        ));
+        echo "</br>";
+    }
+
+?>
