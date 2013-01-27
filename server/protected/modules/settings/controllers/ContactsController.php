@@ -224,11 +224,12 @@ class ContactsController extends Controller
         $contacts = $retVal ['contacts'];
         
         $this->render ( 'preview', array (
-                'user' => $retVal ['user'],
-                'contacts' => $retVal ['contacts'],
-                'department' => $retVal ['department'],
+                'user'           => $retVal ['user'],
+                'badLine'        => $retVal['badLine'],
+                'contacts'       => $retVal ['contacts'],
+                'department'     => $retVal ['department'],
+                'duplicateUser'  => $retVal['duplicateLine'],
                 'userDepartment' => $retVal['userDepartment'],
-                
         )
          );
     }

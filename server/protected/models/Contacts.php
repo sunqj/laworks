@@ -154,7 +154,7 @@ class Contacts extends CActiveRecord
 	    
 	    //temp values
 	    $enterpriseId = Yii::app()->user->enterprise_id;
-	    $permissionId = '4'; //all users are cell phone user.
+	    $permissionId = '3'; //all users are cell phone user.
 	    $enterpriseLoginType = 0; // login type 0 => IMSI, 1 => username/password
 	    
 	    //line number
@@ -194,7 +194,7 @@ class Contacts extends CActiveRecord
 	        // cellphone duplicate
 	        if(isset($cellArray[strval($line['B'])]))
 	        {
-	            $duplicateLineArray[$lineIndex] = strval($line['B']);
+	            $duplicateLineArray[$lineIndex] = $cellArray[strval($line['B'])];
 	            ++$lineIndex;
 	            continue;
 	        }
@@ -231,7 +231,8 @@ class Contacts extends CActiveRecord
 	            $userArray[$lineIndex] = $user;
 	            
 	            array_merge($excelDepartmentArray, $lineDepartment);
-	            $userDepartmentArray["$lineIndex"] = $line['G'];
+	            $userDepartmentArray["$lineIndex"] = array('departmentName' => $line['G'], 
+	                                                       'username' => $line['B']);
 	            
 	            ++$lineIndex;
 	            continue;
@@ -268,7 +269,8 @@ class Contacts extends CActiveRecord
                 
                 // department table and user_department table
                 array_merge($excelDepartmentArray, $lineDepartment);
-                $userDepartmentArray["$lineIndex"] = $line['G'];
+	            $userDepartmentArray["$lineIndex"] = array('departmentName' => $line['G'], 
+	                                                       'username' => $line['B']);
                 
                 ++$lineIndex;
                 continue;

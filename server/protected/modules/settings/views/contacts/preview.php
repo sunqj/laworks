@@ -45,7 +45,8 @@ $this->menu=array(
     {
         echo "<h2>User </h2>";
     } 
-
+    
+    $permission = Permission::model()->findByPk('3');
     foreach($user as $model)
     {
         $this->widget('zii.widgets.CDetailView', array(
@@ -53,8 +54,10 @@ $this->menu=array(
                 'attributes'=>array(
                         'username',
                         'password',
-                        'permission_id',
-                        'enterprise_id',
+                        'user_extra',
+//                         array('label' => 'Permission',
+//                               'value' => $permission->permission_name),
+//                         'enterprise_id',
                 ),
         ));
         echo "</br>";
@@ -83,16 +86,59 @@ $this->menu=array(
     {
         echo "<h2> User Department </h2>";
     } 
-    foreach($userDepartment as $model)
+    foreach($userDepartment as $lineNo => $model)
     {
         $this->widget('zii.widgets.CDetailView', array(
                 'data'=>$model,
                 'attributes'=>array(
-                        'department_id',
-                        'user_id',
+                        array('label'  => 'username',
+                               'value' => $model['username']),
+                        array('label'  => 'department',
+                              'value'  =>  $model['departmentName']),
                 ),
         ));
         echo "</br>";
     }
 
+?>
+
+<?php
+    if(count($badLine))
+    {
+        echo "<h2> Bad Line </h2>";
+    } 
+    foreach($badLine as $lineNo => $reason)
+    {
+        $this->widget('zii.widgets.CDetailView', array(
+                'data'=>$model,
+                'attributes'=>array(
+                        array('label'  => 'Line Number:',
+                               'value' => $lineNo),
+                        array('label'  => 'department',
+                              'value'  => $reason),
+            ),
+        ));
+        echo "</br>";
+    }
+
+?>
+
+<?php
+    if(count($duplicateUser))
+    {
+        echo "<h2> Duplicate User</h2>"; 
+    } 
+    foreach($duplicateUser as $dupLine => $origLine)
+    {
+        $this->widget('zii.widgets.CDetailView', array(
+                'data'=>$model,
+                'attributes'=>array(
+                        array('label'  => 'Duplicate Line:',
+                                'value' => $dupLine),
+                        array('label'  => 'Original Line',
+                                'value'  => $origLine),
+                ),
+        ));
+        echo "</br>";
+    }
 ?>
