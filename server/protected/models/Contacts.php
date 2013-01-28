@@ -148,14 +148,21 @@ class Contacts extends CActiveRecord
 	    $newDepartmentArray = Array();
 	    $duplicateLineArray = Array();
 	    $userDepartmentArray = Array();
-	    
-	    //temp arrays
-	    $excelDepartmentArray = Array();
-	    
+	       
 	    //temp values
 	    $enterpriseId = Yii::app()->user->enterprise_id;
 	    $permissionId = '3'; //all users are cell phone user.
 	    $enterpriseLoginType = 0; // login type 0 => IMSI, 1 => username/password
+	    
+	    $existedDepartmentArray = Department::model()->findAll('enterprise_id = ' . Yii::app()->user->enterprise_id);
+	    //temp arrays
+	    $departmentHash       = Array();
+	    $departmentNameArray  = Array();
+	    foreach($existedDepartmentArray as $dep)
+	    {
+	        array_push($departmentNameArray, $dep);
+	        $departmentHash[$dep->department_name] = $dep;
+	    }
 	    
 	    //line number
 	    $lineIndex = 2;
@@ -167,9 +174,9 @@ class Contacts extends CActiveRecord
 	    //parse excel file line by line
 	    //
 	    //example
-        //A         B            C           D          E        F           G           H
-        //联系人姓名  手机号码      办公室电话    家庭电话	    排序编号  特别数据	    部门名        1
-        //Leo       18049229109	 87401234    67401234   0        1111111    软件部,硬件部  2
+        //A         B            C           D          E        F           G           H   I
+        //联系人姓名  手机号码      办公室电话    家庭电话	    排序编号  特别数据	    部门名        1   职称
+        //Leo       18049229109	 87401234    67401234   0        1111111    软件部,硬件部  2   县长
 
 	    foreach($sheetData as $line)
 	    {
@@ -230,9 +237,26 @@ class Contacts extends CActiveRecord
 	            
 	            $userArray[$lineIndex] = $user;
 	            
-	            array_merge($excelDepartmentArray, $lineDepartment);
-	            $userDepartmentArray["$lineIndex"] = array('departmentName' => $line['G'], 
-	                                                       'username' => $line['B']);
+	            $lineDepartmentArray = explode(',', $line['G']);
+	            $departmentArray = Array();
+	            $department = null;
+	            foreach($lineDepartmentArray as $dep)
+	            {
+	                if(in_array($dep, $departmentNameArray))
+	                {
+                        array_push($departmentArray, $departmentHash[$dep]);
+	                }    
+	                else
+	                {
+	                    $department = new Department;
+	                    $department->department_name = $dep;
+	                    array_push($newDepartmentArray, $department);
+	                    array_push($departmentArray, $department);
+	                }
+	            }
+
+	            $userDepartmentArray["$lineIndex"] = array('department' => $departmentArray,
+	                                                       'user' => $user);
 	            
 	            ++$lineIndex;
 	            continue;
@@ -267,10 +291,27 @@ class Contacts extends CActiveRecord
                 $contactsArray["$lineIndex"] = $contacts;
                 $userArray["$lineIndex"] = $user;
                 
-                // department table and user_department table
-                array_merge($excelDepartmentArray, $lineDepartment);
-	            $userDepartmentArray["$lineIndex"] = array('departmentName' => $line['G'], 
-	                                                       'username' => $line['B']);
+                
+                $lineDepartmentArray = explode(',', $line['G']);
+                $departmentArray = Array();
+                $department = null;
+                foreach($lineDepartmentArray as $dep)
+                {
+                    if(in_array($dep, $departmentNameArray))
+                    {
+                        array_push($departmentArray, $departmentHash[$dep]);
+                    }
+                    else
+                    {
+                        $department = new Department;
+                        $department->department_name = $dep;
+                        array_push($newDepartmentArray, $department);
+                        array_push($departmentArray, $department);
+                    }
+                }
+                
+	            $userDepartmentArray["$lineIndex"] = array('department' => $departmentArray, 
+	                                                       'user' => $user);
                 
                 ++$lineIndex;
                 continue;

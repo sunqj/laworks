@@ -23,7 +23,6 @@ $this->menu=array(
     {
         echo "<h2>Contacts </h2>";
     } 
-
     foreach($contacts as $model)
     {
         $this->widget('zii.widgets.CDetailView', array(
@@ -99,7 +98,6 @@ $this->menu=array(
         ));
         echo "</br>";
     }
-
 ?>
 
 <?php
@@ -120,7 +118,6 @@ $this->menu=array(
         ));
         echo "</br>";
     }
-
 ?>
 
 <?php
