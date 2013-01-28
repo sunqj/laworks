@@ -4,7 +4,7 @@
 
 $this->breadcrumbs=array(
 	'Articles'=>array('index'),
-	$model->article_id,
+	$model->article_name,
 );
 
 $this->menu=array(
@@ -16,12 +16,11 @@ $this->menu=array(
 );
 ?>
 
-<h1>View Article #<?php echo $model->article_id; ?></h1>
+<h1>View Article #<?php echo $model->article_name; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'article_id',
 		//'article_tag',
 		//'article_url',
         //'article_icon',
@@ -29,7 +28,10 @@ $this->menu=array(
 	    //'article_content',
         //'enterprise_id',
         //'article_reject_reason',
-	    'article_name',
+	    array('label' => 'Article name',
+                'type' => 'raw',
+                'value' => CHtml::link($model->article_name, array(
+                'article/view', 'id' => $model->article_id ))),
 	    'article_summary',
 	    array('label' => 'Is Banner',
 	          'value' => $model->getBannerValue($model->article_isbanner)),

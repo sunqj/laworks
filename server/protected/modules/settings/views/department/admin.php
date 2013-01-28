@@ -45,8 +45,9 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'department_id',
-		'department_name',
+        array('name' => 'department_name', 'type' => 'raw',
+            'value'=>'CHtml::link($data->department_name,array("department/view", "id"=>$data->department_id))',
+            'htmlOptions' => array('width' => '160')),
 		'department_desc',
 		'department_status',
 		'enterprise_id',

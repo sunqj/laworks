@@ -44,10 +44,11 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'id'=>'article-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
-	'columns'=>array(
-        array('name'  => 'article_id','htmlOptions'=>array('width'=>'20px')),
-	        
-        array('name'  => 'article_name','htmlOptions'=>array('width'=>'240px')),
+	'columns'=>array(       
+        array('name'  => 'article_name',
+               'type' => 'raw',
+               'value'=>'CHtml::link($data->article_name,array("article/view", "id"=>$data->article_id))', 
+               'htmlOptions'=>array('width'=>'240px')),
 	        
         array('name'  => 'article_type',
               'filter'=> ContentType::model()->getAllContentTypeList(),

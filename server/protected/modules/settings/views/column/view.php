@@ -4,7 +4,7 @@
 
 $this->breadcrumbs=array(
 	'Columns'=>array('index'),
-	$model->column_id,
+	$model->column_name,
 );
 
 $this->menu=array(
@@ -16,17 +16,15 @@ $this->menu=array(
 );
 ?>
 
-<h1>View Column #<?php echo $model->column_id; ?></h1>
+<h1>View Column #<?php echo $model->column_name; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'column_id',
         array('label' => 'Column name',
               'type' => 'raw',
               'value' => CHtml::link($model->column_name, array(
-                       'column/view', 'id' => $model->column_id,
-                       ))),
+                       'column/view', 'id' => $model->column_id ))),
 		'column_desc',
 		'column_index',
         array('label' => 'Column Create time',
