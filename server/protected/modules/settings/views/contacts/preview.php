@@ -18,6 +18,13 @@ $this->menu=array(
 
 <h1>Preview Result</h1>
 
+
+<form id="import" action="<?php echo YiiBase::app()->createUrl('settings/contacts/import'); ?>" method="post">
+    <input type="hidden" value="<?php echo $filename;?>" name="filename" id="filename" />
+    <div class="row buttons">
+		<input type="submit" value="Import" />	
+	</div>
+	
 <?php
     if(count($contacts))
     {
@@ -32,6 +39,7 @@ $this->menu=array(
                         'contacts_cell',
                         'contacts_hometel',
                         'contacts_officetel',
+                        'contacts_title',
                 ),
         ));
         echo "</br>";
@@ -54,9 +62,6 @@ $this->menu=array(
                         'username',
                         'password',
                         'user_extra',
-//                         array('label' => 'Permission',
-//                               'value' => $permission->permission_name),
-//                         'enterprise_id',
                 ),
         ));
         echo "</br>";
@@ -87,13 +92,19 @@ $this->menu=array(
     } 
     foreach($userDepartment as $lineNo => $model)
     {
+        $depNameArray = Array();
+        foreach($model['department'] as $dep)
+        {
+            array_push($depNameArray, $dep->department_name);
+        }
+        $depString = implode(',', $depNameArray);
         $this->widget('zii.widgets.CDetailView', array(
                 'data'=>$model,
                 'attributes'=>array(
                         array('label'  => 'username',
-                               'value' => $model['username']),
+                               'value' => $model['user']->username),
                         array('label'  => 'department',
-                              'value'  =>  $model['departmentName']),
+                              'value'  =>  $depString),
                 ),
         ));
         echo "</br>";
@@ -108,7 +119,7 @@ $this->menu=array(
     foreach($badLine as $lineNo => $reason)
     {
         $this->widget('zii.widgets.CDetailView', array(
-                'data'=>$model,
+                'data'=>$reason,
                 'attributes'=>array(
                         array('label'  => 'Line Number:',
                                'value' => $lineNo),
@@ -128,14 +139,19 @@ $this->menu=array(
     foreach($duplicateUser as $dupLine => $origLine)
     {
         $this->widget('zii.widgets.CDetailView', array(
-                'data'=>$model,
+                'data'=>$origLine,
                 'attributes'=>array(
                         array('label'  => 'Duplicate Line:',
                                 'value' => $dupLine),
-                        array('label'  => 'Original Line',
+                        array('label'  => 'Original',
                                 'value'  => $origLine),
                 ),
         ));
         echo "</br>";
     }
 ?>
+
+	<div class="row buttons">
+		<input type="submit" value="Import" />	
+	</div>
+</form>

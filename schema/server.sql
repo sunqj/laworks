@@ -242,6 +242,7 @@ CREATE TABLE tianyi_contacts
     contacts_id                 int not null auto_increment,
     contacts_name               varchar(20) not null,
     contacts_cell               varchar(12) default null,
+    contacts_title              varchar(12) default null,
     contacts_hometel            varchar(12) default null,
     contacts_officetel          varchar(12) default null,
 

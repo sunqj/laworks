@@ -37,6 +37,11 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'contacts_title'); ?>
+		<?php echo $form->textField($model,'contacts_title',array('size'=>12,'maxlength'=>12)); ?>
+	</div>
+	
+	<div class="row">
 		<?php echo $form->label($model,'enterprise_id'); ?>
 		<?php echo $form->textField($model,'enterprise_id'); ?>
 	</div>

@@ -36,7 +36,8 @@ class ContactsController extends Controller
                                        // 'view' actions
                         'actions' => array (
                                 'index',
-                                'view' 
+                                'view' ,
+                                'import',
                         ),
                         'users' => array (
                                 '*' 
@@ -202,38 +203,31 @@ class ContactsController extends Controller
      */
     public function actionPreview()
     {
-        $excelFile = $_GET ['filename'];
+        $excelFile = $_GET['filename'];
         $retVal = Contacts::parseExcelFileToArray ( $excelFile );
-        // var_dump($retVal['user']);
-        // var_dump($retVal['user']);
-        // echo "</br></br>";
-        // var_dump($retVal['cell']);
-        // echo "</br></br>";
-        // //var_dump($retVal['contacts']);
-        // //echo "</br></br>";
-        // var_dump($retVal['department']);
-        // echo "</br></br>";
-        // var_dump($retVal['userDepartment']);
-        // echo "</br></br>";
-        // var_dump($retVal['duplicateLine']);
-        // echo "</br></br>";
-        // var_dump($retVal['badLine']);
-        // echo "</br></br>";
-        
-        $users = $retVal ['user'];
-        $contacts = $retVal ['contacts'];
-        
-        $this->render ( 'preview', array (
-                'user'           => $retVal ['user'],
+        $this->render ('preview', array (
+                'user'           => $retVal['user'],
                 'badLine'        => $retVal['badLine'],
-                'contacts'       => $retVal ['contacts'],
-                'department'     => $retVal ['department'],
+                'contacts'       => $retVal['contacts'],
+                'filename'       => $retVal['filename'],
+                'department'     => $retVal['department'],
                 'duplicateUser'  => $retVal['duplicateLine'],
                 'userDepartment' => $retVal['userDepartment'],
-        )
-         );
+        ));
     }
 
+    /**
+     * import real excel file related users, contacts, departments, and user_department 
+     */
+    
+    public function actionImport()
+    {
+        $excelFile = $_POST['filename'];
+        $retVal = Contacts::parseExcelFileToArray($excelFile);
+        Contacts::importAll($retVal);
+        $this->redirect(array('admin'));
+    }
+    
     /**
      * upload excel file from client
      */

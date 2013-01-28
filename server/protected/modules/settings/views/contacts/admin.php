@@ -52,6 +52,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'contacts_cell',
 		'contacts_hometel',
 		'contacts_officetel',
+        'contacts_title',
 		/*
 		'enterprise_id',
 		*/

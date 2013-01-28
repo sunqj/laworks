@@ -39,6 +39,13 @@
 		<?php echo $form->error($model,'contacts_officetel'); ?>
 	</div>
 
+		<div class="row">
+		<?php echo $form->labelEx($model,'contacts_title'); ?>
+		<?php echo $form->textField($model,'contacts_title',array('size'=>12,'maxlength'=>12)); ?>
+		<?php echo $form->error($model,'contacts_title'); ?>
+	</div>
+	
+	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>

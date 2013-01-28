@@ -17,7 +17,7 @@ $this->menu=array(
 ?>
 
 <h1>Import Contacts</h1>
-<form id="importForm" action="<?php YiiBase::app()->createUrl('preview'); ?>" method="post">
+<form id="preview" action="<?php YiiBase::app()->createUrl('preview'); ?>" method="post">
 	<div class="row">
 		<?php $this->widget('application.extensions.MUploadify.MUploadify',array(
                 'name'=> 'excelUpdload',
@@ -59,4 +59,4 @@ $this->menu=array(
 	<div class="row buttons">
 		<input type="submit" value="Preview" />	
 	</div>
-	</form>
+</form>
