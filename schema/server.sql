@@ -340,7 +340,9 @@ insert into tianyi_permission(permission_id, permission_name) values(0, '系统�
 /*users*/
 insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values(0, 'admin', 'linuxred', 0, 0);
 
+/*column*/
 
+insert into tianyi_column(column_id, column_name) values(0,"默认栏目"); 
 /*role_status*/
 insert into tianyi_role_status(role_status_id, role_status_name) values(0, "正常"), (1, "禁用");
 

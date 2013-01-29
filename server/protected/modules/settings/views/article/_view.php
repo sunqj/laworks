@@ -14,7 +14,7 @@
 	<br />
 	
 	<b><?php echo CHtml::encode($data->getAttributeLabel('column_id')); ?>:</b>
-	<?php echo CHtml::encode($data->column_id); ?>
+	<?php echo CHtml::encode($data->columnTable->column_name); ?>
 	<br />
 
     <b><?php echo CHtml::encode($data->getAttributeLabel('create_user_id')); ?>:</b>

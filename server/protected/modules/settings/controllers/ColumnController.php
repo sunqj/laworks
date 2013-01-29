@@ -154,6 +154,13 @@ class ColumnController extends Controller
      */
     public function actionDelete($id)
     {
+        $columnArray = Column::model()->findAll('enterprise_id = ' . Yii::app()->user->enterprise_id);
+        if(count($columnArray) <= 1)
+        {
+            throw new CHttpException("", "Last column can not be deleted.");
+            $this->redirect(Yii::app()->request->urlReferrer, true);
+        }
+        
         $this->loadModel ( $id )->delete ();
         
         // if AJAX request (triggered by deletion via admin grid view), we

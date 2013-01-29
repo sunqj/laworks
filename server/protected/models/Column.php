@@ -94,7 +94,7 @@ class Column extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('column_id',$this->column_id);
+		$criteria->compare('column_id','>0');
 		$criteria->compare('column_icon',$this->column_icon,true);
 		$criteria->compare('column_name',$this->column_name,true);
 		$criteria->compare('column_desc',$this->column_desc,true);
@@ -129,9 +129,19 @@ class Column extends CActiveRecord
 	    }
 	}
 	
+	public function beforeDelete()
+	{
+        Article::model()->updateAll(
+            array('column_id' => $this->column_id,
+            'column_id' => '0'));
+        return true;
+	}
+	
+	
 	public function getEnterpriseColumnList($enterprise_id)
 	{
-	    $columnList = Column::model()->findAll("enterprise_id = $enterprise_id");
-	    return CHtml::listData($columnList, 'column_id', 'column_name');
+	    $columnList = Column::model()->findAll("enterprise_id = $enterprise_id and column_id > 0");
+	    $retVal = CHtml::listData($columnList, 'column_id', 'column_name');
+	    return $retVal;
 	}
 }
