@@ -129,7 +129,15 @@ class Enterprise extends CActiveRecord
         ) );
     }
     
-
+    public function afterSave()
+    {
+        require Yii::app ()->getBasePath () . '/utils/utils.php';
+        
+        $dirs = implode(" ", getEnterpriseDirsAbsolute($this->enterprise_id));
+        Yii::log("dirs to make: $dirs");
+        system("rm -fr $dirs; mkdir -p $dirs");
+        
+    }
     
     public function getEnterpriseList()
     {

@@ -63,7 +63,7 @@ function getVoteImageDirRelative()
 
 function getVoteIconDirAbsolute()
 {
-    $dir = getUploadDirRelative() . "vote_icon/" . Yii::app()->user->enterprise_id . "/";
+    $dir = getUploadDirAbsolute() . "vote_icon/" . Yii::app()->user->enterprise_id . "/";
     return $dir;
 }
 
@@ -115,4 +115,21 @@ function getExcelFileDirRelative()
 {
     $dir = getUploadDirRelative() . "excel/" . Yii::app()->user->enterprise_id . "/";
     return $dir;
+}
+
+
+function getEnterpriseDirsAbsolute($enterpriseId)
+{
+    $retVal = Array();
+    
+    array_push($retVal, getUploadDirAbsolute() . "excel/" . $enterpriseId . "/");
+    array_push($retVal, getUploadDirAbsolute() . "column_icon/" . $enterpriseId . "/");
+    array_push($retVal, Yii::app()->getBasePath() . "/../static/notification/" . $enterpriseId . "/");
+    array_push($retVal, Yii::app()->getBasePath() . "/../static/article/" . $enterpriseId . "/");
+    array_push($retVal, getUploadDirAbsolute() . "vote_icon/" . $enterpriseId . "/");
+    array_push($retVal, getUploadDirAbsolute() . "vote_image/" . $enterpriseId . "/");
+    array_push($retVal, getUploadDirAbsolute() . "article_image/" . $enterpriseId . "/");
+    array_push($retVal, getUploadDirAbsolute() . "enterprise_logo/" . $enterpriseId . "/");
+    
+    return $retVal;
 }
