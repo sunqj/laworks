@@ -342,7 +342,8 @@ insert into tianyi_user(user_id, username, password, permission_id, enterprise_i
 
 /*column*/
 
-insert into tianyi_column(column_id, column_name) values(0,"默认栏目"); 
+insert into tianyi_column(column_id, column_name, enterprise_id) values(0,"默认栏目", 0);
+
 /*role_status*/
 insert into tianyi_role_status(role_status_id, role_status_name) values(0, "正常"), (1, "禁用");
 

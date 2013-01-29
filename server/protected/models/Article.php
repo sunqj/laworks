@@ -57,8 +57,7 @@ class Article extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array (
-                // array('article_url, article_name, article_content, column_id,
-                // audit_user_id, enterprise_id, create_user_id', 'required'),
+                array('article_name, article_content', 'required'),
                 array (
                         'article_type, article_isbanner, article_audit_gmt, article_create_gmt, article_update_gmt, article_click_count, article_status, column_id, audit_user_id, enterprise_id, create_user_id',
                         'numerical',
