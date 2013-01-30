@@ -233,7 +233,7 @@ class ColumnController extends Controller
         if (isset ( $_POST ['Column'] ))
         {
             $model = new Column ();
-            require Yii::app ()->getBasePath () . '/utils/utils.php';
+            require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
             $uploadImage = CUploadedFile::getInstance ( $model, 'column_icon' );
             $fileExt = trim ( strtolower ( $uploadImage->getExtensionName () ) );
             if ($fileExt != 'jpg' && $fileExt != 'jpeg' && $fileExt != 'png' && $fileExt != 'gif')

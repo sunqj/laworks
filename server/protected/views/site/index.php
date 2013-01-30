@@ -80,6 +80,11 @@ should you have any questions.</p>
         </p>
     <?php elseif(Yii::app()->user->permission_id == 2): ?>
         <p>企业审核员</p>
+    <?php elseif(Yii::app()->user->permission_id == 5): ?>
+        <p>开发人员</p>
+        <p>
+            <a href="<?php echo YiiBase::app()->createUrl("dev/build/admin"); ?>">构建管理</a>
+        </p>
     <?php else: ?>
         <p>普通用户</p>
     <?php endif; ?>

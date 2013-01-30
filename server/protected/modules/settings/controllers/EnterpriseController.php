@@ -226,7 +226,7 @@ class EnterpriseController extends Controller
         if (isset ( $_POST ['Enterprise'] ))
         {
             $model = new Enterprise();
-            require Yii::app ()->getBasePath () . '/utils/utils.php';
+            require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
             $uploadImage = CUploadedFile::getInstance ( $model, 'enterprise_logo' );
             $fileExt = trim ( strtolower ( $uploadImage->getExtensionName () ) );
             if ($fileExt != 'jpg' && $fileExt != 'jpeg' && $fileExt != 'png' && $fileExt != 'gif')

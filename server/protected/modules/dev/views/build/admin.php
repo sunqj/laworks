@@ -45,13 +45,27 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'build_id',
-		'build_date',
-		'build_version',
-		'build_comments',
-		'enterprise_id',
-		array(
-			'class'=>'CButtonColumn',
-		),
+		array('name'  => 'build_version',
+            'type'    => 'raw',
+            'value'   => 'CHtml::link($data->build_version, array("build/view", "id"=>$data->build_id))', 
+            //'htmlOptions' => array('width' => '40px')
+            ),
+        'build_comments',
+		array('name'  => 'build_date',
+              'value' => 'date("Y-m-d", $data->build_date)',  
+              'htmlOptions' => array('width' => '70px')),
+
+
+        array('name'=>'enterprise_id',
+        'filter' => Enterprise::model()->getEnterpriseList(),
+        'value'  => '$data->enterpriseTable->enterprise_name',
+        'htmlOptions'=>array('width'=>'60px')),
+
+        array(
+                'class'=>'CButtonColumn',
+                'template'=>'{delete}',
+                'htmlOptions'=>array('width=30px'),
+                'headerHtmlOptions'=>array('width=34px'),
+        ),
 	),
 )); ?>

@@ -10,7 +10,6 @@ $this->breadcrumbs=array(
 $this->menu=array(
 	array('label'=>'List Build', 'url'=>array('index')),
 	array('label'=>'Create Build', 'url'=>array('create')),
-	array('label'=>'Update Build', 'url'=>array('update', 'id'=>$model->build_id)),
 	array('label'=>'Delete Build', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->build_id),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Manage Build', 'url'=>array('admin')),
 );
@@ -21,10 +20,14 @@ $this->menu=array(
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'build_id',
-		'build_date',
-		'build_version',
-		'build_comments',
-		'enterprise_id',
+        array('label' => 'build_version',
+              'type'  => 'raw',
+              'value' => CHtml::link($model->build_version, array("build/view", "id"=>$model->build_id))),  
+               
+        'build_comments',
+		array('label' => 'build_date',
+              'value' => date("Y-m-d", $model->build_date)),
+		array('label' => 'enterprise_id', 
+              'value' => $model->enterpriseTable->enterprise_name)
 	),
 )); ?>

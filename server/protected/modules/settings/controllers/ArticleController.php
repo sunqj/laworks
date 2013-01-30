@@ -226,7 +226,7 @@ class ArticleController extends Controller
         if (isset ( $_POST ['Article'] ))
         {
             $model = new Article();
-            require Yii::app ()->getBasePath () . '/utils/utils.php';
+            require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
             $uploadImage = CUploadedFile::getInstance ( $model, 'article_icon' );
             $fileExt = trim ( strtolower ( $uploadImage->getExtensionName () ) );
             if ($fileExt != 'jpg' && $fileExt != 'jpeg' && $fileExt != 'png' && $fileExt != 'gif')

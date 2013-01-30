@@ -57,7 +57,7 @@
 		<?php echo $form->labelEx($model,'article_content'); ?>
 		<?php //need fix: if enterprise upload directory does not exist, update would be unavailable. ?>
 		<?php 
-		        require Yii::app ()->getBasePath () . '/utils/utils.php';
+		        require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
 		        $this->widget('application.extensions.editor.CKkceditor',array(
                 "model"=>$model,                # Data-Model
                 "attribute"=>'article_content',         # Attribute in the Data-Model

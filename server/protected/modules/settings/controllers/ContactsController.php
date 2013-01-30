@@ -235,7 +235,7 @@ class ContactsController extends Controller
     {
         if (isset ( $_POST ['excelUpdload'] ))
         {
-            require Yii::app ()->getBasePath () . '/utils/utils.php';
+            require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
             $uploadImage = CUploadedFile::getInstanceByName ( 'excelUpdload' );
             $fileExt = trim ( strtolower ( $uploadImage->getExtensionName () ) );
             if ($fileExt != 'xls')

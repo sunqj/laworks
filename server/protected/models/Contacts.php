@@ -158,7 +158,7 @@ class Contacts extends CActiveRecord
 
     public static function parseExcelFileToArray($file)
     {
-        require Yii::app ()->getBasePath () . '/utils/utils.php';
+        require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
         require Yii::app ()->getBasePath () . '/lib/phpexcel/PHPExcel/IOFactory.php';
         
         $filePath = getExcelFileDirAbsolute () . $file;

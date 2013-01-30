@@ -29,15 +29,15 @@ class BuildController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
-				'users'=>array('*'),
+				'users'=>array('dev'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update'),
-				'users'=>array('@'),
+				'users'=>array('dev'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'users'=>array('dev'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -62,8 +62,10 @@ class BuildController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Build;
-
+		$model = new Build;
+		
+		require Yii::app ()->getBasePath () . '/config/build.php';
+        $branchList = getBranchList();
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -75,7 +77,8 @@ class BuildController extends Controller
 		}
 
 		$this->render('create',array(
-			'model'=>$model,
+			'model'      => $model,
+		    'branchList' => $branchList,
 		));
 	}
 

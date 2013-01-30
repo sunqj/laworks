@@ -176,7 +176,7 @@ class News extends CActiveRecord
 	{
 	    if(parent::beforeSave())
 	    {
-	        require Yii::app ()->getBasePath () . '/utils/utils.php'; 
+	        require Yii::app ()->getBasePath () . '/utils/DirUtils.php'; 
 	        $now = time();
 	        $url = $this->dumpContentToFile($now);
 	        if(!$url)

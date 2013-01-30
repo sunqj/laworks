@@ -131,7 +131,7 @@ class Enterprise extends CActiveRecord
     
     public function afterSave()
     {
-        require Yii::app ()->getBasePath () . '/utils/utils.php';
+        require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
         
         $dirs = implode(" ", getEnterpriseDirsAbsolute($this->enterprise_id));
         Yii::log("dirs to make: $dirs");

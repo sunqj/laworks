@@ -16,29 +16,27 @@
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'build_date'); ?>
-		<?php echo $form->textField($model,'build_date'); ?>
-		<?php echo $form->error($model,'build_date'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'build_version'); ?>
-		<?php echo $form->textField($model,'build_version',array('size'=>32,'maxlength'=>32)); ?>
-		<?php echo $form->error($model,'build_version'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'build_comments'); ?>
 		<?php echo $form->textField($model,'build_comments',array('size'=>60,'maxlength'=>60)); ?>
 		<?php echo $form->error($model,'build_comments'); ?>
 	</div>
 
+	</br>
 	<div class="row">
 		<?php echo $form->labelEx($model,'enterprise_id'); ?>
-		<?php echo $form->textField($model,'enterprise_id'); ?>
+		<?php echo $form->dropDownList($model, 'enterprise_id', Enterprise::model()->getEnterpriseList()); ?>
 		<?php echo $form->error($model,'enterprise_id'); ?>
 	</div>
-
+    
+    </br>
+	<div class="row">
+          <label>Branch List</label>
+          <?php
+              echo $form->dropDownList($model, 'branchId', $branchList);
+          ?>
+	</div>
+	
+	</br>
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
