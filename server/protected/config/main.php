@@ -27,6 +27,9 @@ return array(
 			//'ipFilters'=>array('127.0.0.1','::1'),
 		    'ipFilters'=>false
 		),
+	    'dev'=>array(
+	         'class'=>'application.modules.dev.DevModule'
+	        ),
 	    'admin'=>array(
 	         'class'=>'application.modules.admin.AdminModule'
 	            ),

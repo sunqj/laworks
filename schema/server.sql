@@ -330,6 +330,18 @@ CREATE TABLE tianyi_reply
     PRIMARY KEY  (reply_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE tianyi_build
+(
+    build_id                   int not null auto_increment,
+    build_date                 int default 0,
+    build_version              varchar(32) not null,
+    build_comments             varchar(60) default null,
+
+    /* foreign keys */
+    enterprise_id              int default 0,
+
+    PRIMARY KEY  (build_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /****************/
 /* initial data */
