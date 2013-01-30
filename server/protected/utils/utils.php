@@ -124,11 +124,16 @@ function getEnterpriseDirsAbsolute($enterpriseId)
     
     array_push($retVal, getUploadDirAbsolute() . "excel/" . $enterpriseId . "/");
     array_push($retVal, getUploadDirAbsolute() . "column_icon/" . $enterpriseId . "/");
+    
     array_push($retVal, Yii::app()->getBasePath() . "/../static/notification/" . $enterpriseId . "/");
     array_push($retVal, Yii::app()->getBasePath() . "/../static/article/" . $enterpriseId . "/");
+    
     array_push($retVal, getUploadDirAbsolute() . "vote_icon/" . $enterpriseId . "/");
     array_push($retVal, getUploadDirAbsolute() . "vote_image/" . $enterpriseId . "/");
+    
+    array_push($retVal, getUploadDirAbsolute() . "article_icon/" . $enterpriseId . "/");
     array_push($retVal, getUploadDirAbsolute() . "article_image/" . $enterpriseId . "/");
+    
     array_push($retVal, getUploadDirAbsolute() . "enterprise_logo/" . $enterpriseId . "/");
     
     return $retVal;
