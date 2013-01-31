@@ -46,7 +46,7 @@ class Build extends CActiveRecord
 			array('build_comments', 'length', 'max'=>60),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('build_id, build_date, build_version, build_comments, enterprise_id', 'safe', 'on'=>'search'),
+			array('build_id, build_date, build_version, build_comments, enterprise_id, branchId', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,6 +62,19 @@ class Build extends CActiveRecord
 		);
 	}
 
+	public function buildApk($branchName, $srcDir, $apkname)
+	{
+	    
+	    $this->build_date = time();
+	    $this->build_version = "$branchName-$this->build_date";
+	    
+	    $cmd = "cd $srcDir/main-apk; bash build.sh . . $this->enterprise_id $apkname $this->build_version";
+	    Yii::log("build command: $cmd");
+	    $output = `$cmd`;
+	    
+	    return $output;
+	}
+	
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */

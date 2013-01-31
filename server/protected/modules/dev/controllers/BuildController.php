@@ -72,6 +72,10 @@ class BuildController extends Controller
 		if(isset($_POST['Build']))
 		{
 			$model->attributes=$_POST['Build'];
+			$model->branchId = $_POST['Build']['branchId'];
+			$srcDir = '/backup/android-workspace/devilworks-platform';
+			
+			$output = $model->buildApk($branchList[$model->branchId], $srcDir, $model->build_comments);
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->build_id));
 		}
