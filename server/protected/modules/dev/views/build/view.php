@@ -28,6 +28,9 @@ $this->menu=array(
 		array('label' => 'build_date',
               'value' => date("Y-m-d", $model->build_date)),
 		array('label' => 'enterprise_id', 
-              'value' => $model->enterpriseTable->enterprise_name)
+              'value' => $model->enterpriseTable->enterprise_name),
+
 	),
+
+
 )); ?>

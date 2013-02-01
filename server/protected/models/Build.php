@@ -62,13 +62,13 @@ class Build extends CActiveRecord
 		);
 	}
 
-	public function buildApk($branchName, $srcDir, $apkname)
+	public static function buildApk($branchName, $srcDir, $apkname, $enterpriseId)
 	{
 	    
-	    $this->build_date = time();
-	    $this->build_version = "$branchName-$this->build_date";
+	    $build_date = time();
+	    $build_version = "$branchName-$build_date";
 	    
-	    $cmd = "cd $srcDir/main-apk; bash build.sh . . $this->enterprise_id $apkname $this->build_version";
+	    $cmd = "cd $srcDir/main-apk; bash build.sh . . $enterpriseId $apkname $build_version";
 	    Yii::log("build command: $cmd");
 	    $output = `$cmd`;
 	    

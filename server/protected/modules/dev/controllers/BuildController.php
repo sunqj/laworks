@@ -7,7 +7,7 @@ class BuildController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column2';
-
+	
 	/**
 	 * @return array action filters
 	 */
@@ -32,11 +32,11 @@ class BuildController extends Controller
 				'users'=>array('dev'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'build'),
 				'users'=>array('dev'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete', 'build'),
 				'users'=>array('dev'),
 			),
 			array('deny',  // deny all users
@@ -52,7 +52,7 @@ class BuildController extends Controller
 	public function actionView($id)
 	{
 		$this->render('view',array(
-			'model'=>$this->loadModel($id),
+			'model'  => $this->loadModel($id),
 		));
 	}
 
@@ -72,10 +72,7 @@ class BuildController extends Controller
 		if(isset($_POST['Build']))
 		{
 			$model->attributes=$_POST['Build'];
-			$model->branchId = $_POST['Build']['branchId'];
-			$srcDir = '/backup/android-workspace/devilworks-platform';
-			
-			$output = $model->buildApk($branchList[$model->branchId], $srcDir, $model->build_comments);
+
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->build_id));
 		}
@@ -86,6 +83,18 @@ class BuildController extends Controller
 		));
 	}
 
+	public function actionBuild()
+	{
+        $enterpriseId = $_GET['enterpriseId'];
+        $branchName = $_GET['branchName'];
+        $buildComments = isset($_GET['buildComments']) ? $_GET['buildComments'] : '';
+        $srcDir = '/backup/android-workspace/devilworks-platform';
+        //echo $branchName . $srcDir . $buildComments .$enterpriseId;
+        
+        $buildOutput = Build::buildApk($branchName, $srcDir, $buildComments, $enterpriseId);
+        echo nl2br($buildOutput);
+	}
+	
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
