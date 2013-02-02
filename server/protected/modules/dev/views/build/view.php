@@ -23,13 +23,16 @@ $this->menu=array(
         array('label' => 'build_version',
               'type'  => 'raw',
               'value' => CHtml::link($model->build_version, array("build/view", "id"=>$model->build_id))),  
-               
         'build_comments',
 		array('label' => 'build_date',
-              'value' => date("Y-m-d", $model->build_date)),
+              'value' => date("Y-m-d, h:i:s", $model->build_date)),
 		array('label' => 'enterprise_id', 
               'value' => $model->enterpriseTable->enterprise_name),
-
+        array('label' => 'build_version',
+              'type'  => 'raw',
+              'value' => CHtml::link($model->build_version, 
+                    Yii::app()->getBaseUrl() . "/apk/$model->enterprise_id/$model->build_version.apk"), 
+                )
 	),
 
 

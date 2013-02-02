@@ -86,17 +86,37 @@ class Build extends CActiveRecord
                 ) 
         );
     }
-
-    public static function buildApk($branchName, $srcDir, $apkname, $enterpriseId)
+    
+    //invoke build.sh to build client apk, following is command format and example
+    
+    
+    //build.sh -e <enter_id> -t <theme_dir> -v <version_string> -b <branch_name> -n <app_name>
+    //example:
+    //build.sh -e 1 -n laworks -b branch_name -v version_string -t theme_direcory
+    
+    
+    //above build client apk for enterprise, whose enterprise_id is "1" from branch "branch_name"
+    //and the theme_dir could be relative dir to source directory or absolative directory
+    //version string is used to name apk file, the final apk file should "version_string.apk"
+    public static function buildApk($enterpriseId, $themeDir, $appname, $branchName, $timeStamp)
     {
-        $build_date = time ();
-        $build_version = "$branchName-$build_date";
+        $versionString = "$branchName-$timeStamp";
         
-        $cmd = "cd $srcDir/main-apk; bash build.sh . . $enterpriseId $apkname $build_version";
+        $srcDir = '/backup/android-workspace/devilworks-platform';
+        $cmd = "cd $srcDir/main-apk; ". 
+                "bash build.sh -e $enterpriseId -t . -n $appname -b $branchName -v $versionString";
         Yii::log ( "build command: $cmd" );
-        $output = `$cmd`;
         
-        return $output;
+        $retCode = 0;
+        $output = array();
+        
+        $lastLine = exec($cmd, $output, $retCode);
+        
+        $retVal = array( 'retval' => $retCode,
+               'output' => nl2br(implode("\n", $output)));
+        
+        return json_encode($retVal);
+        
     }
 
     /**

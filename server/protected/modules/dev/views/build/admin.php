@@ -52,8 +52,8 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
             ),
         'build_comments',
 		array('name'  => 'build_date',
-              'value' => 'date("Y-m-d", $data->build_date)',  
-              'htmlOptions' => array('width' => '70px')),
+              'value' => 'date("Y-m-d h:i:s", $data->build_date)',  
+              'htmlOptions' => array('width' => '140px')),
 
 
         array('name'=>'enterprise_id',

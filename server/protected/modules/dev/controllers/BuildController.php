@@ -87,12 +87,23 @@ class BuildController extends Controller
 	{
         $enterpriseId = $_GET['enterpriseId'];
         $branchName = $_GET['branchName'];
-        $buildComments = isset($_GET['buildComments']) ? $_GET['buildComments'] : '';
-        $srcDir = '/backup/android-workspace/devilworks-platform';
-        //echo $branchName . $srcDir . $buildComments .$enterpriseId;
+        $timeStamp  = $_GET['timeStamp'];
+        $themeDir = null;
         
-        $buildOutput = Build::buildApk($branchName, $srcDir, $buildComments, $enterpriseId);
-        echo nl2br($buildOutput);
+        $entperprise = Enterprise::model()->findByPk($enterpriseId);
+        $appname = $entperprise->enterprise_appname;
+        
+        Yii::log(
+            "enterprise id:" . $enterpriseId . "\n" . 
+            "branch name  :" . $branchName   . "\n" . 
+            "timeStamp    :" . $timeStamp    . "\n" . 
+            "appname      :" . $appname      . "\n"
+        );
+        
+        //buildApk($enterpriseId, $themeDir, $appname, $branchName, $timeStamp)
+        $buildOutput = Build::buildApk($enterpriseId, $themeDir, $appname, $branchName, $timeStamp);
+        
+        echo $buildOutput;
 	}
 	
 	/**

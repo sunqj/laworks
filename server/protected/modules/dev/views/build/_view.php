@@ -21,6 +21,6 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('enterprise_id')); ?>:</b>
 	<?php echo CHtml::encode($data->enterpriseTable->enterprise_name); ?>
 	<br />
-
+	
 
 </div>

@@ -39,49 +39,91 @@
 	</div>
 
 	</br>
-	<div class="row" id="buildStatus" name="buildStatus">
-		<label>Build Status</label>
-		<div class="row" id="status" name="status"></div>
-	</div>
-
-	</br>
-	<div class="row" id="buildLog" name="buildLog">
-		<label>Build log</label>
-		<div class="row" id="log" name="log"></div>
-	</div>
-
-
-	</br>
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Create', array('onclick' => 'return test()')); ?>
+		<?php echo CHtml::submitButton('Build', array('onclick' => 'return test()', 
+		                    'id'    =>'submit', 
+		                    'name'  =>'submit')); ?>
+	</div>
+	
+	
+	</br>
+	<div class="row">
+		<label>Request Status</label>
+		<div class="row" id="requestStatus" name="requestStatus"></div>
+	</div>
+	
+	</br>
+	<div class="row">
+		<label>Tips</label>
+		<div class="row" id="tips" name="tips"></div>
+	</div>
+	
+	</br>
+	<div class="row">
+		<label>Build Status</label>
+		<div class="row" id="buildStatus" name="buildStatus"></div>
 	</div>
 
+	</br>
+	<div class="row">
+		<label>Build log</label>
+		<div class="row" id="buildLog" name="buildLog"></div>
+	</div>
 
 <script type="text/javascript">    
 function test()
 {
-    $("#status").html("building, please wait...");
+    if($("#submit").val() == 'Create')
+    {
+        return true;
+    }
+
+    $("#submit").attr({"disabled":"disabled"});
+    $("#buildStatus").html("building, it will take about 1 minute, please wait...");
     var enterpriseId = $("#Build_enterprise_id").val(); 
     var buildComments = $("#Build_build_comments").val();
-    var buildTime = (new Date()).getTime();
+    var buildDate = parseInt((new Date()).getTime() / 1000);
     var branchName = $("#Build_branchId option:selected").text();
-    //alert(enterpriseId + buildComments + buildTime + branchId);
 
-    var url = "<?php echo Yii::app()->createUrl('dev/build/build'); ?>" + 
-        "&enterpriseId=" + enterpriseId +
-        "&branchName=" + branchName;
-    if(buildComments)
-    {
-        url += "&buildComments=" + buildComments;
-    }
-    var myUrl = url;
-    alert(url);
-    var response = $.get(myUrl, {},
+    var url = "<?php echo Yii::app()->createUrl('dev/build/build'); ?>" ;
+
+    var response = $.get(url, 
+            {
+              'branchName'  : branchName,
+              'enterpriseId': enterpriseId,
+              'timeStamp'   : buildDate,
+            },
             function(data, status)
             {
-                $("#status").html(status);
-                $("#log").html(data);
-            }
+                $("#requestStatus").html(status);
+                var htmlContent = "build command return value: " + data.retval + "</br>";
+                $("#buildStatus").html(htmlContent);
+                htmlContent += "build command output: </br>==========</br>"; 
+                htmlContent += data.output;
+                htmlContent += "</br>==========</br>";
+                $("#buildLog").html(htmlContent);
+                if(data.retval)
+                {
+                    $("#tips").html("<font color=red>build got some errors, " +
+                            "please refer to build output for details</font>");
+                }
+                else
+                {   
+                    var htmlContent = "<font color=blue>build is ok," + 
+                        "please click 'Create' to create database entry</font>";
+
+                    htmlContent += '<input type=hidden id=Build_build_date name=Build[build_date] value="' 
+                        + buildDate + '" />';
+
+                    htmlContent += '<input type=hidden id=Build_build_version name=Build[build_version] value="' 
+                        + branchName + "-" + buildDate + '" />';
+                    
+                    $("#tips").html(htmlContent);
+                    $("#submit").val("Create");
+                    $("#submit").removeAttr("disabled");
+                }
+            },
+            'json'
             );
     return false;
 }
