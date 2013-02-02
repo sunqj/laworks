@@ -37,10 +37,15 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'enterprise_appname'); ?>
+		<?php echo $form->textField($model,'enterprise_appname'); ?>
+	</div>
+	
+	<div class="row">
 		<?php echo $form->label($model,'enterprise_audit'); ?>
 		<?php echo $form->textField($model,'enterprise_audit'); ?>
 	</div>
-
+	
 	<div class="row">
 		<?php echo $form->label($model,'enterprise_user_history'); ?>
 		<?php echo $form->textField($model,'enterprise_user_history'); ?>

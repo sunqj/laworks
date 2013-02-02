@@ -40,6 +40,12 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'enterprise_appname'); ?>
+				<?php echo $form->textField($model,'enterprise_appname',array('size'=>20,'maxlength'=>20)); ?>
+		<?php echo $form->error($model,'enterprise_appname'); ?>
+	</div>
+	
+	<div class="row">
 	    <?php echo $form->labelEx($model,'enterprise_logo'); ?>
 		<?php $this->widget('application.extensions.MUploadify.MUploadify',array(
 		        'model'=>$model,

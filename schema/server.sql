@@ -99,6 +99,7 @@ CREATE TABLE tianyi_enterprise
     enterprise_name             varchar(20) not null unique,
     enterprise_desc             varchar(256) default null,
     enterprise_logo             varchar(256) default null,
+    enterprise_appname          varchar(20)  default 'appname',
 
     /* foreign keys */
 

@@ -19,6 +19,7 @@ $this->menu=array(
 	'attributes'=>array(
 		'enterprise_name',
 		'enterprise_desc',
+	    'enterprise_appname',
         array('label' => 'Audit status',
               'value' => $model->auditLink->role_status_name),
         array('label' => 'User History',
