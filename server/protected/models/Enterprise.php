@@ -11,6 +11,7 @@
  * @property integer $enterprise_status
  * @property integer $enterprise_audit
  * @property integer $enterprise_user_history
+ * @property string $enterprise_appname
  */
 class Enterprise extends CActiveRecord
 {
@@ -66,7 +67,7 @@ class Enterprise extends CActiveRecord
                 // The following rule is used by search().
                 // Please remove those attributes that should not be searched.
                 array (
-                        'enterprise_id, enterprise_name, enterprise_desc, enterprise_logo, enterprise_status, enterprise_audit, enterprise_user_history',
+                        'enterprise_id, enterprise_appname, enterprise_name, enterprise_desc, enterprise_logo, enterprise_status, enterprise_audit, enterprise_user_history',
                         'safe',
                         'on' => 'search' 
                 ) 
@@ -100,6 +101,7 @@ class Enterprise extends CActiveRecord
                 'enterprise_logo' => 'Enterprise Logo',
                 'enterprise_status' => 'Enterprise Status',
                 'enterprise_audit' => 'Enterprise Audit',
+                'enterprise_appname' => 'Enterprise Appname',
                 'enterprise_user_history' => 'Enterprise User History' 
         );
     }
@@ -118,6 +120,7 @@ class Enterprise extends CActiveRecord
         
         $criteria->compare ( 'enterprise_id', '<> 0' );
         $criteria->compare ( 'enterprise_name', $this->enterprise_name, true );
+        $criteria->compare ( 'enterprise_appname', $this->enterprise_appname, true );
         $criteria->compare ( 'enterprise_desc', $this->enterprise_desc, true );
         $criteria->compare ( 'enterprise_logo', $this->enterprise_logo, true );
         $criteria->compare ( 'enterprise_status', $this->enterprise_status );
