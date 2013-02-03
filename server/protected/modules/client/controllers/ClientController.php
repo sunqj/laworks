@@ -8,6 +8,77 @@ class ClientController extends Controller
         echo "this is a test action!!!";
     }
 
+    //login with username and password, username is password
+    public function actionPhoneLogin()
+    {
+        $username = $_GET['username'];
+        $password = $_GET['password'];
+        $version  = $_GET['ver'];
+        echo "enterprise info";
+    }
+    
+    public function actionImeidLogin()
+    {
+        $username = $_GET['imeid'];
+        $password = $_GET['password'];
+        $version  = $_GET['ver'];
+        
+        echo "entperprise logo,enterprise id column and tianyi_channel";
+    }
+    
+    public function actionListNotification()
+    {
+        $username =$_GET['username'];
+        $page = $_GET['page'];
+        
+        echo "notification list";
+    }
+    
+    public function actionListChannel()
+    {
+        $channelId = $_GET['channelId'];
+        
+        echo "channel article list";
+    }
+    
+    public function actionListBanner()
+    {
+        $username = $_GET['username'];
+        
+        echo "banner list";
+    }
+    
+    public function actionCount()
+    {
+        $url = $_GET['url'];
+        
+        echo "click count of an article ";
+    }
+    
+    public function actionListContacts()
+    {
+        $username = $_GET['username'];
+        
+        echo "all contacts list";
+    }
+    
+    public function  actionCheckUpdate()
+    {
+         $username = $_GET['username'];
+         $ver      = $_GET['ver'];
+         
+         echo "whether there is a new version available or not.";
+    }
+    
+    
+    public function actionColumnPage()
+    {
+        $columnId = $_GET['columnId'];
+        $page     = $_GET['page'];
+        
+        echo "next page content";
+    }
+    
     /**
      *
      * @return array action filters
@@ -35,7 +106,16 @@ class ClientController extends Controller
                         'actions' => array (
                                 'index',
                                 'view',
-                                'test'
+                                'test',
+                                "phonelogin",
+                                "imeidlogin",
+                                "listnotification",
+                                "listchannel",
+                                "listbanner",
+                                "count",
+                                "listcontacts",
+                                "checkupdate",
+                                "columnpage",
                         ),
                         'users' => array (
                                 '*'
