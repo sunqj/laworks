@@ -3,6 +3,7 @@
 class ClientController extends Controller
 {
     //just a test action for all
+    public $layout = "//layout/xml";
     public function actionTest()
     {
         echo "this is a test action!!!";
@@ -11,10 +12,20 @@ class ClientController extends Controller
     //login with username and password, username is password
     public function actionPhoneLogin()
     {
+        //GET params
         $username = $_GET['username'];
         $password = $_GET['password'];
         $version  = $_GET['ver'];
-        echo "enterprise info";
+        
+        //Page parms
+        $columns = Array("columnA", "columnB");
+        $latestVer = "aaa_123";
+        $type = "1";
+        
+        $this->render('phonelogin', array('latestVer'  => $latestVer,
+                                      'type'    => $type, 
+                                      'columns' => $columns,
+                                      ));
     }
     
     public function actionImeidLogin()
