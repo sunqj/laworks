@@ -85,6 +85,11 @@ should you have any questions.</p>
         <p>
             <a href="<?php echo YiiBase::app()->createUrl("dev/build/admin"); ?>">构建管理</a>
         </p>
+    <?php elseif(Yii::app()->user->permission_id == 6): ?>
+        <p>开发人员</p>
+        <p>
+            <a href="<?php echo YiiBase::app()->createUrl("ux/theme/admin"); ?>">主题管理</a>
+        </p>
     <?php else: ?>
         <p>普通用户</p>
     <?php endif; ?>

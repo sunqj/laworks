@@ -344,6 +344,17 @@ CREATE TABLE tianyi_build
     PRIMARY KEY  (build_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE tianyi_theme
+(
+    theme_id                   int not null auto_increment,
+    theme_name                 varchar(12) not null unique default 'theme1',
+
+    /* foreign keys */
+    enterprise_id              int default 0,
+
+    PRIMARY KEY  (theme_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /****************/
 /* initial data */
 /****************/

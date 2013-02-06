@@ -36,8 +36,11 @@ return array(
 	    'settings'=>array(
 	         'class'=>'application.modules.settings.SettingsModule'
 	            ),
-	     'client'=>array(
+	    'client'=>array(
 	         'class'=>'application.modules.client.ClientModule'    
+	            ),
+	   'ux'=>array(
+	                    'class'=>'application.modules.ux.UxModule'
 	            )
 	),
 
