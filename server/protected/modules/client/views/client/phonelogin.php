@@ -1,5 +1,5 @@
 <xml version="1.0" encoding="UTF-8" />
-<return>
+<response>
     <result value="0" info="" />
     <update latest="<?php echo $latestVer; ?>" type="<?php echo $type; ?>" />
     <data>
@@ -11,12 +11,12 @@
             </columns>
         <?php endif;?>
     </data>
-</return>
+</response>
 
 <?php
 /* return xml example:
 <xml version="1.0" encoding="UTF-8" />
-<return>
+<response>
     <result value="0" />
     <data>
         <update latest="aaa_123" type="1" />
@@ -25,6 +25,6 @@
             <column name="columnB" />
         </columns>
     </data>
-</return>
+</response>
 */
 ?>
