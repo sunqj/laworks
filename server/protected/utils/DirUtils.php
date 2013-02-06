@@ -117,6 +117,18 @@ function getExcelFileDirRelative()
     return $dir;
 }
 
+function getThemeDirAbsolute()
+{
+    $dir = getUploadDirAbsolute() . "theme/";
+    return $dir;
+}
+
+function getThemeDirRelative()
+{
+    $dir = getUploadDirRelative() . "theme/";
+    return $dir;
+}
+
 
 function getEnterpriseDirsAbsolute($enterpriseId)
 {
