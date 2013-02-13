@@ -226,31 +226,41 @@ class ThemeController extends Controller
      */
     public function actionUpload()
     {
-        if (isset ( $_POST ['bgUpload'] ))
+        $prefixes = Array('bg', 'lg', 'c1', 'c2');
+        foreach ($prefixes as $prefix)
         {
-            require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
-
-            $uploadImage = CUploadedFile::getInstanceByName ( 'bgUpload' );
-            $fileExt = trim ( strtolower ( $uploadImage->getExtensionName () ));
-
-            if ($fileExt != 'png')
+            $varName = $prefix . "Upload";
+            if (isset ( $_POST [$varName] ))
             {
-                // is not correct file type.
-                echo "1:file extension not match.";
-                return;
-            }
-    
-            $fileName = time () . ".$fileExt";
+                require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
             
-            $targetFile = getThemeDirAbsolute () . $fileName;
-            $ret = $uploadImage->saveAs ( $targetFile );
-    
-            if ($ret == 1)
+                $uploadImage = CUploadedFile::getInstanceByName ($varName);
+                $fileExt = trim ( strtolower ( $uploadImage->getExtensionName () ));
+            
+                if ($fileExt != 'png')
+                {
+                    // is not correct file type.
+                    echo "1:file extension not match.";
+                    return;
+                }
+            
+                $fileName = time () . ".$fileExt";
+            
+                $targetFile = getThemeDirAbsolute () . $fileName;
+                $ret = $uploadImage->saveAs ( $targetFile );
+            
+                if ($ret == 1)
+                {
+                    echo "0:" . getThemeDirRelative() . $fileName;
+                    return;
+                }
+            }
+            else 
             {
-                echo "0:" . $fileName;
-                return;
+                continue;
             }
         }
+
         echo "1:Unknow error";
         return;
     }

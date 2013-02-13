@@ -25,10 +25,12 @@ $form = $this->beginWidget ( 'CActiveForm', array (
 		<?php echo $form->textField($model,'theme_name',array('size'=>12,'maxlength'=>12)); ?>
 		<?php echo $form->error($model,'theme_name'); ?>
 	</div>
+	
 	<div id="upload" name="upload">
         <label>Upload</label>
-        <div id="background" name="background">
-        <span style="width:124px;display:-moz-inline-box;display:inline-block;"><strong>background</strong></span><?php
+        <div id="bg" name="bg">
+        <span style="width:124px;display:-moz-inline-box;display:inline-block;"><strong>background</strong></span>
+        <?php
         $this->widget ( 'application.extensions.MUploadify.MUploadify', array (
             'name' => 'bgUpload',
             'auto' => true,
@@ -37,18 +39,17 @@ $form = $this->beginWidget ( 'CActiveForm', array (
             ),
             'onComplete' => 'js:function(event, queueID, fileObj, response, data)
                 {   
-                    while(fileDiv.firstChild)
+                    while(bgImage.firstChild)
                     {
-                        var oldNode = fileDiv.removeChild(fileDiv.firstChild);
+                        var oldNode = bgImage.removeChild(bgImage.firstChild);
                         oldNode = null;
                     }
                     rArray = response.split(":");
                     if(rArray[0] == 0)
                     {
-                        alert(rArray[1]);
-                        var html=\'<label>上传成功</label><input type="hidden" value="\'+rArray[1]+\'" name="bgFile" id="bgFile" />\';
-                        $("#fileDiv").append(html);
-                        
+                        var html=\'<input type="hidden" value="\'+rArray[1]+\'" name="bgFile" id="bgFile" />\';
+                        var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
+                        $("#bgImage").append(imgChild);
                     }
                     else
                     {
@@ -63,101 +64,94 @@ $form = $this->beginWidget ( 'CActiveForm', array (
          <span style="width:124px;display:-moz-inline-box;display:inline-block;"><strong>logo</strong></span>
          <?php
             $this->widget ( 'application.extensions.MUploadify.MUploadify', array (
-                    'name' => 'lgUpload',
-                    'auto' => true,
-                    'script' => array (
-                            'theme/upload' 
-                    ),
-                    'onComplete' => 'js:function(event, queueID, fileObj, response, data)
+                'name' => 'lgUpload',
+                'auto' => true,
+                'script' => array (
+                        'theme/upload' 
+                ),
+                'onComplete' => 'js:function(event, queueID, fileObj, response, data)
                     {   
-                        while(fileDiv.firstChild)
+                        while(lgImage.firstChild)
                         {
-                            var oldNode = fileDiv.removeChild(fileDiv.firstChild);
+                            var oldNode = lgImage.removeChild(lgImage.firstChild);
                             oldNode = null;
                         }
                         rArray = response.split(":");
-        
                         if(rArray[0] == 0)
                         {
-                            var html=\'<label>上传成功</label><input type="hidden" value="\'+rArray[1]+\'" name="lgFile" id="lgFile" />\';
-                            //alert(rArray[1]);
-                            //alert(html);
-                            $("#fileDiv").append(html);
-                            
+                            var html=\'<input type="hidden" value="\'+rArray[1]+\'" name="lgFile" id="lgFile" />\';
+                            var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
+                            $("#lgImage").append(imgChild);
                         }
                         else
                         {
                             alert(rArray[1]);
                         }
-                   }' 
+                    }' 
             ) );
             ?>
         </div>
 
-        <div id="column1" name="column1">
+        <div id="c1" name="c1">
         <span style="width:120px;display:-moz-inline-box;display:inline-block;"><strong>column1</strong></span>
         <?php
             $this->widget ( 'application.extensions.MUploadify.MUploadify', array (
-                    'name' => 'c1Upload',
-                    'auto' => true,
-                    'script' => array (
-                            'theme/upload' 
-                    ),
-                    'onComplete' => 'js:function(event, queueID, fileObj, response, data)
+                'name' => 'c1Upload',
+                'auto' => true,
+                'script' => array (
+                        'theme/upload' 
+                ),
+                'onComplete' => 'js:function(event, queueID, fileObj, response, data)
                     {   
-                        while(fileDiv.firstChild)
+                        while(c1Image.firstChild)
                         {
-                            var oldNode = fileDiv.removeChild(fileDiv.firstChild);
+                            var oldNode = c1Image.removeChild(c1Image.firstChild);
                             oldNode = null;
                         }
                         rArray = response.split(":");
-                        alert("result:" + rArray[0] + ":" + rArray[1]);
                         if(rArray[0] == 0)
                         {
-                            var html=\'<label>上传成功</label><input type="hidden" value="\'+rArray[1]+\'" name="c1File" id="c1File" />\';
-                            $("#fileDiv").append(html);
-                            
+                            var html=\'<input type="hidden" value="\'+rArray[1]+\'" name="c1File" id="c1File" />\';
+                            var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
+                            $("#c1Image").append(imgChild);
                         }
                         else
                         {
                             alert(rArray[1]);
                         }
-                   }' 
+                    }' 
             ) );
             ?>
 		</div>
 
-		<div id="column2" name="column2">
+		<div id="c2" name="c2">
         <span  style="width:120px;display:-moz-inline-box;display:inline-block;"><strong>column2</strong></span>
         <?php
-            $this->widget ('application.extensions.MUploadify.MUploadify', array (
-                    'name' => 'c2Upload',
-                    'auto' => true,
-                    'script' => array (
-                            'theme/upload' 
-                    ),
-                    'onComplete' => 'js:function(event, queueID, fileObj, response, data)
-                    {   
-                        while(fileDiv.firstChild)
-                        {
-                            var oldNode = fileDiv.removeChild(fileDiv.firstChild);
-                            oldNode = null;
-                        }
-                        rArray = response.split(":");
-        
-                        if(rArray[0] == 0)
-                        {
-                            var html=\'<label>上传成功</label><input type="hidden" value="\'+rArray[1]+\'" name="c2File" id="c2File" />\';
-                            //alert(rArray[1]);
-                            //alert(html);
-                            $("#fileDiv").append(html);
-                            
-                        }
-                        else
-                        {
-                            alert(rArray[1]);
-                        }
-                   }' 
+             $this->widget ( 'application.extensions.MUploadify.MUploadify', array (
+            'name' => 'c2Upload',
+            'auto' => true,
+            'script' => array (
+                    'theme/upload' 
+            ),
+            'onComplete' => 'js:function(event, queueID, fileObj, response, data)
+                {   
+                    while(c2Image.firstChild)
+                    {
+                        var oldNode = c2Image.removeChild(c2Image.firstChild);
+                        oldNode = null;
+                    }
+                    rArray = response.split(":");
+                    if(rArray[0] == 0)
+                    {
+                        var html=\'<input type="hidden" value="\'+rArray[1]+\'" name="c2File" id="c2File" />\';
+                        var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
+                        $("#c2Image").append(imgChild);
+                    }
+                    else
+                    {
+                        alert(rArray[1]);
+                    }
+                }' 
             ) );
             ?>
 		
@@ -168,6 +162,17 @@ $form = $this->beginWidget ( 'CActiveForm', array (
     </div>
 	<div>
 		<label>Theme Preview</label>
+		<div id="bgImage" name="bgImage">
+		</div>
+		<div id="lgImage" name="lgImage">
+		
+		</div>
+		<div id="c1Image" name="c1Image">
+		</div>
+		
+		<div id="c2Image" name="c2Image">
+		</div>
+		
 	</div>
 
 	<div class="row">
