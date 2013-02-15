@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'tianyi_build':
  * @property integer $build_id
  * @property integer $build_date
+ * @property integer $build_type
  * @property string $build_version
  * @property string $build_comments
  * @property integer $enterprise_id
@@ -46,7 +47,7 @@ class Build extends CActiveRecord
         return array (
                 // array('build_version', 'required'),
                 array (
-                        'build_date, enterprise_id',
+                        'build_date, enterprise_id, build_type',
                         'numerical',
                         'integerOnly' => true 
                 ),
@@ -63,7 +64,7 @@ class Build extends CActiveRecord
                 // The following rule is used by search().
                 // Please remove those attributes that should not be searched.
                 array (
-                        'build_id, build_date, build_version, build_comments, enterprise_id, branchId',
+                        'build_id, build_date, build_type, build_version, build_comments, enterprise_id, branchId',
                         'safe',
                         'on' => 'search' 
                 ) 
@@ -128,6 +129,7 @@ class Build extends CActiveRecord
         return array (
                 'build_id' => 'Build',
                 'build_date' => 'Build Date',
+                'build_type' => 'Build Type',
                 'build_version' => 'Build Version',
                 'build_comments' => 'Build Comments',
                 'enterprise_id' => 'Enterprise' 
@@ -148,6 +150,7 @@ class Build extends CActiveRecord
         
         $criteria->compare ( 'build_id', $this->build_id );
         $criteria->compare ( 'build_date', $this->build_date );
+        $criteria->compare ( 'build_type', $this->build_type );
         $criteria->compare ( 'build_version', $this->build_version, true );
         $criteria->compare ( 'build_comments', $this->build_comments, true );
         $criteria->compare ( 'enterprise_id', $this->enterprise_id );
@@ -156,4 +159,17 @@ class Build extends CActiveRecord
                 'criteria' => $criteria 
         ) );
     }
+    
+    public function getBuildTypeList()
+    {
+        return Array( 0 => 'normal',
+                 1 => 'force',
+                );
+    }
+    
+    public function getBuildTypeName($type)
+    {
+        return $type ? 'force' : 'normal';
+    }
+    
 }

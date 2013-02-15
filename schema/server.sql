@@ -335,6 +335,7 @@ CREATE TABLE tianyi_build
 (
     build_id                   int not null auto_increment,
     build_date                 int default 0,
+    build_type                 int not null default 0,
     build_version              varchar(32) not null,
     build_comments             varchar(60) default null,
 

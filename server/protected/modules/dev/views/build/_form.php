@@ -32,6 +32,13 @@
 
 	</br>
 	<div class="row">
+		<?php echo $form->labelEx($model,'build_type'); ?>
+		<?php echo $form->dropDownList($model, 'build_type', Build::model()->getBuildTypeList()); ?>
+		<?php echo $form->error($model,'enterprise_id'); ?>
+	</div>
+	
+	</br>
+	<div class="row">
 		<label>Branch List</label>
           <?php
               echo $form->dropDownList($model, 'branchId', $branchList);

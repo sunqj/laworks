@@ -22,5 +22,8 @@
 	<?php echo CHtml::encode($data->enterpriseTable->enterprise_name); ?>
 	<br />
 	
+	<b><?php echo CHtml::encode($data->getAttributeLabel('build_type')); ?>:</b>
+	<?php echo CHtml::encode($data->getBuildTypeName($data->build_type)); ?>
+	<br />
 
 </div>
