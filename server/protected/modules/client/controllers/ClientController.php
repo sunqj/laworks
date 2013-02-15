@@ -4,10 +4,6 @@ class ClientController extends Controller
 {
     //just a test action for all
     public $layout = "//layout/xml";
-    public function actionTest()
-    {
-        echo "this is a test action!!!";
-    }
 
     //login with username and password, username is password
     public function actionPhoneUnameLogin()
@@ -41,7 +37,7 @@ class ClientController extends Controller
         }
         
         $clientVersion  = isset($_GET['ver']) ? $_GET['ver'] : 0;
-        $columns = Column::model()->getEnterpriseColumnList($user->enterprise_id);
+        $columns = Column::model()->findAll("enterprise_id = $user->enterprise_id");
         $verInfo = Build::model()->getLatestVersion($clientVersion, $user->enterprise_id);
         
         $this->render('phonelogin', array(
@@ -51,6 +47,7 @@ class ClientController extends Controller
                                       'type'       => $verInfo['type'],
                                       'url'        => $verInfo['url'],
                                       'columns'    => $columns,
+                                      'user'       => $user,
                                       ));
         return;
     }
@@ -67,6 +64,7 @@ class ClientController extends Controller
         
         $imeid = $_GET['imeid'];
         $user = User::getUserByImeid($imeid);
+        
         if($user == null)
         {
             $this->render('phonelogin', array('result' => 1,
@@ -76,7 +74,7 @@ class ClientController extends Controller
         }
         
         $clientVersion  = isset($_GET['ver']) ? $_GET['ver'] : 0;
-        $columns = Column::model()->getEnterpriseColumnList($user->enterprise_id);
+        $columns = Column::model()->findAll("enterprise_id = $user->enterprise_id");
         $verInfo = Build::model()->getLatestVersion($clientVersion, $user->enterprise_id);
         
         $this->render('phonelogin', array(
@@ -86,6 +84,7 @@ class ClientController extends Controller
                                       'type'       => $verInfo['type'],
                                       'url'        => $verInfo['url'],
                                       'columns'    => $columns,
+                                      'user'       => $user,
                                       ));
         return;
     }
