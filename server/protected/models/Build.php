@@ -176,14 +176,13 @@ class Build extends CActiveRecord
     {
         $buildArray = Build::model()->findAll("build_date > $clientVer and enterprise_id = $eId 
                     order by build_date DESC");
-        
+        $verInfo = Array('type' => 0, 'newver' => 0, 'url' => null);
         if($buildArray == null)
         {
-            return null;
+            return $verInfo;
         }
         
 
-        $verInfo = Array('force' => 0);
         foreach($buildArray as $build)
         {
             if($build->build_type == 1)

@@ -10,64 +10,84 @@ class ClientController extends Controller
     }
 
     //login with username and password, username is password
-    public function actionPhoneLogin()
+    public function actionPhoneUnameLogin()
     {
         //GET params
+        if( !isset($_GET['username']) || !isset($_GET['password']) )
+        {
+            $this->render('phonelogin', array('result' => 1,
+                    'info'   => 'invalid request, username and password required.',
+            ));
+            return;
+        }
         $username = $_GET['username'];
         $password = $_GET['password'];
-        
-        $clientVersion  = isset($_GET['ver']) ? $_GET['ver'] : 0;
-        
         //Page parms
         $user = User::getUserByName($username);
         if($user == null)
         {
             $this->render('phonelogin', array('result' => 1,
-                                              'info'   => 'user does not exist',
-                    ));
+                    'info'   => 'user does not exist',
+            ));
             return;
         }
         
         if($user->password != $password)
         {
             $this->render('phonelogin', array('result' => 1,
-                                              'info'   => 'wrong password',
-                                        ));
+                    'info'   => 'wrong password',
+            ));
             return;
         }
         
-        
+        $clientVersion  = isset($_GET['ver']) ? $_GET['ver'] : 0;
         $columns = Column::model()->getEnterpriseColumnList($user->enterprise_id);
-        
         $verInfo = Build::model()->getLatestVersion($clientVersion, $user->enterprise_id);
-        
-        $newver = 0 ;
-        $type = 0 ;
-        $url = null;
-        if($verInfo)
-        {
-            $newver = $verInfo['newver'];
-            $type   = $verInfo['type'];
-            $url    = $verInfo['url'];
-        }
         
         $this->render('phonelogin', array(
                                       'result'     => 0,
                                       'info'       => 'login success',
-                                      'newver'  => $newver,
-                                      'type'       => $type, 
-                                      'url'        => $url,
+                                      'newver'     => $verInfo['newver'],
+                                      'type'       => $verInfo['type'],
+                                      'url'        => $verInfo['url'],
                                       'columns'    => $columns,
                                       ));
+        return;
     }
     
-    public function actionImeidLogin()
+    public function actionPhoneImeidLogin()
     {
-        $username = $_GET['imeid'];
-        $password = $_GET['password'];
-        $version  = $_GET['ver'];
+        if( !isset($_GET['imeid']) )
+        {
+            $this->render('phonelogin', array('result' => 1,
+                    'info'   => 'invalid request imeid required.',
+            ));
+            return;
+        }
         
-        echo "entperprise logo,enterprise id column and tianyi_channel";
+        $imeid = $_GET['imeid'];
+        $user = User::getUserByImeid($imeid);
+        if($user == null)
+        {
+            $this->render('phonelogin', array('result' => 1,
+                    'info'   => 'user does not exist',
+            ));
+            return;
+        }
+        
+        $clientVersion  = isset($_GET['ver']) ? $_GET['ver'] : 0;
+        $columns = Column::model()->getEnterpriseColumnList($user->enterprise_id);
+        $verInfo = Build::model()->getLatestVersion($clientVersion, $user->enterprise_id);
+        
+        $this->render('phonelogin', array(
+                                      'result'     => 0,
+                                      'info'       => 'login success',
+                                      'newver'     => $verInfo['newver'],
+                                      'type'       => $verInfo['type'],
+                                      'url'        => $verInfo['url'],
+                                      'columns'    => $columns,
+                                      ));
+        return;
     }
     
     public function actionListNotification()
@@ -151,8 +171,8 @@ class ClientController extends Controller
                                 'index',
                                 'view',
                                 'test',
-                                "phonelogin",
-                                "imeidlogin",
+                                "phoneunamelogin",
+                                "phoneimeidlogin",
                                 "listnotification",
                                 "listchannel",
                                 "listbanner",

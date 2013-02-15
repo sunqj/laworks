@@ -188,4 +188,11 @@ class User extends CActiveRecord
 	    $ret = User::model()->findByAttributes(Array("username" => $username));
 	    return $ret;
 	}
+	
+	public static function  getUserByImeid($imeid)
+	{
+	    $ret = User::model()->findByAttributes(Array("user_extra" => $imeid));
+	    return $ret;
+	}
+	
 }
