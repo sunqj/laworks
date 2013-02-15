@@ -15,16 +15,49 @@ class ClientController extends Controller
         //GET params
         $username = $_GET['username'];
         $password = $_GET['password'];
-        $version  = $_GET['ver'];
+        
+        $clientVersion  = isset($_GET['ver']) ? $_GET['ver'] : 0;
         
         //Page parms
-        $columns = Array("columnA", "columnB");
-        $latestVer = "aaa_123";
-        $type = "1";
+        $user = User::getUserByName($username);
+        if($user == null)
+        {
+            $this->render('phonelogin', array('result' => 1,
+                                              'info'   => 'user does not exist',
+                    ));
+            return;
+        }
         
-        $this->render('phonelogin', array('latestVer'  => $latestVer,
-                                      'type'    => $type, 
-                                      'columns' => $columns,
+        if($user->password != $password)
+        {
+            $this->render('phonelogin', array('result' => 1,
+                                              'info'   => 'wrong password',
+                                        ));
+            return;
+        }
+        
+        
+        $columns = Column::model()->getEnterpriseColumnList($user->enterprise_id);
+        
+        $verInfo = Build::model()->getLatestVersion($clientVersion, $user->enterprise_id);
+        
+        $newver = 0 ;
+        $type = 0 ;
+        $url = null;
+        if($verInfo)
+        {
+            $newver = $verInfo['newver'];
+            $type   = $verInfo['type'];
+            $url    = $verInfo['url'];
+        }
+        
+        $this->render('phonelogin', array(
+                                      'result'     => 0,
+                                      'info'       => 'login success',
+                                      'newver'  => $newver,
+                                      'type'       => $type, 
+                                      'url'        => $url,
+                                      'columns'    => $columns,
                                       ));
     }
     

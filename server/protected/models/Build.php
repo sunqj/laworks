@@ -172,4 +172,30 @@ class Build extends CActiveRecord
         return $type ? 'force' : 'normal';
     }
     
+    public function getLatestVersion($clientVer, $eId)
+    {
+        $buildArray = Build::model()->findAll("build_date > $clientVer and enterprise_id = $eId 
+                    order by build_date DESC");
+        
+        if($buildArray == null)
+        {
+            return null;
+        }
+        
+
+        $verInfo = Array('force' => 0);
+        foreach($buildArray as $build)
+        {
+            if($build->build_type == 1)
+            {
+                $verInfo['type'] = 1;
+                break;
+            }
+        }
+        
+        $latest = $buildArray[0];
+        $verInfo['newver'] = $latest->build_date;
+        $verInfo['url']    = Yii::app()->getBaseUrl() . "/apk/$eId/$latest->build_version.apk";
+        return $verInfo;
+    }
 }

@@ -1,30 +1,34 @@
 <xml version="1.0" encoding="UTF-8" />
 <response>
-    <result value="0" info="" />
-    <update latest="<?php echo $latestVer; ?>" type="<?php echo $type; ?>" />
-    <data>
-        <?php if(count($columns)):?>
-            <columns>
-                <?php foreach($columns as $column): ?>
-                    <column name="<?php echo $column; ?>" />
-                <?php endforeach; ?>
-            </columns>
-        <?php endif;?>
-    </data>
+    <result value="<?php echo $result; ?>" info="<?php echo $info; ?>" />
+    <?php if(!$result): ?>
+        <update latest="<?php echo $newver; ?>" type="<?php echo $type; ?>" url="<?php echo $url; ?>" />
+        <data>
+                <?php if(count($columns)):?>
+                    <columns>
+                        <?php foreach($columns as $column): ?>
+                            <column name="<?php echo $column; ?>" />
+                        <?php endforeach; ?>
+                    </columns>
+                <?php endif; ?>
+        </data>
+    <?php endif; ?>
 </response>
 
 <?php
 /* return xml example:
-<xml version="1.0" encoding="UTF-8" />
 <response>
-    <result value="0" />
+    <result value="0" info="login success" />
+    <<update latest="1360948973" type="1" url="/server/apk/1/caizhengting_sx-1360948973.apk" />
     <data>
-        <update latest="aaa_123" type="1" />
         <columns>
-            <column name="columnA" />
-            <column name="columnB" />
+            <column name="column1" />
+            <column name="column2" />
+            <column name="column3" />
         </columns>
     </data>
 </response>
+
+
 */
 ?>

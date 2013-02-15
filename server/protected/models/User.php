@@ -181,4 +181,11 @@ class User extends CActiveRecord
 	    $userList = User::model()->findAll("enterprise_id = $enterpriseId and permission_id = 3");
 	    return CHtml::listData($userList, 'user_id', 'username');
 	}
+	
+	
+	public static function getUserByName($username)
+	{
+	    $ret = User::model()->findByAttributes(Array("username" => $username));
+	    return $ret;
+	}
 }
