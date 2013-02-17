@@ -121,11 +121,13 @@ class ClientController extends Controller
             return;
         }
         
-        
+
         $criteria = new CDbCriteria();
         $count = Notification::model()->count("enterprise_id = $user->enterprise_id");
         $pagination = new CPagination($count);
         $pagination->pageSize = LA_PAGE_SIZE;
+        //default pageVar = page, set it explicit.
+        $pagination->pageVar = 'page';
         $pagination->applyLimit($criteria);
         
         $notificationList = Notification::model()->findAll($criteria);
@@ -194,9 +196,7 @@ class ClientController extends Controller
             return;
         }
         
-        
-        
-        
+
         echo "banner list";
     }
     
