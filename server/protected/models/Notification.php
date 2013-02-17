@@ -174,6 +174,7 @@ class Notification extends CActiveRecord
 	            $this->create_user_id = Yii::app ()->user->getId ();
 	            $this->audit_user_id = Yii::app ()->user->getId ();
 	            $this->notification_url = $url;
+	            $this->enterprise_id = Yii::app()->user->enterprise_id;
 	        }
 	        return true;
 	    }

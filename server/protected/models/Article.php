@@ -262,6 +262,7 @@ class Article extends CActiveRecord
                 $this->create_user_id = Yii::app ()->user->getId ();
                 $this->audit_user_id = Yii::app ()->user->getId ();
                 $this->article_url = $url;
+                $this->enterprise_id = Yii::app()->user->enterprise_id;
             }
             else
             {
