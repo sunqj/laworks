@@ -2,7 +2,6 @@
 <response>
     <result value="<?php echo $result; ?>" info="<?php echo $info; ?>" />
     <?php if(!$result): ?>
-
         <data>
                 <?php if(count($columns)):?>
                     <update latest="<?php echo $newver; ?>" type="<?php echo $type; ?>" url="<?php echo $url; ?>" />

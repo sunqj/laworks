@@ -1,17 +1,28 @@
 <?php
 
+require Yii::app ()->getBasePath () . '/utils/Constants.php';
+
 class ClientController extends Controller
 {
     //just a test action for all
     public $layout = "//layout/xml";
 
+    public function renderRetCodeAndInfoView($viewName, $retCode, $why)
+    {
+        $this->render($viewName, Array('result' => $retCode,
+                                       'info'   => $why));
+    }
+    
     //login with username and password, username is password
     public function actionPhoneUnameLogin()
     {
+        //view name
+        $viewName = 'phonelogin';
+        
         //GET params
         if( !isset($_GET['username']) || !isset($_GET['password']) )
         {
-            $this->render('phonelogin', array('result' => 1,
+            $this->render($viewName, array('result' => LA_RSP_FAILED,
                     'info'   => 'invalid request, username and password required.',
             ));
             return;
@@ -22,7 +33,7 @@ class ClientController extends Controller
         $user = User::getUserByName($username);
         if($user == null)
         {
-            $this->render('phonelogin', array('result' => 1,
+            $this->render($viewName, array('result' => LA_RSP_FAILED,
                     'info'   => 'user does not exist',
             ));
             return;
@@ -30,7 +41,7 @@ class ClientController extends Controller
         
         if($user->password != $password)
         {
-            $this->render('phonelogin', array('result' => 1,
+            $this->render($viewName, array('result' => LA_RSP_FAILED,
                     'info'   => 'wrong password',
             ));
             return;
@@ -40,8 +51,8 @@ class ClientController extends Controller
         $columns = Column::model()->findAll("enterprise_id = $user->enterprise_id");
         $verInfo = Build::model()->getLatestVersion($clientVersion, $user->enterprise_id);
         
-        $this->render('phonelogin', array(
-                                      'result'     => 0,
+        $this->render($viewName, array(
+                                      'result'     => LA_RSP_SUCCESS,
                                       'info'       => 'login success',
                                       'newver'     => $verInfo['newver'],
                                       'type'       => $verInfo['type'],
@@ -54,9 +65,12 @@ class ClientController extends Controller
     
     public function actionPhoneImeidLogin()
     {
+        //view name
+        $viewName = 'phonelogin';
+        
         if( !isset($_GET['imeid']) )
         {
-            $this->render('phonelogin', array('result' => 1,
+            $this->render($viewName, array('result' => LA_RSP_FAILED,
                     'info'   => 'invalid request imeid required.',
             ));
             return;
@@ -67,7 +81,7 @@ class ClientController extends Controller
         
         if($user == null)
         {
-            $this->render('phonelogin', array('result' => 1,
+            $this->render($viewName, array('result' => LA_RSP_FAILED,
                     'info'   => 'user does not exist',
             ));
             return;
@@ -77,8 +91,8 @@ class ClientController extends Controller
         $columns = Column::model()->findAll("enterprise_id = $user->enterprise_id");
         $verInfo = Build::model()->getLatestVersion($clientVersion, $user->enterprise_id);
         
-        $this->render('phonelogin', array(
-                                      'result'     => 0,
+        $this->render($viewName, array(
+                                      'result'     => LA_RSP_SUCCESS,
                                       'info'       => 'login success',
                                       'newver'     => $verInfo['newver'],
                                       'type'       => $verInfo['type'],
@@ -91,13 +105,74 @@ class ClientController extends Controller
     
     public function actionListNotification()
     {
-        $username =$_GET['username'];
-        $page = $_GET['page'];
+        $viewName = 'listnotification';
+        if(!isset($_GET['username']))
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user name missed');
+            return; 
+        }
         
-        echo "notification list";
+        $username =$_GET['username'];
+        $user = User::getUserByName($username);
+        
+        if($user == null)
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user does not exist');
+            return;
+        }
+        
+        
+        $criteria = new CDbCriteria();
+        $count = Notification::model()->count("enterprise_id = $user->enterprise_id");
+        $pagination = new CPagination($count);
+        $pagination->pageSize = LA_PAGE_SIZE;
+        $pagination->applyLimit($criteria);
+        
+        $notificationList = Notification::model()->findAll($criteria);
+
+        $this->render($viewName, Array(
+                'result'  => LA_RSP_SUCCESS,
+                'info'    => 'list notification success',
+                'notificationList' => $notificationList,
+                ));
     }
     
-    public function actionListChannel()
+    public function actionReadNotification()
+    {
+        $viewName = 'readnotification';
+        
+        if(!isset($_GET['notificationId']))
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'notification id missed.');
+            return;
+        }
+        
+        $notification = Notification::model()->findByPk($_GET['notificationId']);
+        if($notificationId == null)
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'the notification does not exist');
+            return;
+        }
+        
+        if(!isset($_GET['username']))
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user id missed.');
+            return;
+        }
+        
+        $user = User::getUserByName($_GET['username']);
+        if($user == null)
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'the user does not exist');
+            return;
+        }
+        
+        $this->renderRetCodeAndInfoView($viewName, LA_RSP_SUCCESS, 'read notification success');
+        
+        return;
+    }
+    
+    public function actionListChannelArticles()
     {
         $channelId = $_GET['channelId'];
         
@@ -106,7 +181,21 @@ class ClientController extends Controller
     
     public function actionListBanner()
     {
-        $username = $_GET['username'];
+        if(!isset($_GET['username']))
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user id missed.');
+            return;
+        }
+        
+        $user = User::getUserByName($_GET['username']);
+        if($user == null)
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'the user does not exist');
+            return;
+        }
+        
+        
+        
         
         echo "banner list";
     }
@@ -120,17 +209,39 @@ class ClientController extends Controller
     
     public function actionListContacts()
     {
-        $username = $_GET['username'];
+    if(!isset($_GET['username']))
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user id missed.');
+            return;
+        }
+        
+        $user = User::getUserByName($_GET['username']);
+        if($user == null)
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'the user does not exist');
+            return;
+        }
         
         echo "all contacts list";
     }
     
     public function  actionCheckUpdate()
     {
-         $username = $_GET['username'];
-         $ver      = $_GET['ver'];
+        if(!isset($_GET['username']))
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user id missed.');
+            return;
+        }
+        
+        $user = User::getUserByName($_GET['username']);
+        if($user == null)
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'the user does not exist');
+            return;
+        }
+        $ver      = $_GET['ver'];
          
-         echo "whether there is a new version available or not.";
+        echo "whether there is a new version available or not.";
     }
     
     
