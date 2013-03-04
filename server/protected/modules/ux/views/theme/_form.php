@@ -26,43 +26,9 @@ $form = $this->beginWidget ( 'CActiveForm', array (
 		<?php echo $form->error($model,'theme_name'); ?>
 	</div>
 	
-	<div id="upload" name="upload">
-        <label>Upload</label>
-        <div id="bg" name="bg">
-        <span style="width:124px;display:-moz-inline-box;display:inline-block;"><strong>background</strong></span>
-        <?php
-        $this->widget ( 'application.extensions.MUploadify.MUploadify', array (
-            'name' => 'bgUpload',
-            'auto' => true,
-            'script' => array (
-                    'theme/upload' 
-            ),
-            'onComplete' => 'js:function(event, queueID, fileObj, response, data)
-                {   
-                    while(bgImage.firstChild)
-                    {
-                        var oldNode = bgImage.removeChild(bgImage.firstChild);
-                        oldNode = null;
-                    }
-                    rArray = response.split(":");
-                    if(rArray[0] == 0)
-                    {
-                        var html=\'<input type="hidden" value="\'+rArray[1]+\'" name="bgFile" id="bgFile" />\';
-                        var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
-                        $("#bgImage").append(imgChild);
-                    }
-                    else
-                    {
-                        alert(rArray[1]);
-                    }
-                }' 
-        ) );
-        ?>
-        </div>
-        
-        <div id="lg" name="lg">
-         <span style="width:124px;display:-moz-inline-box;display:inline-block;"><strong>logo</strong></span>
-         <?php
+<?php
+		 //generates following scripts
+          /*
             $this->widget ( 'application.extensions.MUploadify.MUploadify', array (
                 'name' => 'lgUpload',
                 'auto' => true,
@@ -89,89 +55,69 @@ $form = $this->beginWidget ( 'CActiveForm', array (
                         }
                     }' 
             ) );
-            ?>
-        </div>
+            */
 
-        <div id="c1" name="c1">
-        <span style="width:120px;display:-moz-inline-box;display:inline-block;"><strong>column1</strong></span>
-        <?php
-            $this->widget ( 'application.extensions.MUploadify.MUploadify', array (
-                'name' => 'c1Upload',
-                'auto' => true,
-                'script' => array (
-                        'theme/upload' 
-                ),
-                'onComplete' => 'js:function(event, queueID, fileObj, response, data)
-                    {   
-                        while(c1Image.firstChild)
-                        {
-                            var oldNode = c1Image.removeChild(c1Image.firstChild);
-                            oldNode = null;
-                        }
-                        rArray = response.split(":");
-                        if(rArray[0] == 0)
-                        {
-                            var html=\'<input type="hidden" value="\'+rArray[1]+\'" name="c1File" id="c1File" />\';
-                            var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
-                            $("#c1Image").append(imgChild);
-                        }
-                        else
-                        {
-                            alert(rArray[1]);
-                        }
-                    }' 
-            ) );
-            ?>
-		</div>
+$columns = array('bg' => 'background', 
+			'lg' => 'logo', 
+			'c1' => 'column1',
+			'c2' => 'column2',
+			'c3' => 'column3',
+			'c4' => 'column4',
+			'c5' => 'column5',
+			'c6' => 'column6',
+			'c7' => 'column7',
+			'o1' => 'other1',
+			'o2' => 'other2'
+             );
 
-		<div id="c2" name="c2">
-        <span  style="width:120px;display:-moz-inline-box;display:inline-block;"><strong>column2</strong></span>
-        <?php
-             $this->widget ( 'application.extensions.MUploadify.MUploadify', array (
-            'name' => 'c2Upload',
-            'auto' => true,
-            'script' => array (
-                    'theme/upload' 
-            ),
-            'onComplete' => 'js:function(event, queueID, fileObj, response, data)
-                {   
-                    while(c2Image.firstChild)
-                    {
-                        var oldNode = c2Image.removeChild(c2Image.firstChild);
-                        oldNode = null;
-                    }
-                    rArray = response.split(":");
-                    if(rArray[0] == 0)
-                    {
-                        var html=\'<input type="hidden" value="\'+rArray[1]+\'" name="c2File" id="c2File" />\';
-                        var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
-                        $("#c2Image").append(imgChild);
-                    }
-                    else
-                    {
-                        alert(rArray[1]);
-                    }
-                }' 
-            ) );
-            ?>
+function drawUploadControl($viewObject, $namePrefix)
+	{
+		$callbackStr = 'js:function(event, queueID, fileObj, response, data){';
+		$callbackStr .= "while({$namePrefix}Image.firstChild){";
+		$callbackStr .= "var oldNode = ${namePrefix}Image.removeChild({$namePrefix}Image.firstChild);oldNode = null;}";
+		$callbackStr .= "rArray = response.split(':');if(rArray[0] == 0){";
+		$nameStr = "{$namePrefix}File";
+		$callbackStr .= 'var html=\'<input type="hidden" value="\'+rArray[1]+\'" name="' . $nameStr . '" id="'. $nameStr . '" />\';';
+		$callbackStr .= 'var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";';
+		$callbackStr .= "$('#{$namePrefix}Image').append(imgChild);}else{ alert(rArray[1]);}}";
 		
 		
-		</div>
+		$viewObject->widget ( 'application.extensions.MUploadify.MUploadify', array (
+				'name' => $namePrefix . 'Upload',
+				'auto' => true,
+				'script' => array (
+						'theme/upload'
+				),
+				'onComplete' => $callbackStr));
+	}
+?>
+
+	<div id="upload" name="upload">
+        <label>Upload</label>
+        <?php
+			foreach($columns as $key => $value )
+			{
+				echo "<div id='$key' name='$key'>";
+				echo "<span style='width:124px;display:-moz-inline-box;display:inline-block;'><strong>$value</strong></span>";
+				drawUploadControl($this, $key);
+				echo "</div>";
+			}         
+        ?>
+        
+        
+        
+
 	</div>
     <div id="fileDiv" name="fileDiv">
     </div>
 	<div>
 		<label>Theme Preview</label>
-		<div id="bgImage" name="bgImage">
-		</div>
-		<div id="lgImage" name="lgImage">
-		
-		</div>
-		<div id="c1Image" name="c1Image">
-		</div>
-		
-		<div id="c2Image" name="c2Image">
-		</div>
+		<?php
+			foreach($columns as $key => $value)
+			{
+				echo "<div id='{$key}Image' name='{$key}Image'></div>";
+			} 
+		?>
 		
 	</div>
 

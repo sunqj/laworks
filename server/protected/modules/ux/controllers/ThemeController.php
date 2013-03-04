@@ -226,7 +226,7 @@ class ThemeController extends Controller
      */
     public function actionUpload()
     {
-        $prefixes = Array('bg', 'lg', 'c1', 'c2');
+        $prefixes = Array('bg', 'lg', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'o1', 'o2');
         foreach ($prefixes as $prefix)
         {
             $varName = $prefix . "Upload";
@@ -237,10 +237,10 @@ class ThemeController extends Controller
                 $uploadImage = CUploadedFile::getInstanceByName ($varName);
                 $fileExt = trim ( strtolower ( $uploadImage->getExtensionName () ));
             
-                if ($fileExt != 'png')
+                if (($fileExt != 'png') && ($fileExt != 'jpg'))
                 {
                     // is not correct file type.
-                    echo "1:file extension not match.";
+                    echo "1:file extension not match. the file extension is: $fileExt, only jpg and png allowed.";
                     return;
                 }
             
