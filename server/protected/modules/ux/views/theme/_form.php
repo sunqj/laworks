@@ -62,8 +62,8 @@ $form = $this->beginWidget ( 'CActiveForm', array (
             ) );
             */
 
-$columns = array('bg' => 'background', 
-			'lg' => 'logo', 
+$columns = array(//'bg' => 'background', 
+			//'lg' => 'logo', 
 			'c1' => 'column1',
 			'c2' => 'column2',
 			'c3' => 'column3',
@@ -78,13 +78,14 @@ $columns = array('bg' => 'background',
 function drawUploadControl($viewObject, $namePrefix)
 	{
 		$callbackStr = 'js:function(event, queueID, fileObj, response, data){';
-		$callbackStr .= "while({$namePrefix}Image.firstChild){";
-		$callbackStr .= "var oldNode = ${namePrefix}Image.removeChild({$namePrefix}Image.firstChild);oldNode = null;}";
+		$callbackStr .= "while({$namePrefix}.firstChild){";
+		$callbackStr .= "var oldNode = ${namePrefix}.removeChild({$namePrefix}.firstChild);oldNode = null;}";
 		$callbackStr .= "rArray = response.split(':');if(rArray[0] == 0){";
 		$nameStr = "{$namePrefix}File";
-		$callbackStr .= 'var html=\'<input type="hidden" value="\'+rArray[1]+\'" name="' . $nameStr . '" id="'. $nameStr . '" />\';';
-		$callbackStr .= 'var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";';
-		$callbackStr .= "$('#{$namePrefix}Image').append(imgChild);}else{ alert(rArray[1]);}}";
+		$callbackStr .= 'var html=\'<input type="hidden" value="\'+rArray[1]+\'" name="' ;
+        $callbackStr .= $nameStr . '" id="'. $nameStr . '" />\';';
+		$callbackStr .= 'var imgChild = "<img src="+rArray[1]+ " style=\"max-width:120px\" /></br>column_name";';
+		$callbackStr .= "$('#{$namePrefix}').append(imgChild);}else{ alert(rArray[1]);}}";
 		
 		
 		$viewObject->widget ( 'application.extensions.MUploadify.MUploadify', array (
@@ -102,20 +103,42 @@ function drawUploadControl($viewObject, $namePrefix)
         <?php
 			foreach($columns as $key => $value )
 			{
-				echo "<div id='$key' name='$key'>";
+				echo "<div id='{$key}_div' name='{$key}_div'>";
 				echo "<span style='width:124px;display:-moz-inline-box;display:inline-block;'><strong>$value</strong></span>";
 				drawUploadControl($this, $key);
 				echo "</div>";
 			}         
         ?>
-        
-        
-        
+     </div>  
 
-	</div>
-    <div id="fileDiv" name="fileDiv">
-    </div>
-
+     </br></br>
+     <div id="lg_div" name="lg_div">
+     	<span style='width:124px;display:-moz-inline-box;display:inline-block;'><strong>logo</strong></span>
+     	<?php 
+     	        $this->widget ( 'application.extensions.MUploadify.MUploadify', array (
+                'name' => 'lgUpload',
+                'auto' => true,
+                'script' => array (
+                        'theme/upload' 
+                ),
+                'onComplete' => 'js:function(event, queueID, fileObj, response, data)
+                    {   
+                        rArray = response.split(":");
+                        if(rArray[0] == 0)
+                        {
+							//alert(rArray[1]);
+							//alert($("#lgImage").attr("src"));
+							$("#lgImage").attr("src", rArray[1]);
+                        }
+                        else
+                        {
+                            alert(rArray[1]);
+                        }
+                    }' 
+            ) );
+		?>
+		</div>
+     
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
@@ -129,19 +152,19 @@ function drawUploadControl($viewObject, $namePrefix)
 .logo{margin-left:-480px;}
 .ename{margin-left:-430px;margin-top:5px;}
 .bg{ float:left;z-index:1; display:inline;} 
-.c1{ margin-top: -650px;margin-left: 5px;}
-.c2{ margin-top: -650px;margin-left: 172px; }
+.c1{ margin-top: -650px;margin-left: 10px;}
+.c2{ margin-top: -650px;margin-left: 175px; }
 .c3{ margin-top: -650px;margin-left: 340px; margin-right:5px;}
-.c4{ margin-top: -420px;margin-left: 5px;}
-.c5{ margin-top: -420px;margin-left: 172px;}
+.c4{ margin-top: -420px;margin-left: 10px;}
+.c5{ margin-top: -420px;margin-left: 175px;}
 .c6{ margin-top: -420px;margin-left: 340px; margin-right:5px;}
-.c7{ margin-top: -190px;margin-left: 5px;}
-.c8{ margin-top: -190px;margin-left: 172px;}
+.c7{ margin-top: -190px;margin-left: 10px;}
+.c8{ margin-top: -190px;margin-left: 175px;}
 .c9{ margin-top: -190px;margin-left: 340px; margin-right:5px;}
 
 .c1,.c2,.c3,.c4,.c5,.c6,.c7,.c8,.c9,.logo,.ename
 {
-    text-align:center;float:left;z-index:2;display:inline;*margin-left:0px;
+    text-align:center;float:left;z-index:2;display:inline;*margin-left:0px;margin-right:0px;*margin-right:0px;
 }
 </style>
 	
@@ -154,8 +177,9 @@ function drawUploadControl($viewObject, $namePrefix)
     <div class="banner"><img src="/server/static/theme/banner.png" /></div>
 
     <!-- logo --!>
-    <div class="logo">
-        <img src="/server/static/theme/lg.png" style="margin-top:5px;max-width:30px"/>
+    <div class="logo" name="lg" id="lg">
+        <img id="lgImage" src="/server/static/theme/lg.png" style="margin-top:5px;max-width:30px"/>
+        <input type="hidden" value="lg.png" name="lgFile" id="lgFile" />
     </div>
 
     <!-- enterprise name --!>
@@ -164,37 +188,37 @@ function drawUploadControl($viewObject, $namePrefix)
     </div>
 
     <!-- bg --!>
-    <div class="bg"><img src="/server/static/theme/bg.png" /></div>
+    <div class="bg" name="bg" id="bg"><img src="/server/static/theme/bg.png" /></div>
 
     <!-- 1st row --!>
-    <div class="c1">
+    <div class="c1" name="c1" id="c1">
         <img src="/server/static/theme/c1.png" />
         </br>
         工作动态
     </div>
-    <div class="c2">
+    <div class="c2" name="c2" id="c2">
         <img src="/server/static/theme/c2.png" />
         </br>
         突发事件
     </div>
-    <div class="c3">
+    <div class="c3" name="c3" id="c3">
         <img src="/server/static/theme/c3.png" />
         </br>
         公共信息
     </div>
 
     <!-- 2nd row --!>
-    <div class="c4">
+    <div class="c4" name="c4" id="c4">
         <img src="/server/static/theme/c4.png" />
         </br>
         值班安排
     </div>
-    <div class="c5">
+    <div class="c5" name="c5" id="c5">
         <img src="/server/static/theme/c5.png" />
         </br>
         值班要情
     </div>
-    <div class="c6">
+    <div class="c6" name="c6" id="c6">
         <img src="/server/static/theme/c6.png" />
         </br>
         视频监控
