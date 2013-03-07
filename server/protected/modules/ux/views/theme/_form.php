@@ -62,8 +62,9 @@ $form = $this->beginWidget ( 'CActiveForm', array (
             ) );
             */
 
-$columns = array(//'bg' => 'background', 
-			//'lg' => 'logo', 
+$columns = array('banner' => 'banner',
+			'lg' => 'logo', 
+			'bg' => 'background',
 			'c1' => 'column1',
 			'c2' => 'column2',
 			'c3' => 'column3',
@@ -78,14 +79,9 @@ $columns = array(//'bg' => 'background',
 function drawUploadControl($viewObject, $namePrefix)
 	{
 		$callbackStr = 'js:function(event, queueID, fileObj, response, data){';
-		$callbackStr .= "while({$namePrefix}.firstChild){";
-		$callbackStr .= "var oldNode = ${namePrefix}.removeChild({$namePrefix}.firstChild);oldNode = null;}";
 		$callbackStr .= "rArray = response.split(':');if(rArray[0] == 0){";
-		$nameStr = "{$namePrefix}File";
-		$callbackStr .= 'var html=\'<input type="hidden" value="\'+rArray[1]+\'" name="' ;
-        $callbackStr .= $nameStr . '" id="'. $nameStr . '" />\';';
-		$callbackStr .= 'var imgChild = "<img src="+rArray[1]+ " style=\"max-width:120px\" /></br>column_name";';
-		$callbackStr .= "$('#{$namePrefix}').append(imgChild);}else{ alert(rArray[1]);}}";
+		$callbackStr .= "$('#{$namePrefix}Image').attr('src', rArray[1]);";
+		$callbackStr .= "}else{ alert(rArray[1]);}}";
 		
 		
 		$viewObject->widget ( 'application.extensions.MUploadify.MUploadify', array (
@@ -111,46 +107,20 @@ function drawUploadControl($viewObject, $namePrefix)
         ?>
      </div>  
 
-     </br></br>
-     <div id="lg_div" name="lg_div">
-     	<span style='width:124px;display:-moz-inline-box;display:inline-block;'><strong>logo</strong></span>
-     	<?php 
-     	        $this->widget ( 'application.extensions.MUploadify.MUploadify', array (
-                'name' => 'lgUpload',
-                'auto' => true,
-                'script' => array (
-                        'theme/upload' 
-                ),
-                'onComplete' => 'js:function(event, queueID, fileObj, response, data)
-                    {   
-                        rArray = response.split(":");
-                        if(rArray[0] == 0)
-                        {
-							//alert(rArray[1]);
-							//alert($("#lgImage").attr("src"));
-							$("#lgImage").attr("src", rArray[1]);
-                        }
-                        else
-                        {
-                            alert(rArray[1]);
-                        }
-                    }' 
-            ) );
-		?>
-		</div>
+
      
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
 <?php $this->endWidget(); ?>
 </div>
-</div>
+
 <!-- form -->
 <style type="text/css">
 .mainFrame {width:480px; margin:0px auto; padding:0px;}
 .banner{float:left;z-index:1;width:480px; margin:0px auto; padding:0px;}
-.logo{margin-left:-480px;}
-.ename{margin-left:-430px;margin-top:5px;}
+.lg{margin-left:-480px;}
+.ename{margin-left:0px;margin-top:5px;}
 .bg{ float:left;z-index:1; display:inline;} 
 .c1{ margin-top: -650px;margin-left: 10px;}
 .c2{ margin-top: -650px;margin-left: 175px; }
@@ -159,12 +129,12 @@ function drawUploadControl($viewObject, $namePrefix)
 .c5{ margin-top: -420px;margin-left: 175px;}
 .c6{ margin-top: -420px;margin-left: 340px; margin-right:5px;}
 .c7{ margin-top: -190px;margin-left: 10px;}
-.c8{ margin-top: -190px;margin-left: 175px;}
-.c9{ margin-top: -190px;margin-left: 340px; margin-right:5px;}
+.o1{ margin-top: -190px;margin-left: 175px;}
+.o2{ margin-top: -190px;margin-left: 340px; margin-right:5px;}
 
-.c1,.c2,.c3,.c4,.c5,.c6,.c7,.c8,.c9,.logo,.ename
+.c1,.c2,.c3,.c4,.c5,.c6,.c7,.o1,.o2,.lg,.ename
 {
-    text-align:center;float:left;z-index:2;display:inline;*margin-left:0px;margin-right:0px;*margin-right:0px;
+    text-align:center;float:left;z-index:2;display:inline;*margin-left:0px;
 }
 </style>
 	
@@ -173,70 +143,33 @@ function drawUploadControl($viewObject, $namePrefix)
 	</div>
 	
 	<div class="mainFrame">
-    <!-- header --!>
-    <div class="banner"><img src="/server/static/theme/banner.png" /></div>
 
-    <!-- logo --!>
-    <div class="logo" name="lg" id="lg">
-        <img id="lgImage" src="/server/static/theme/lg.png" style="margin-top:5px;max-width:30px"/>
-        <input type="hidden" value="lg.png" name="lgFile" id="lgFile" />
-    </div>
-
-    <!-- enterprise name --!>
-    <div class="ename">
-        企业名称
-    </div>
-
-    <!-- bg --!>
-    <div class="bg" name="bg" id="bg"><img src="/server/static/theme/bg.png" /></div>
-
-    <!-- 1st row --!>
-    <div class="c1" name="c1" id="c1">
-        <img src="/server/static/theme/c1.png" />
-        </br>
-        工作动态
-    </div>
-    <div class="c2" name="c2" id="c2">
-        <img src="/server/static/theme/c2.png" />
-        </br>
-        突发事件
-    </div>
-    <div class="c3" name="c3" id="c3">
-        <img src="/server/static/theme/c3.png" />
-        </br>
-        公共信息
-    </div>
-
-    <!-- 2nd row --!>
-    <div class="c4" name="c4" id="c4">
-        <img src="/server/static/theme/c4.png" />
-        </br>
-        值班安排
-    </div>
-    <div class="c5" name="c5" id="c5">
-        <img src="/server/static/theme/c5.png" />
-        </br>
-        值班要情
-    </div>
-    <div class="c6" name="c6" id="c6">
-        <img src="/server/static/theme/c6.png" />
-        </br>
-        视频监控
-    </div>
-
-    <!-- 3rd row --!>
-    <div class="c7" name="c7" id="c7">
-        <img src="/server/static/theme/c7.png" />
-        </br>
-        通讯录
-    </div>
-    <div class="c8" name="o1" id="o1">
-        <img src="/server/static/theme/o1.png" />
-        </br>
-        内部通知
-    </div>
-    <div class="c9" name="o2" id="o2">
-        <img src="/server/static/theme/o2.png" />
-        </br>
-        设置
-    </div>
+     	<?php
+			foreach($columns as $key => $value )
+			{
+				echo "<div class='$key' name='$key' id='$key'>";
+				$imgStr = "<img id='{$key}Image' src='/server/static/theme/{$key}'";
+				if($key == 'lg')
+				{
+					$imgStr .= 'style="margin-top:5px;max-width:30px"/>';
+					echo $imgStr;
+// 					echo "</div>";
+// 					echo '<div class="ename" >企业名称 </div>';
+// 					continue;
+				}
+				else if($key == 'bg' || $key == 'banner')
+				{
+					$imgStr .= '/>';
+					echo $imgStr;
+				}
+				else 
+				{
+					$imgStr .= "style='max-width:120px' />";
+					echo $imgStr;
+					echo "</br>";
+					echo "$value";
+				}
+				echo "</div>";
+			}         
+        ?>
+</div>
