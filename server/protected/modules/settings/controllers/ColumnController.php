@@ -38,6 +38,7 @@ class ColumnController extends Controller
                                 'index',
                                 'view', 
                                 'upload',
+                        		'list',
                         ),
                         'users' => array (
                                 '*' 
@@ -182,6 +183,20 @@ class ColumnController extends Controller
         ) );
     }
 
+    /**
+     * Get all columns as a list for dropdown list controls
+     */
+    public function  actionList()
+    {
+    	if(!isset($_GET['eid']))
+    	{
+    		return null;
+    	}
+    	$eId = $_GET['eid'];
+    	$columnList = Column::model()->getEnterpriseColumnList($eId);
+    	echo json_encode($columnList);
+    }
+    
     /**
      * Manages all models.
      */

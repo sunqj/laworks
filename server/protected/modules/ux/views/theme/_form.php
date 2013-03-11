@@ -17,7 +17,28 @@ $form = $this->beginWidget ( 'CActiveForm', array (
 	<p class="note">
 		Fields with <span class="required">*</span> are required.
 	</p>
+<script type="text/javascript">
+function setDropDownListData(obj)
+{
+	var eid = $("#" + obj.id).val();
+	var url = "<?php echo Yii::app()->createUrl('settings/column/list'); ?>" ;
 
+    var response = $.get(url, 
+            {
+              'eid': eid,
+            },
+            function(data, status)
+            {
+				var dList = $("#column_div").find('select');
+				//alert(dList.length);
+				for(var i = 0; i < dList.length; ++i)
+				{
+					dList[i].remove();
+					dList[i].options.add(new Option('11', '22'));
+				}
+            });
+}
+</script>
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
@@ -28,7 +49,9 @@ $form = $this->beginWidget ( 'CActiveForm', array (
 	
 	<div class="row">
 		<?php echo $form->labelEx($model,'enterprise_id'); ?>
-		<?php echo $form->dropDownList($model, 'enterprise_id', Enterprise::model()->getEnterpriseList()); ?>
+		<?php echo $form->dropDownList($model, 'enterprise_id', Enterprise::model()->getEnterpriseList(), 
+				array('empty' => 'select an enterprise',
+					  'onchange' => 'setDropDownListData(this)'	)); ?>
 		<?php echo $form->error($model,'enterprise_id'); ?>
 	</div>
 <?php
@@ -62,9 +85,13 @@ $form = $this->beginWidget ( 'CActiveForm', array (
             ) );
             */
 
-$columns = array('banner' => 'banner',
+$uiImages = array('banner' => 'banner',
 			'lg' => 'logo', 
 			'bg' => 'background',
+			);
+
+
+$columnImages = array(
 			'c1' => 'column1',
 			'c2' => 'column2',
 			'c3' => 'column3',
@@ -72,9 +99,11 @@ $columns = array('banner' => 'banner',
 			'c5' => 'column5',
 			'c6' => 'column6',
 			'c7' => 'column7',
-			'o1' => 'other1',
-			'o2' => 'other2'
              );
+$otherImages = array('o1' => '通讯录',
+			'o2' => '内部通知',
+			'o3' => '设置',
+			);
 
 function drawUploadControl($viewObject, $namePrefix)
 	{
@@ -96,15 +125,48 @@ function drawUploadControl($viewObject, $namePrefix)
 
 	<div id="upload" name="upload">
         <label>Upload</label>
+        
         <?php
-			foreach($columns as $key => $value )
+			foreach($uiImages as $key => $value )
 			{
 				echo "<div id='{$key}_div' name='{$key}_div'>";
 				echo "<span style='width:124px;display:-moz-inline-box;display:inline-block;'><strong>$value</strong></span>";
 				drawUploadControl($this, $key);
 				echo "</div>";
-			}         
+			}
+			echo "</br>";
+		?>
+		
+		<div id="column_div" name="column_div">
+		<?php 
+			foreach($columnImages as $key => $value )
+			{
+				echo "<div id='{$key}_div' name='{$key}_div'>";
+				$cnameCss = "width:124px;display:-moz-inline-box;display:inline-block;";
+				$dropDownStr = CHtml::dropDownList('icon', '', array(), 
+					array('empty' => '-- no column --'));
+				echo "<span style='$cnameCss'><strong>$value</strong> &nbsp&nbsp $dropDownStr</span>";
+				drawUploadControl($this, $key);
+				echo "</div></br>";
+			}
         ?>
+        </div>
+        
+        <div id="other_div" name="other_div">
+		<?php 
+			foreach($otherImages as $key => $value )
+			{
+				echo "<div id='{$key}_div' name='{$key}_div'>";
+				$cnameCss = "width:124px;display:-moz-inline-box;display:inline-block;";
+				$dropDownStr = CHtml::dropDownList('icon', '', array(), 
+					array('empty' => '-- no column --'));
+				echo "<span style='$cnameCss'><strong>$value</strong>$dropDownStr</span>";
+				drawUploadControl($this, $key);
+				echo "</div></br>";
+			}
+        ?>
+        </div>
+        
      </div>  
 
 
@@ -145,7 +207,7 @@ function drawUploadControl($viewObject, $namePrefix)
 	<div class="mainFrame">
 
      	<?php
-			foreach($columns as $key => $value )
+			foreach((array_merge($uiImages, $columnImages)) as $key => $value )
 			{
 				echo "<div class='$key' name='$key' id='$key'>";
 				$imgStr = "<img id='{$key}Image' src='/server/static/theme/{$key}'";

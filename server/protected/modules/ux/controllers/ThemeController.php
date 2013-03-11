@@ -226,14 +226,14 @@ class ThemeController extends Controller
      */
     public function actionUpload()
     {
-        $prefixes = Array('bg', 'lg', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'o1', 'o2');
+        $prefixes = Array('bg', 'banner', 'lg', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'o1', 'o2', 'o3');
         foreach ($prefixes as $prefix)
         {
             $varName = $prefix . "Upload";
             if (isset ( $_POST [$varName] ))
             {
                 require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
-            
+            	
                 $uploadImage = CUploadedFile::getInstanceByName ($varName);
                 $fileExt = trim ( strtolower ( $uploadImage->getExtensionName () ));
             
