@@ -30,13 +30,24 @@ function setDropDownListData(obj)
             function(data, status)
             {
 				var dList = $("#column_div").find('select');
-				//alert(dList.length);
+				alert(dList.length);
+				$.each(data, function(key, value)
+						{
+							alert(key);
+							alert(value);
+						}
+						);
 				for(var i = 0; i < dList.length; ++i)
 				{
 					dList[i].remove();
-					dList[i].options.add(new Option('11', '22'));
+					$.each(data, function(key, value)
+							{
+								dList[i].options.add(new Option(value, key));
+							}
+							);
+					
 				}
-            });
+            },'json');
 }
 </script>
 	<?php echo $form->errorSummary($model); ?>
@@ -144,7 +155,7 @@ function drawUploadControl($viewObject, $namePrefix)
 				echo "<div id='{$key}_div' name='{$key}_div'>";
 				$cnameCss = "width:124px;display:-moz-inline-box;display:inline-block;";
 				$dropDownStr = CHtml::dropDownList('icon', '', array(), 
-					array('empty' => '-- no column --'));
+					array('empty' => '--'));
 				echo "<span style='$cnameCss'><strong>$value</strong> &nbsp&nbsp $dropDownStr</span>";
 				drawUploadControl($this, $key);
 				echo "</div></br>";
@@ -159,8 +170,8 @@ function drawUploadControl($viewObject, $namePrefix)
 				echo "<div id='{$key}_div' name='{$key}_div'>";
 				$cnameCss = "width:124px;display:-moz-inline-box;display:inline-block;";
 				$dropDownStr = CHtml::dropDownList('icon', '', array(), 
-					array('empty' => '-- no column --'));
-				echo "<span style='$cnameCss'><strong>$value</strong>$dropDownStr</span>";
+					array('empty' => '---'));
+				echo "<span style='$cnameCss'><strong>$value</strong>&nbsp&nbsp$dropDownStr</span>";
 				drawUploadControl($this, $key);
 				echo "</div></br>";
 			}
