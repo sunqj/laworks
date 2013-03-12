@@ -23,29 +23,34 @@ function setDropDownListData(obj)
 	var eid = $("#" + obj.id).val();
 	var url = "<?php echo Yii::app()->createUrl('settings/column/list'); ?>" ;
 
+    if(eid == "")
+    {
+        dList = $("#column_div").find("select");
+        for(var i = 0; i < dList.length; ++i)
+        {
+        	dList[i].options.length = 0;
+        	dList[i].options.add(new Option("--", ""));
+        }
+        return;
+    }
+
     var response = $.get(url, 
             {
               'eid': eid,
             },
+
             function(data, status)
             {
 				var dList = $("#column_div").find('select');
-				alert(dList.length);
-				$.each(data, function(key, value)
-						{
-							alert(key);
-							alert(value);
-						}
-						);
+
 				for(var i = 0; i < dList.length; ++i)
 				{
-					dList[i].remove();
+					dList[i].options.length = 0;
 					$.each(data, function(key, value)
-							{
-								dList[i].options.add(new Option(value, key));
-							}
+								{
+									dList[i].options.add(new Option(value, key));
+								}
 							);
-					
 				}
             },'json');
 }
