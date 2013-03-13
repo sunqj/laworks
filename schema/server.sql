@@ -356,33 +356,72 @@ CREATE TABLE tianyi_theme
     PRIMARY KEY  (theme_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE tianyi_fixedmodules
+(
+    module_id                   int not null auto_increment,
+    module_alias                varchar(12) not null,
+    module_icon                 varchar(256) not null,
+    module_index                int not null default 7,
+    module_type                 int not null default 0,
+    /*
+    module type:
+        0. contacts
+        1. notification
+        2. settings
+        2. public channel
+        4. vote
+        5. disscusion
+    */
+    
+    /* foreign keys */
+    enterprise_id               int default 0,
+
+    PRIMARY KEY  (module_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 /****************/
 /* initial data */
 /****************/
 /*permissions*/
-insert into tianyi_permission(permission_id, permission_name) values(0, '系统管理员'),  (1, '企业管理员'), (2, '企业审核员'), (3, '企业普通用户');
+insert into tianyi_permission(permission_id, permission_name) values
+(0, '系统管理员'),  
+(1, '企业管理员'), 
+(2, '企业审核员'), 
+(3, '企业普通用户');
 
 /*users*/
-insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values(0, 'admin', 'linuxred', 0, 0);
+insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values
+(0, 'admin', 'linuxred', 0, 0);
 
 /*column*/
 
-insert into tianyi_column(column_id, column_name, enterprise_id) values(0,"默认栏目", 0);
+insert into tianyi_column(column_id, column_name, enterprise_id) values
+(0,"默认栏目", 0);
 
 /*role_status*/
-insert into tianyi_role_status(role_status_id, role_status_name) values(0, "正常"), (1, "禁用");
+insert into tianyi_role_status(role_status_id, role_status_name) values
+(0, "正常"), 
+(1, "禁用");
 
 /*content_status*/
-insert into tianyi_content_status(content_status_id, content_status_name) values(0, "正常"), (1, "删除"), (2, "审核中");
+insert into tianyi_content_status(content_status_id, content_status_name) values
+(0, "正常"), 
+(1, "删除"), 
+(2, "审核中");
 
 /*content_type*/
-insert into tianyi_content_type(content_type_id, content_type_name) values(0, "原创"), (1, "转载");
+insert into tianyi_content_type(content_type_id, content_type_name) values
+(0, "原创"), 
+(1, "转载");
 
 /*enterprises*/
-insert into tianyi_enterprise(enterprise_id, enterprise_name, enterprise_desc) values(0, '中国电信', '中国电信'); 
+insert into tianyi_enterprise(enterprise_id, enterprise_name, enterprise_desc) values
+(0, '中国电信', '中国电信'); 
 
 /*channels*/
-insert into tianyi_channel(channel_name) values('Tianyi Channel');
+insert into tianyi_channel(channel_name) values
+('Tianyi Channel');
 
 
 /* test data */
@@ -403,4 +442,13 @@ values
 ('contacts3', '10003', '20003', '30003', 1), 
 ('contacts4', '10004', '20004', '30004', 1);
 
-
+insert into tianyi_column(column_name, enterprise_id) 
+values
+('column1', 1),
+('column2', 1),
+('column3', 1),
+('column4', 1),
+('column5', 1),
+('column6', 1),
+('column7', 1),
+('column8', 1);

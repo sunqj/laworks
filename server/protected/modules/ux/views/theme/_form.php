@@ -101,7 +101,8 @@ function setDropDownListData(obj)
             ) );
             */
 
-$uiImages = array('banner' => 'banner',
+$uiImages = array(
+			'banner' => 'banner',
 			'lg' => 'logo', 
 			'bg' => 'background',
 			);
@@ -116,7 +117,8 @@ $columnImages = array(
 			'c6' => 'column6',
 			'c7' => 'column7',
              );
-$otherImages = array('o1' => '通讯录',
+$otherImages = array(
+			'o1' => '通讯录',
 			'o2' => '内部通知',
 			'o3' => '设置',
 			);
@@ -127,8 +129,7 @@ function drawUploadControl($viewObject, $namePrefix)
 		$callbackStr .= "rArray = response.split(':');if(rArray[0] == 0){";
 		$callbackStr .= "$('#{$namePrefix}Image').attr('src', rArray[1]);";
 		$callbackStr .= "}else{ alert(rArray[1]);}}";
-		
-		
+
 		$viewObject->widget ( 'application.extensions.MUploadify.MUploadify', array (
 				'name' => $namePrefix . 'Upload',
 				'auto' => true,
@@ -159,7 +160,7 @@ function drawUploadControl($viewObject, $namePrefix)
 			{
 				echo "<div id='{$key}_div' name='{$key}_div'>";
 				$cnameCss = "width:124px;display:-moz-inline-box;display:inline-block;";
-				$dropDownStr = CHtml::dropDownList('icon', '', array(), 
+				$dropDownStr = CHtml::dropDownList("icon[$key]", '', array(), 
 					array('empty' => '--'));
 				echo "<span style='$cnameCss'><strong>$value</strong> &nbsp&nbsp $dropDownStr</span>";
 				drawUploadControl($this, $key);
@@ -170,11 +171,19 @@ function drawUploadControl($viewObject, $namePrefix)
         
         <div id="other_div" name="other_div">
 		<?php 
+			$otherModulesArray = array(
+						0 => '联系人',
+						1 => '通知',
+						2 => '设置',
+						3 => '公共频道',
+						4 => '投票',
+						5 => '讨论组',
+					);
 			foreach($otherImages as $key => $value )
 			{
 				echo "<div id='{$key}_div' name='{$key}_div'>";
 				$cnameCss = "width:124px;display:-moz-inline-box;display:inline-block;";
-				$dropDownStr = CHtml::dropDownList('icon', '', array(), 
+				$dropDownStr = CHtml::dropDownList("modules[$key]", '', $otherModulesArray, 
 					array('empty' => '---'));
 				echo "<span style='$cnameCss'><strong>$value</strong>&nbsp&nbsp$dropDownStr</span>";
 				drawUploadControl($this, $key);
@@ -182,11 +191,7 @@ function drawUploadControl($viewObject, $namePrefix)
 			}
         ?>
         </div>
-        
      </div>  
-
-
-     
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
