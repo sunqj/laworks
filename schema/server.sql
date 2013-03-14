@@ -350,6 +350,23 @@ CREATE TABLE tianyi_theme
     theme_id                   int not null auto_increment,
     theme_name                 varchar(12) not null unique default 'theme1',
 
+    /*
+    other module type:
+        0. contacts
+        1. notification
+        2. settings
+        2. public channel
+        4. vote
+        5. disscusion
+    theme_o1 -> theme_o2 other modules.
+    */
+
+    theme_o1                   int not null default 0,
+    theme_o2                   int not null default 0,
+    theme_o3                   int not null default 0,
+    theme_o4                   int not null default 0,
+    theme_o5                   int not null default 0,
+
     /* foreign keys */
     enterprise_id              int default 0,
 
@@ -444,11 +461,10 @@ values
 
 insert into tianyi_column(column_name, enterprise_id) 
 values
-('column1', 1),
-('column2', 1),
-('column3', 1),
-('column4', 1),
-('column5', 1),
-('column6', 1),
-('column7', 1),
-('column8', 1);
+('值班信息', 1),
+('日程安排', 1),
+('公共信息', 1),
+('视频监控', 1),
+('紧急事件', 1),
+('工作信息', 1),
+('内部新闻', 1);

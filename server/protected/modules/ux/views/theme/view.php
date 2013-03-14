@@ -23,6 +23,11 @@ $this->menu=array(
 	'attributes'=>array(
 		'theme_id',
 		'theme_name',
+		'theme_o1',
+		'theme_o2',
+		'theme_o3',
+		'theme_o4',
+		'theme_o5',
 		'enterprise_id',
 	),
 )); ?>

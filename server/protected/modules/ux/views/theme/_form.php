@@ -128,6 +128,8 @@ function drawUploadControl($viewObject, $namePrefix)
 		$callbackStr = 'js:function(event, queueID, fileObj, response, data){';
 		$callbackStr .= "rArray = response.split(':');if(rArray[0] == 0){";
 		$callbackStr .= "$('#{$namePrefix}Image').attr('src', rArray[1]);";
+		$callbackStr .= "var label = $('#icon_{$namePrefix} option:selected').text();";
+		$callbackStr .= "$('#{$namePrefix}Label').text(label);";
 		$callbackStr .= "}else{ alert(rArray[1]);}}";
 
 		$viewObject->widget ( 'application.extensions.MUploadify.MUploadify', array (
@@ -139,7 +141,6 @@ function drawUploadControl($viewObject, $namePrefix)
 				'onComplete' => $callbackStr));
 	}
 ?>
-
 	<div id="upload" name="upload">
         <label>Upload</label>
         
@@ -168,7 +169,7 @@ function drawUploadControl($viewObject, $namePrefix)
 			}
         ?>
         </div>
-        
+
         <div id="other_div" name="other_div">
 		<?php 
 			$otherModulesArray = array(
@@ -192,6 +193,43 @@ function drawUploadControl($viewObject, $namePrefix)
         ?>
         </div>
      </div>  
+
+<div class="row">
+		<?php echo $form->labelEx($model,'theme_o1'); ?>
+		<?php echo $form->textField($model,'theme_o1'); ?>
+		<?php echo $form->error($model,'theme_o1'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'theme_o2'); ?>
+		<?php echo $form->textField($model,'theme_o2'); ?>
+		<?php echo $form->error($model,'theme_o2'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'theme_o3'); ?>
+		<?php echo $form->textField($model,'theme_o3'); ?>
+		<?php echo $form->error($model,'theme_o3'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'theme_o4'); ?>
+		<?php echo $form->textField($model,'theme_o4'); ?>
+		<?php echo $form->error($model,'theme_o4'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'theme_o5'); ?>
+		<?php echo $form->textField($model,'theme_o5'); ?>
+		<?php echo $form->error($model,'theme_o5'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'enterprise_id'); ?>
+		<?php echo $form->textField($model,'enterprise_id'); ?>
+		<?php echo $form->error($model,'enterprise_id'); ?>
+	</div>
+
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
@@ -250,7 +288,7 @@ function drawUploadControl($viewObject, $namePrefix)
 					$imgStr .= "style='max-width:120px' />";
 					echo $imgStr;
 					echo "</br>";
-					echo "$value";
+					echo "<label id='{$key}Label'>$value</label>";
 				}
 				echo "</div>";
 			}         
