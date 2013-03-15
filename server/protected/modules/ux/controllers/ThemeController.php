@@ -220,8 +220,10 @@ class ThemeController extends Controller
      * upload icon from client
      */
     public function actionUpload()
-    {
-        $prefixes = Array('bg', 'banner', 'lg', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'o1', 'o2', 'o3');
+    {	
+    	$prefixes = Array('bg', 'banner', 'lg', 
+			'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 
+			'o1', 'o2', 'o3', 'o4', 'o5');
         foreach ($prefixes as $prefix)
         {
             $varName = $prefix . "Upload";
@@ -232,14 +234,14 @@ class ThemeController extends Controller
                 $uploadImage = CUploadedFile::getInstanceByName ($varName);
                 $fileExt = trim ( strtolower ( $uploadImage->getExtensionName () ));
             
-                if (($fileExt != 'png') && ($fileExt != 'jpg'))
+                if ($fileExt != 'png')
                 {
                     // is not correct file type.
-                    echo "1:file extension not match. the file extension is: $fileExt, only jpg and png allowed.";
+                    echo "1:file extension not match. the file extension is: $fileExt, only png allowed.";
                     return;
                 }
             
-                $fileName = time () . ".$fileExt";
+                $fileName =  "$prefix.$fileExt";
             
                 $targetFile = getThemeDirAbsolute () . $fileName;
                 $ret = $uploadImage->saveAs ( $targetFile );

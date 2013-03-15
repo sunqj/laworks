@@ -23,6 +23,13 @@ $this->menu=array(
 	'attributes'=>array(
 		'theme_id',
 		'theme_name',
+		'theme_c1',
+		'theme_c2',
+		'theme_c3',
+		'theme_c4',
+		'theme_c5',
+		'theme_c6',
+		'theme_c7',
 		'theme_o1',
 		'theme_o2',
 		'theme_o3',

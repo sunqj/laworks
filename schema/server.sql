@@ -349,15 +349,25 @@ CREATE TABLE tianyi_theme
 (
     theme_id                   int not null auto_increment,
     theme_name                 varchar(12) not null unique default 'theme1',
+    /*
+    columns for display in client
+    */
+    theme_c1                   int not null,
+    theme_c2                   int not null,
+    theme_c3                   int not null,
+    theme_c4                   int not null,
+    theme_c5                   int not null,
+    theme_c6                   int not null,
+    theme_c7                   int not null,
 
     /*
     other module type:
-        0. contacts
-        1. notification
-        2. settings
-        2. public channel
-        4. vote
-        5. disscusion
+        -1. contacts
+        -2. notification
+        -3. settings
+        -4. public channel
+        -5. vote
+        -6. disscusion
     theme_o1 -> theme_o2 other modules.
     */
 
@@ -372,30 +382,6 @@ CREATE TABLE tianyi_theme
 
     PRIMARY KEY  (theme_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE tianyi_fixedmodules
-(
-    module_id                   int not null auto_increment,
-    module_alias                varchar(12) not null,
-    module_icon                 varchar(256) not null,
-    module_index                int not null default 7,
-    module_type                 int not null default 0,
-    /*
-    module type:
-        0. contacts
-        1. notification
-        2. settings
-        2. public channel
-        4. vote
-        5. disscusion
-    */
-    
-    /* foreign keys */
-    enterprise_id               int default 0,
-
-    PRIMARY KEY  (module_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 /****************/
 /* initial data */

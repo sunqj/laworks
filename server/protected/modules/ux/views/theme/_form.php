@@ -46,6 +46,7 @@ function setDropDownListData(obj)
 				for(var i = 0; i < dList.length; ++i)
 				{
 					dList[i].options.length = 0;
+					dList[i].options.add(new Option('--', '0');
 					$.each(data, function(key, value)
 								{
 									dList[i].options.add(new Option(value, key));
@@ -108,27 +109,15 @@ $uiImages = array(
 			);
 
 
-$columnImages = array(
-			'c1' => 'column1',
-			'c2' => 'column2',
-			'c3' => 'column3',
-			'c4' => 'column4',
-			'c5' => 'column5',
-			'c6' => 'column6',
-			'c7' => 'column7',
-             );
-$otherImages = array(
-			'o1' => '通讯录',
-			'o2' => '内部通知',
-			'o3' => '设置',
-			);
+$columnImages = array('c1','c2','c3','c4','c5','c6','c7');
+$otherColumns = array('o1','o2','o3','o4','o5');
 
 function drawUploadControl($viewObject, $namePrefix)
 	{
 		$callbackStr = 'js:function(event, queueID, fileObj, response, data){';
 		$callbackStr .= "rArray = response.split(':');if(rArray[0] == 0){";
 		$callbackStr .= "$('#{$namePrefix}Image').attr('src', rArray[1]);";
-		$callbackStr .= "var label = $('#icon_{$namePrefix} option:selected').text();";
+		$callbackStr .= "var label = $('#Theme_theme_{$namePrefix} option:selected').text();";
 		$callbackStr .= "$('#{$namePrefix}Label').text(label);";
 		$callbackStr .= "}else{ alert(rArray[1]);}}";
 
@@ -143,7 +132,7 @@ function drawUploadControl($viewObject, $namePrefix)
 ?>
 	<div id="upload" name="upload">
         <label>Upload</label>
-        
+        <div><h2>UI Elements</h2></div>
         <?php
 			foreach($uiImages as $key => $value )
 			{
@@ -155,80 +144,50 @@ function drawUploadControl($viewObject, $namePrefix)
 			echo "</br>";
 		?>
 		
+		<div><h2>Main Columns</h2></div>
 		<div id="column_div" name="column_div">
 		<?php 
-			foreach($columnImages as $key => $value )
+			foreach($columnImages as $key )
 			{
+				$labelStr =  $form->labelEx($model,"theme_$key");
 				echo "<div id='{$key}_div' name='{$key}_div'>";
 				$cnameCss = "width:124px;display:-moz-inline-box;display:inline-block;";
-				$dropDownStr = CHtml::dropDownList("icon[$key]", '', array(), 
-					array('empty' => '--'));
-				echo "<span style='$cnameCss'><strong>$value</strong> &nbsp&nbsp $dropDownStr</span>";
+				//$dropDownStr = CHtml::dropDownList("icon[$key]", '', array(), 
+				//	array('empty' => '--'));
+				$dropDownStr = $form->dropDownList($model, "theme_$key", array(), array('empty' => '--'));
+				echo "<span style='$cnameCss'><strong>$labelStr</strong> &nbsp&nbsp$dropDownStr</span>";
 				drawUploadControl($this, $key);
 				echo "</div></br>";
 			}
         ?>
         </div>
 
+        
+        <div><h2>Other Columns</h2></div>
         <div id="other_div" name="other_div">
 		<?php 
 			$otherModulesArray = array(
-						0 => '联系人',
-						1 => '通知',
-						2 => '设置',
-						3 => '公共频道',
-						4 => '投票',
-						5 => '讨论组',
+						-1 => '联系人',
+						-2 => '通知',
+						-3 => '设置',
+						-4 => '公共频道',
+						//-5 => '投票',
+						//-6 => '讨论组',
 					);
-			foreach($otherImages as $key => $value )
+			foreach($otherColumns as $key )
 			{
+				$labelStr =  $form->labelEx($model,"theme_$key");
 				echo "<div id='{$key}_div' name='{$key}_div'>";
 				$cnameCss = "width:124px;display:-moz-inline-box;display:inline-block;";
-				$dropDownStr = CHtml::dropDownList("modules[$key]", '', $otherModulesArray, 
-					array('empty' => '---'));
-				echo "<span style='$cnameCss'><strong>$value</strong>&nbsp&nbsp$dropDownStr</span>";
+				$dropDownStr = $form->dropDownList($model, "theme_$key", $otherModulesArray, array('empty' => '--'));
+				echo "<span style='$cnameCss'><strong>$labelStr</strong>&nbsp&nbsp$dropDownStr</span>";
+				//echo $dropDownStr;
 				drawUploadControl($this, $key);
 				echo "</div></br>";
 			}
         ?>
         </div>
-     </div>  
-
-<div class="row">
-		<?php echo $form->labelEx($model,'theme_o1'); ?>
-		<?php echo $form->textField($model,'theme_o1'); ?>
-		<?php echo $form->error($model,'theme_o1'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'theme_o2'); ?>
-		<?php echo $form->textField($model,'theme_o2'); ?>
-		<?php echo $form->error($model,'theme_o2'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'theme_o3'); ?>
-		<?php echo $form->textField($model,'theme_o3'); ?>
-		<?php echo $form->error($model,'theme_o3'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'theme_o4'); ?>
-		<?php echo $form->textField($model,'theme_o4'); ?>
-		<?php echo $form->error($model,'theme_o4'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'theme_o5'); ?>
-		<?php echo $form->textField($model,'theme_o5'); ?>
-		<?php echo $form->error($model,'theme_o5'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'enterprise_id'); ?>
-		<?php echo $form->textField($model,'enterprise_id'); ?>
-		<?php echo $form->error($model,'enterprise_id'); ?>
-	</div>
+     </div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
@@ -266,30 +225,31 @@ function drawUploadControl($viewObject, $namePrefix)
 	<div class="mainFrame">
 
      	<?php
-			foreach((array_merge($uiImages, $columnImages)) as $key => $value )
+     		foreach($uiImages as $key => $value)
+     		{
+     			echo "<div class='$key' name='$key' id='$key'>";
+     			$imgStr = "<img id='{$key}Image' src='/server/static/theme/{$key}'";
+     			if($key == 'lg')
+     			{
+     				$imgStr .= 'style="margin-top:5px;max-width:30px"/>';
+     				echo $imgStr;
+     			}
+     			else if($key == 'bg' || $key == 'banner')
+				{
+     			$imgStr .= '/>';
+     			echo $imgStr;
+     			}
+     			echo "</div>";
+     		}
+			foreach((array_merge($columnImages)) as $key )
 			{
 				echo "<div class='$key' name='$key' id='$key'>";
 				$imgStr = "<img id='{$key}Image' src='/server/static/theme/{$key}'";
-				if($key == 'lg')
-				{
-					$imgStr .= 'style="margin-top:5px;max-width:30px"/>';
-					echo $imgStr;
-// 					echo "</div>";
-// 					echo '<div class="ename" >企业名称 </div>';
-// 					continue;
-				}
-				else if($key == 'bg' || $key == 'banner')
-				{
-					$imgStr .= '/>';
-					echo $imgStr;
-				}
-				else 
-				{
-					$imgStr .= "style='max-width:120px' />";
-					echo $imgStr;
-					echo "</br>";
-					echo "<label id='{$key}Label'>$value</label>";
-				}
+				$imgStr .= "style='max-width:120px' />";
+				echo $imgStr;
+				echo "</br>";
+				echo  $form->labelEx($model,"theme_$key", array('id' => "{$key}Label"));
+
 				echo "</div>";
 			}         
         ?>
