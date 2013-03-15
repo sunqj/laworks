@@ -6,18 +6,18 @@
  * The followings are the available columns in table 'tianyi_theme':
  * @property integer $theme_id
  * @property string $theme_name
- * @property integer $theme_c1
- * @property integer $theme_c2
- * @property integer $theme_c3
- * @property integer $theme_c4
- * @property integer $theme_c5
- * @property integer $theme_c6
- * @property integer $theme_c7
- * @property integer $theme_o1
- * @property integer $theme_o2
- * @property integer $theme_o3
- * @property integer $theme_o4
- * @property integer $theme_o5
+ * @property integer $theme_c01
+ * @property integer $theme_c02
+ * @property integer $theme_c03
+ * @property integer $theme_c04
+ * @property integer $theme_c05
+ * @property integer $theme_c06
+ * @property integer $theme_c07
+ * @property integer $theme_c08
+ * @property integer $theme_c09
+ * @property integer $theme_c10
+ * @property integer $theme_c11
+ * @property integer $theme_c12
  * @property integer $enterprise_id
  */
 class Theme extends CActiveRecord
@@ -48,15 +48,15 @@ class Theme extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('theme_o1, theme_o2, theme_o3, theme_o4, theme_o5, 
-					theme_c1, theme_c2, theme_c3, theme_c4, theme_c5, theme_c6, theme_c7, 
-					enterprise_id', 'numerical', 'integerOnly'=>true),
+			array('', 'required'),
+			array('theme_c01, theme_c02, theme_c03, theme_c04, theme_c05, theme_c06, theme_c07, theme_c08, 
+			        theme_c09, theme_c10, theme_c11, theme_c12, enterprise_id', 'numerical', 'integerOnly'=>true),
 			array('theme_name', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('theme_id, theme_name, theme_o1, theme_o2, theme_o3, theme_o4, theme_o5,
-					theme_c1, theme_c2, theme_c3, theme_c4, theme_c5, theme_c6, theme_c7,  
-					enterprise_id', 'safe', 'on'=>'search'),
+			array('theme_id, theme_name, theme_c01, theme_c02, theme_c03, theme_c04, theme_c05, theme_c06, 
+			        theme_c07, theme_c08, theme_c09, theme_c10, theme_c11, theme_c12, enterprise_id', 
+			        'safe', 'on'=>'search'),
 		);
 	}
 
@@ -79,20 +79,18 @@ class Theme extends CActiveRecord
 		return array(
 			'theme_id' => 'Theme',
 			'theme_name' => 'Theme Name',
-			
-			'theme_c1' => 'Column1',
-			'theme_c2' => 'Column2',
-			'theme_c3' => 'Column3',
-			'theme_c4' => 'Column4',
-			'theme_c5' => 'Column5',
-			'theme_c6' => 'Column6',
-			'theme_c7' => 'Column7',
-			
-			'theme_o1' => 'Other Column1',
-			'theme_o2' => 'Other Column2',
-			'theme_o3' => 'Other Column3',
-			'theme_o4' => 'Other Column4',
-			'theme_o5' => 'Other Column5',
+			'theme_c01' => 'Theme C01',
+			'theme_c02' => 'Theme C02',
+			'theme_c03' => 'Theme C03',
+			'theme_c04' => 'Theme C04',
+			'theme_c05' => 'Theme C05',
+			'theme_c06' => 'Theme C06',
+			'theme_c07' => 'Theme C07',
+			'theme_c08' => 'Theme C08',
+			'theme_c09' => 'Theme C09',
+			'theme_c10' => 'Theme C10',
+			'theme_c11' => 'Theme C11',
+			'theme_c12' => 'Theme C12',
 			'enterprise_id' => 'Enterprise',
 		);
 	}
@@ -110,20 +108,18 @@ class Theme extends CActiveRecord
 
 		$criteria->compare('theme_id',$this->theme_id);
 		$criteria->compare('theme_name',$this->theme_name,true);
-		$criteria->compare('theme_o1',$this->theme_o1);
-		$criteria->compare('theme_o2',$this->theme_o2);
-		$criteria->compare('theme_o3',$this->theme_o3);
-		$criteria->compare('theme_o4',$this->theme_o4);
-		$criteria->compare('theme_o5',$this->theme_o5);
-		
-		$criteria->compare('theme_c1',$this->theme_c1);
-		$criteria->compare('theme_c2',$this->theme_c2);
-		$criteria->compare('theme_c3',$this->theme_c3);
-		$criteria->compare('theme_c4',$this->theme_c4);
-		$criteria->compare('theme_c5',$this->theme_c5);
-		$criteria->compare('theme_c6',$this->theme_c6);
-		$criteria->compare('theme_c7',$this->theme_c7);
-		
+		$criteria->compare('theme_c01',$this->theme_c01);
+		$criteria->compare('theme_c02',$this->theme_c02);
+		$criteria->compare('theme_c03',$this->theme_c03);
+		$criteria->compare('theme_c04',$this->theme_c04);
+		$criteria->compare('theme_c05',$this->theme_c05);
+		$criteria->compare('theme_c06',$this->theme_c06);
+		$criteria->compare('theme_c07',$this->theme_c07);
+		$criteria->compare('theme_c08',$this->theme_c08);
+		$criteria->compare('theme_c09',$this->theme_c09);
+		$criteria->compare('theme_c10',$this->theme_c10);
+		$criteria->compare('theme_c11',$this->theme_c11);
+		$criteria->compare('theme_c12',$this->theme_c12);
 		$criteria->compare('enterprise_id',$this->enterprise_id);
 
 		return new CActiveDataProvider($this, array(

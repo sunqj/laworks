@@ -7,7 +7,6 @@
 <div class="form">
 
 <?php
-
 $form = $this->beginWidget ( 'CActiveForm', array (
         'id' => 'theme-form',
         'enableAjaxValidation' => false 
@@ -21,6 +20,7 @@ $form = $this->beginWidget ( 'CActiveForm', array (
 function setDropDownListData(obj)
 {
 	var eid = $("#" + obj.id).val();
+
 	var url = "<?php echo Yii::app()->createUrl('settings/column/list'); ?>" ;
 
     if(eid == "")
@@ -42,16 +42,22 @@ function setDropDownListData(obj)
             function(data, status)
             {
 				var dList = $("#column_div").find('select');
-
+				
 				for(var i = 0; i < dList.length; ++i)
 				{
 					dList[i].options.length = 0;
-					dList[i].options.add(new Option('--', '0');
-					$.each(data, function(key, value)
+					dList[i].options.add(new Option('--', '0'));
+					$.each(data.userColumns, function(key, value)
 								{
-									dList[i].options.add(new Option(value, key));
+					                dList[i].options.add(new Option(value, key));
 								}
 							);
+					dList[i].options.add(new Option('--', '0'));
+					$.each(data.dummyColumns, function(key, value)
+							{
+				                dList[i].options.add(new Option(value, key));
+							}
+						);
 				}
             },'json');
 }
@@ -63,7 +69,7 @@ function setDropDownListData(obj)
 		<?php echo $form->textField($model,'theme_name',array('size'=>12,'maxlength'=>12)); ?>
 		<?php echo $form->error($model,'theme_name'); ?>
 	</div>
-	
+
 	<div class="row">
 		<?php echo $form->labelEx($model,'enterprise_id'); ?>
 		<?php echo $form->dropDownList($model, 'enterprise_id', Enterprise::model()->getEnterpriseList(), 
@@ -90,9 +96,9 @@ function setDropDownListData(obj)
                         rArray = response.split(":");
                         if(rArray[0] == 0)
                         {
-                            var html=\'<input type="hidden" value="\'+rArray[1]+\'" name="lgFile" id="lgFile" />\';
-                            var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
-                            $("#lgImage").append(imgChild);
+                            $('#{$namePrefix}Image').attr('src', rArray[1]);
+		                    var label = $('#Theme_theme_{$namePrefix} option:selected').text();
+		                    $('#{$namePrefix}Label').text(label);
                         }
                         else
                         {
@@ -108,9 +114,12 @@ $uiImages = array(
 			'bg' => 'background',
 			);
 
-
-$columnImages = array('c1','c2','c3','c4','c5','c6','c7');
-$otherColumns = array('o1','o2','o3','o4','o5');
+$columnImages = array();
+for ($i = 1; $i <= 12; ++$i)
+{
+    $columnImage = $i > 9 ? "c$i" : "c0$i";
+    array_push($columnImages, $columnImage);
+}
 
 function drawUploadControl($viewObject, $namePrefix)
 	{
@@ -152,8 +161,6 @@ function drawUploadControl($viewObject, $namePrefix)
 				$labelStr =  $form->labelEx($model,"theme_$key");
 				echo "<div id='{$key}_div' name='{$key}_div'>";
 				$cnameCss = "width:124px;display:-moz-inline-box;display:inline-block;";
-				//$dropDownStr = CHtml::dropDownList("icon[$key]", '', array(), 
-				//	array('empty' => '--'));
 				$dropDownStr = $form->dropDownList($model, "theme_$key", array(), array('empty' => '--'));
 				echo "<span style='$cnameCss'><strong>$labelStr</strong> &nbsp&nbsp$dropDownStr</span>";
 				drawUploadControl($this, $key);
@@ -162,57 +169,34 @@ function drawUploadControl($viewObject, $namePrefix)
         ?>
         </div>
 
-        
-        <div><h2>Other Columns</h2></div>
-        <div id="other_div" name="other_div">
-		<?php 
-			$otherModulesArray = array(
-						-1 => '联系人',
-						-2 => '通知',
-						-3 => '设置',
-						-4 => '公共频道',
-						//-5 => '投票',
-						//-6 => '讨论组',
-					);
-			foreach($otherColumns as $key )
-			{
-				$labelStr =  $form->labelEx($model,"theme_$key");
-				echo "<div id='{$key}_div' name='{$key}_div'>";
-				$cnameCss = "width:124px;display:-moz-inline-box;display:inline-block;";
-				$dropDownStr = $form->dropDownList($model, "theme_$key", $otherModulesArray, array('empty' => '--'));
-				echo "<span style='$cnameCss'><strong>$labelStr</strong>&nbsp&nbsp$dropDownStr</span>";
-				//echo $dropDownStr;
-				drawUploadControl($this, $key);
-				echo "</div></br>";
-			}
-        ?>
-        </div>
+
      </div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
 <?php $this->endWidget(); ?>
-</div>
+</div><!--end form -->
 
-<!-- form -->
 <style type="text/css">
 .mainFrame {width:480px; margin:0px auto; padding:0px;}
 .banner{float:left;z-index:1;width:480px; margin:0px auto; padding:0px;}
 .lg{margin-left:-480px;}
 .ename{margin-left:0px;margin-top:5px;}
 .bg{ float:left;z-index:1; display:inline;} 
-.c1{ margin-top: -650px;margin-left: 10px;}
-.c2{ margin-top: -650px;margin-left: 175px; }
-.c3{ margin-top: -650px;margin-left: 340px; margin-right:5px;}
-.c4{ margin-top: -420px;margin-left: 10px;}
-.c5{ margin-top: -420px;margin-left: 175px;}
-.c6{ margin-top: -420px;margin-left: 340px; margin-right:5px;}
-.c7{ margin-top: -190px;margin-left: 10px;}
-.o1{ margin-top: -190px;margin-left: 175px;}
-.o2{ margin-top: -190px;margin-left: 340px; margin-right:5px;}
-
-.c1,.c2,.c3,.c4,.c5,.c6,.c7,.o1,.o2,.lg,.ename
+.c01{ margin-top: -650px;margin-left: 10px;}
+.c02{ margin-top: -650px;margin-left: 175px; }
+.c03{ margin-top: -650px;margin-left: 340px; margin-right:5px;}
+.c04{ margin-top: -420px;margin-left: 10px;}
+.c05{ margin-top: -420px;margin-left: 175px;}
+.c06{ margin-top: -420px;margin-left: 340px; margin-right:5px;}
+.c07{ margin-top: -190px;margin-left: 10px;}
+.c08{ margin-top: -190px;margin-left: 175px;}
+.c09{ margin-top: -190px;margin-left: 340px; margin-right:5px;}
+.c10{ margin-top: 40px;margin-left: 10px;}
+.c11{ margin-top: 40px;margin-left: 43px;}
+.c12{ margin-top: -139px;margin-left: 340px; margin-right:5px;}
+.c01,.c02,.c03,.c04,.c05,.c06,.c07,.c08,.c09,.c10,.c11,.c12,.lg,.ename
 {
     text-align:center;float:left;z-index:2;display:inline;*margin-left:0px;
 }
@@ -241,7 +225,7 @@ function drawUploadControl($viewObject, $namePrefix)
      			}
      			echo "</div>";
      		}
-			foreach((array_merge($columnImages)) as $key )
+			foreach($columnImages as $key )
 			{
 				echo "<div class='$key' name='$key' id='$key'>";
 				$imgStr = "<img id='{$key}Image' src='/server/static/theme/{$key}'";

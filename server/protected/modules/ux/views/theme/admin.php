@@ -47,12 +47,19 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		'theme_id',
 		'theme_name',
-		'theme_o1',
-		'theme_o2',
-		'theme_o3',
-		'theme_o4',
+		'theme_c01',
+		'theme_c02',
+		'theme_c03',
+		'theme_c04',
 		/*
-		'theme_o5',
+		'theme_c05',
+		'theme_c06',
+		'theme_c07',
+		'theme_c08',
+		'theme_c09',
+		'theme_c10',
+		'theme_c11',
+		'theme_c12',
 		'enterprise_id',
 		*/
 		array(

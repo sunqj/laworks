@@ -194,6 +194,15 @@ class ColumnController extends Controller
     	}
     	$eId = $_GET['eid'];
     	$columnList = Column::model()->getEnterpriseColumnList($eId);
+    	$dummyColumns = array(
+						-1 => '联系人',
+						-2 => '通知',
+						-3 => '设置',
+						-4 => '公共频道',
+						//-5 => '投票',
+						//-6 => '讨论组',
+					);
+    	$columnList = array("userColumns" => $columnList, "dummyColumns" => $dummyColumns);
     	echo json_encode($columnList);
     }
     

@@ -22,28 +22,63 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'theme_o1'); ?>
-		<?php echo $form->textField($model,'theme_o1'); ?>
+		<?php echo $form->label($model,'theme_c01'); ?>
+		<?php echo $form->textField($model,'theme_c01'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'theme_o2'); ?>
-		<?php echo $form->textField($model,'theme_o2'); ?>
+		<?php echo $form->label($model,'theme_c02'); ?>
+		<?php echo $form->textField($model,'theme_c02'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'theme_o3'); ?>
-		<?php echo $form->textField($model,'theme_o3'); ?>
+		<?php echo $form->label($model,'theme_c03'); ?>
+		<?php echo $form->textField($model,'theme_c03'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'theme_o4'); ?>
-		<?php echo $form->textField($model,'theme_o4'); ?>
+		<?php echo $form->label($model,'theme_c04'); ?>
+		<?php echo $form->textField($model,'theme_c04'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'theme_o5'); ?>
-		<?php echo $form->textField($model,'theme_o5'); ?>
+		<?php echo $form->label($model,'theme_c05'); ?>
+		<?php echo $form->textField($model,'theme_c05'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'theme_c06'); ?>
+		<?php echo $form->textField($model,'theme_c06'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'theme_c07'); ?>
+		<?php echo $form->textField($model,'theme_c07'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'theme_c08'); ?>
+		<?php echo $form->textField($model,'theme_c08'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'theme_c09'); ?>
+		<?php echo $form->textField($model,'theme_c09'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'theme_c10'); ?>
+		<?php echo $form->textField($model,'theme_c10'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'theme_c11'); ?>
+		<?php echo $form->textField($model,'theme_c11'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'theme_c12'); ?>
+		<?php echo $form->textField($model,'theme_c12'); ?>
 	</div>
 
 	<div class="row">
