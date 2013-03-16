@@ -103,7 +103,7 @@ class Build extends CActiveRecord
     {
         $versionString = "$branchName-$timeStamp";
         
-        $srcDir = '/backup/android-workspace/devilworks-platform';
+        $srcDir = '/backup/code/devilworks-platform';
         $cmd = "cd $srcDir/main-apk; ". 
                 "bash build.sh -e $enterpriseId -t . -n $appname -b $branchName -v $versionString";
         Yii::log ( "build command: $cmd" );
