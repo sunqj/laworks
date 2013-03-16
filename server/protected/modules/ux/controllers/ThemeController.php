@@ -101,16 +101,6 @@ class ThemeController extends Controller
         
 		if (isset ( $_POST ['Theme'] )) {
 			$model->attributes = $_POST ['Theme'];
-            $columns = array();
-            $modules = array();
-            if(isset($_POST['icon']))
-            {
-            	$columns =  $_POST['icon'];
-            }
-            if(isset($_POST['modules']))
-            {
-            	$modules = $_POST['modules'];
-            }
             if ($model->save ())
                 $this->redirect ( array (
                         'view',

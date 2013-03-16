@@ -71,6 +71,39 @@ class Theme extends CActiveRecord
 		);
 	}
 
+	
+	public function afterSave()
+	{
+	    require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
+	    $themeDir = getThemeDirAbsolute();
+	    $unpackedDir = "{$themeDir}unpacked/";
+	    $packedDir = "{$themeDir}packed/";
+	    
+	    $mkdirCmd = "mkdir {$unpackedDir}$this->theme_id";
+	    $zipCmd = "cd {$themeDir}; zip {$packedDir}$this->theme_id.zip *.png";
+	    $mvCmd = "mv {$themeDir}*.png {$unpackedDir}$this->theme_id";
+	    
+	    $cmdList = "$mkdirCmd; $zipCmd; $mvCmd";
+	    
+	    Yii::log("create theme $this->theme_id, command: $cmdList");
+	    //mkdir for theme
+	    system($cmdList);
+        
+	    for($i = 1; $i <= 12; ++$i)
+	    {
+	        $columnId = $this[$i > 9 ? "theme_c$i" : "theme_c0$i"];
+	         
+	        if($columnId <= 0)
+	        {
+	            continue;
+	        }
+	        $column = Column::model()->findByPk($columnId);
+	        $column->column_index = $i;
+	        $column->save();
+	    }
+	    
+	    return true;
+	}
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
