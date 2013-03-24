@@ -18,23 +18,18 @@ $this->menu=array(
 
 <h1>View Theme #<?php echo $model->theme_id; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php 
+	$columnsArray = array(array('label' => 'enterprise_id',
+						  'value' => Enterprise::getEnterpriseById($model->enterprise_id)));
+	for($i = 1; $i <= 12; ++$i)
+	{
+		$attrName = $i > 9? "theme_c$i" : "theme_c0$i";
+		array_push($columnsArray, array('label' => $attrName, 
+				   'value' => Column::getColumnNameById($model[$attrName]))
+		);
+	}
+	
+	$this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
-	'attributes'=>array(
-		'theme_id',
-		'theme_name',
-		'theme_c01',
-		'theme_c02',
-		'theme_c03',
-		'theme_c04',
-		'theme_c05',
-		'theme_c06',
-		'theme_c07',
-		'theme_c08',
-		'theme_c09',
-		'theme_c10',
-		'theme_c11',
-		'theme_c12',
-		'enterprise_id',
-	),
-)); ?>
+	'attributes'=>array_merge(array('theme_id',	'theme_name'),$columnsArray))); 
+?>

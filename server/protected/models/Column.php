@@ -144,4 +144,14 @@ class Column extends CActiveRecord
 	    $retVal = CHtml::listData($columnList, 'column_id', 'column_name');
 	    return $retVal;
 	}
+	
+	public static function getColumnNameById($columnId)
+	{
+		$column = Column::model()->findByPk($columnId);
+		if(!$column)
+		{
+			return null;
+		}
+		return $column->column_name;
+	}
 }

@@ -147,4 +147,15 @@ class Enterprise extends CActiveRecord
         $enterpriseList = Enterprise::model ()->findAll ( $condition = 'enterprise_id > 0' );
         return CHtml::listData ( $enterpriseList, 'enterprise_id', 'enterprise_name' );
     }
+    
+    public static function getEnterpriseById($eId)
+    {
+    	$enterprise = Enterprise::model()->findByPk($eId);
+    	if(!$enterprise)
+    	{
+    		return null;
+    	}
+    	return $enterprise->enterprise_name;
+    }
+    
 }
