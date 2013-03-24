@@ -13,18 +13,19 @@ if __name__ == '__main__':
 
     print "print news one by one"
     for index,item in enumerate(feed.entries):
-        #Title
-        print str(index + 1) + ". Title:" + item.title
+        print item.keys()
+        ##Title
+        #print str(index + 1) + ". Title:" + item.title
 
-        #Summary
-        summary = item['summary_detail'].value.split("......")[0]
-        print summary
+        ##Summary
+        #summary = item['summary_detail'].value.split("......")[0]
+        #print summary
         
-        #Link
-        link = item['link'] 
-        print "Link:\n" + link
+        ##Link
+        #link = item['link'] 
+        #print "Link:\n" + link
 
-        print
+        #print
 
 
 

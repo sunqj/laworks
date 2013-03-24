@@ -388,7 +388,13 @@ insert into tianyi_user(user_id, username, password, permission_id, enterprise_i
 /*column*/
 
 insert into tianyi_column(column_id, column_name, enterprise_id) values
-(0,"默认栏目", 0);
+(0,"默认栏目", 0),
+(-1, "联系人",  0),
+(-2, "通知",  0),
+(-3, "设置",  0),
+(-4, "公共频道",  0),
+(-5, "投票",  0),
+(-6, "讨论组",  0);
 
 /*role_status*/
 insert into tianyi_role_status(role_status_id, role_status_name) values
@@ -421,9 +427,14 @@ insert into tianyi_enterprise(enterprise_name, enterprise_desc) values('laworks'
 insert into tianyi_enterprise(enterprise_name, enterprise_desc) values('stworks', 'stworks'); 
 
 /* user */
-insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values(1, 'laadmin', 'linuxred', 1, 1);
-insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values(2, 'laauditor', 'linuxred', 2, 1);
-insert into tianyi_user(username, password, permission_id, enterprise_id) values('lauser1', 'linuxred', 3, 1), ('lauser2', 'linuxred', 3, 1), ('lauser3', 'linuxred', 3, 1), ('lauser4', 'linuxred', 3, 1);
+insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values
+(1, 'laadmin', 'linuxred', 1, 1),
+(2, 'laauditor', 'linuxred', 2, 1);
+insert into tianyi_user(username, password, permission_id, enterprise_id, user_extra) values
+('lauser1', 'linuxred', 3, 1, '12345'), 
+('lauser2', 'linuxred', 3, 1, '23456'), 
+('lauser3', 'linuxred', 3, 1, '34567'), 
+('lauser4', 'linuxred', 3, 1, '45678');
 
 /* contacts */
 insert into tianyi_contacts(contacts_name, contacts_cell, contacts_hometel, contacts_officetel, enterprise_id) 

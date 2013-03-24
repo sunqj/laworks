@@ -11,3 +11,4 @@ define('LA_FIXMOD_SETTINGS', '2');
 define('LA_FIXMOD_PUBCHANNEL', '3');
 define('LA_FIXMOD_VOTE', '4');
 define('LA_FIXMOD_DISCUSSOIN', '5');
+
