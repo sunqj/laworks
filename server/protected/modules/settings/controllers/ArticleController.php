@@ -240,10 +240,11 @@ class ArticleController extends Controller
             $targetFile = getArticleIconDirAbsolute () . $fileName;
     
             $ret = $uploadImage->saveAs ( $targetFile );
-    
+    		
+            $ip = "192.168.3.101";
             if ($ret == 1)
             {
-                echo "0:" . getArticleIconDirRelative () . $fileName;
+                echo "0;http://$ip" . getArticleIconDirRelative () . $fileName;
                 return;
             }
         }

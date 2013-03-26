@@ -87,10 +87,11 @@
 		                    var oldNode = img_prev.removeChild(img_prev.firstChild);
 		                    oldNode = null;
 		                }
-		                rArray = response.split(":");
+		                rArray = response.split(";");
 
 		                if(rArray[0] == 0)
 		                {
+							//alert(rArray[1]);
 		                    var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
 		                    $("#img_prev").append(imgChild);
 		                    $("#ytArticle_article_icon").val(rArray[1]);
