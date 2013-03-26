@@ -6,7 +6,10 @@
                 <?php if(count($columns)):?>
                     <update latest="<?php echo $newver; ?>" type="<?php echo $type; ?>" url="<?php echo $url; ?>" />
                     <user id="<?php echo $user->user_id; ?>" username="<?php echo $user->username ;?>" realname="<?php echo $user->user_realname; ?>" />
-                    <enterprise id="<?php echo $user->enterpriseTable->enterprise_id; ?>" name="<?php echo $user->enterpriseTable->enterprise_name; ?>" />
+                    <enterprise id="<?php echo $user->enterpriseTable->enterprise_id; ?>" 
+                    			name="<?php echo $user->enterpriseTable->enterprise_name; ?>"
+                    			theme="<?php echo $theme?>" 
+                    				/>
                     <columns>
                         <?php foreach($columns as $column): ?>
                             <column name="<?php echo $column->column_name; ?>" id="<?php echo $column->column_id; ?>" />

@@ -96,7 +96,7 @@ class ClientController extends Controller
         $theme = $theme[0];
 		for($i = 1; $i < 10; ++ $i) 
 		{
-			$columnId = $theme [($i > 9 ? "theme_c$i" : "theme_c0$i")];
+			$columnId = $theme[($i > 9 ? "theme_c$i" : "theme_c0$i")];
 			$columns = $columnId > 0 ? $commonColumns : $dummyColumns;
 			
 			foreach ( $columns as $column ) 
@@ -108,10 +108,7 @@ class ClientController extends Controller
 				}
 			}
 		}
-        
-        
 
-        		
         $verInfo = Build::model()->getLatestVersion($clientVersion, $user->enterprise_id);
         
         $this->render($viewName, array(
@@ -122,6 +119,7 @@ class ClientController extends Controller
                                       'url'        => $verInfo['url'],
                                       'columns'    => $orderedColumns,
                                       'user'       => $user,
+        							  'theme'      => $theme->theme_id,
                                       ));
         return;
     }
