@@ -199,8 +199,9 @@ class ColumnController extends Controller
 						-2 => '通知',
 						-3 => '设置',
 						-4 => '公共频道',
-						//-5 => '投票',
-						//-6 => '讨论组',
+    	                -5 => '视频监控',
+						//-6 => '投票',
+						//-7 => '讨论组',
 					);
     	$columnList = array("userColumns" => $columnList, "dummyColumns" => $dummyColumns);
     	echo json_encode($columnList);
