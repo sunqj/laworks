@@ -143,12 +143,13 @@ class ClientController extends Controller
         }
         
 
-        $criteria = new CDbCriteria();
+        
         $count = Notification::model()->count("enterprise_id = $user->enterprise_id");
         $pagination = new CPagination($count);
         $pagination->pageSize = LA_PAGE_SIZE;
         //default pageVar = page, set it explicit.
         $pagination->pageVar = 'page';
+        $criteria = new CDbCriteria();
         $pagination->applyLimit($criteria);
         
         $notificationList = Notification::model()->findAll($criteria);
@@ -202,23 +203,50 @@ class ClientController extends Controller
         echo "channel article list";
     }
     
+    public function actionListColumnArticles()
+    {
+        $viewName = 'list_column_articles';
+        if(!isset($_GET['columnId']))
+        {
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'column id is not set');
+            return;
+        }
+        
+        $columnId = $_GET['columnId'];
+        $count = Article::model()->count("column_id = $columnId");
+        
+        $pagination = new CPagination($count);
+        $pagination->pageVar = 'page';
+        $criteria = new CDbCriteria();
+        $pagination->applyLimit($criteria);
+        
+        
+        $articles = Article::model()->findAll($criteria);
+        $this->render($viewName, Array(
+                'result'  => LA_RSP_SUCCESS,
+                'info'    => 'get artile list success',
+                'articles' => $articles
+        ));
+        
+    }
+    
     public function actionListBanner()
     {
-        if(!isset($_GET['username']))
+        $viewName = 'list_column_articles';
+        if(!isset($_GET['enterpriseId']))
         {
-            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user id missed.');
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'enterprise id missed.');
             return;
         }
         
-        $user = User::getUserByName($_GET['username']);
-        if($user == null)
-        {
-            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'the user does not exist');
-            return;
-        }
+        $enterpriseId = $_GET['enterpriseId'];
+        $articles = Article::model()->findAll("enterprise_id = $enterpriseId and article_isbanner = 1");
         
-
-        echo "banner list";
+        $this->render($viewName, Array(
+                'result'  => LA_RSP_SUCCESS,
+                'info'    => 'get banner list success',
+                'articles' => $articles
+        ));
     }
     
     public function actionCount()
@@ -305,6 +333,7 @@ class ClientController extends Controller
                                 "phoneunamelogin",
                                 "phoneimeidlogin",
                                 "listnotification",
+                                'listcolumnarticles',
                                 "listchannel",
                                 "listbanner",
                                 "count",

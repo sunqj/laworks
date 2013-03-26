@@ -22,20 +22,25 @@
 
 <?php
 /* return xml example:
-
-<xml version="1.0" encoding="UTF-8" />
+<?xml version="1.0" encoding="UTF-8"?>
 <response>
-    <result value="0" info="login success" />
-        <data>
-            <update latest="1360948973" type="1" url="/server/apk/1/caizhengting_sx-1360948973.apk" />
-            <user id="7" username="18049229109" realname="Leo.C.Wu" />
-            <enterprise id="1" name="laworks" />
-            <columns>
-                <column name="column1" id="1" />
-                <column name="column2" id="2" />
-                <column name="column3" id="3" />
-            </columns>
-        </data>
+    <result value="0" info="login success"/>
+    <data>
+        <update latest="0" type="0" url=""/>
+        <user id="3" username="lauser1" realname=""/>
+        <enterprise id="1" name="laworks" theme="3"/>
+        <columns>
+            <column name="值班信息" id="1"/>
+            <column name="日程安排" id="2"/>
+            <column name="公共信息" id="3"/>
+            <column name="紧急事件" id="5"/>
+            <column name="工作信息" id="6"/>
+            <column name="联系人" id="-1"/>
+            <column name="通知" id="-2"/>
+            <column name="设置" id="-3"/>
+        </columns>
+    </data>
 </response>
+
 */
 ?>
