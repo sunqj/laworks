@@ -203,7 +203,7 @@ class ClientController extends Controller
         echo "channel article list";
     }
     
-    public function actionListColumnArticles()
+    public function actionListColumn()
     {
         $viewName = 'list_column_articles';
         if(!isset($_GET['columnId']))
@@ -334,13 +334,13 @@ class ClientController extends Controller
                                 "phoneunamelogin",
                                 "phoneimeidlogin",
                                 "listnotification",
-                                'listcolumnarticles',
+                                "listcolumn",
                                 "listchannel",
                                 "listbanner",
-                                "count",
                                 "listcontacts",
                                 "checkupdate",
                                 "columnpage",
+                                "count",
                         ),
                         'users' => array (
                                 '*'
