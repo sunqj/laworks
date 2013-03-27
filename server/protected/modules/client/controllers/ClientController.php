@@ -218,6 +218,7 @@ class ClientController extends Controller
         $pagination = new CPagination($count);
         $pagination->pageVar = 'page';
         $criteria = new CDbCriteria();
+        $criteria->condition = "column_id = $columnId";
         $pagination->applyLimit($criteria);
         
         
