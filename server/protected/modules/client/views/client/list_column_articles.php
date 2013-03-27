@@ -9,9 +9,9 @@
                     id="<?php echo $article->article_id; ?>"
                     name="<?php echo $article->article_name; ?>" 
                     desc="<?php echo $article->article_summary; ?>"
-                    url="<?php echo $article->article_url;?>"
+                    url="<?php echo "http://{$ip}$article->article_url";?>"
                     type="<?php echo $article->article_type; ?>"
-                    icon="<?php echo $article->article_icon; ?>"
+                    icon="<?php echo "http://{$ip}$article->article_icon"; ?>"
                     />
                 <?php endforeach; ?>
             </articles>

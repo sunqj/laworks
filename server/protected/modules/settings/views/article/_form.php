@@ -87,7 +87,7 @@
 		                    var oldNode = img_prev.removeChild(img_prev.firstChild);
 		                    oldNode = null;
 		                }
-		                rArray = response.split(";");
+		                rArray = response.split(":");
 
 		                if(rArray[0] == 0)
 		                {

@@ -225,7 +225,8 @@ class ClientController extends Controller
         $this->render($viewName, Array(
                 'result'  => LA_RSP_SUCCESS,
                 'info'    => 'get artile list success',
-                'articles' => $articles
+                'articles' => $articles,
+                'ip'       => '192.168.2.5',
         ));
         
     }
@@ -245,7 +246,8 @@ class ClientController extends Controller
         $this->render($viewName, Array(
                 'result'  => LA_RSP_SUCCESS,
                 'info'    => 'get banner list success',
-                'articles' => $articles
+                'articles' => $articles,
+                'ip'       => '192.168.2.5',
         ));
     }
     
@@ -324,12 +326,10 @@ class ClientController extends Controller
     {
         return array (
                 array (
-                        'allow', // allow all users to perform 'index' and
-                        // 'view' actions
+                        'allow', // actions for all users
                         'actions' => array (
                                 'index',
                                 'view',
-                                'test',
                                 "phoneunamelogin",
                                 "phoneimeidlogin",
                                 "listnotification",

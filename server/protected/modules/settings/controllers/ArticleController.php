@@ -241,10 +241,9 @@ class ArticleController extends Controller
     
             $ret = $uploadImage->saveAs ( $targetFile );
     		
-            $ip = "192.168.3.101";
             if ($ret == 1)
             {
-                echo "0;http://$ip" . getArticleIconDirRelative () . $fileName;
+                echo "0:" . getArticleIconDirRelative () . $fileName;
                 return;
             }
         }
