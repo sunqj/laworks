@@ -127,14 +127,14 @@ class ClientController extends Controller
     public function actionListNotification()
     {
         $viewName = 'listnotification';
-        if(!isset($_GET['username']))
+        if(!isset($_GET['userid']))
         {
-            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user name missed');
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user id missed');
             return; 
         }
         
-        $username =$_GET['username'];
-        $user = User::getUserByName($username);
+        $userid =$_GET['userid'];
+        $user = User::model()->findByPk($userid);
         
         if($user == null)
         {
@@ -150,6 +150,7 @@ class ClientController extends Controller
         //default pageVar = page, set it explicit.
         $pagination->pageVar = 'page';
         $criteria = new CDbCriteria();
+        $criteria->condition = "enterprise_id = $user->enterprise_id";
         $pagination->applyLimit($criteria);
         
         $notificationList = Notification::model()->findAll($criteria);
