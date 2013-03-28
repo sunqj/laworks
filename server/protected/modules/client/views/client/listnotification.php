@@ -5,7 +5,9 @@
         <data>
 <?php if(count($notificationList)):?>
     <?php foreach($notificationList as $n): ?>
-    <notification name="<?php echo $n->notification_name; ?>" id="<?php echo $n->notification_id;?>" url="<?php echo $n->notification_url; ?>" />
+    <notification name="<?php echo $n->notification_name; ?>" 
+    id="<?php echo $n->notification_id;?>" 
+    url="<?php echo "http://{$ip}$n->notification_url"; ?>" />
     <?php endforeach; ?>
 <?php endif; ?>
         </data>

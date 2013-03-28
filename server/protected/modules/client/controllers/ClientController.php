@@ -4,8 +4,8 @@ require Yii::app ()->getBasePath () . '/utils/Constants.php';
 
 class ClientController extends Controller
 {
-    //just a test action for all
     public $layout = "//layout/xml";
+    private static $serverIp = "192.168.2.5";
 
     public function renderRetCodeAndInfoView($viewName, $retCode, $why)
     {
@@ -159,6 +159,7 @@ class ClientController extends Controller
                 'result'  => LA_RSP_SUCCESS,
                 'info'    => 'list notification success',
                 'notificationList' => $notificationList,
+                'ip'      => ClientController::$serverIp,
                 ));
     }
     
@@ -228,7 +229,7 @@ class ClientController extends Controller
                 'result'  => LA_RSP_SUCCESS,
                 'info'    => 'get artile list success',
                 'articles' => $articles,
-                'ip'       => '192.168.2.5',
+                'ip'       => ClientController::$serverIp,
         ));
         
     }
@@ -249,7 +250,7 @@ class ClientController extends Controller
                 'result'  => LA_RSP_SUCCESS,
                 'info'    => 'get banner list success',
                 'articles' => $articles,
-                'ip'       => '192.168.2.5',
+                'ip'       => ClientController::$serverIp,
         ));
     }
     
