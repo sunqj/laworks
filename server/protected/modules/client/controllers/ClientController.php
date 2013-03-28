@@ -260,23 +260,21 @@ class ClientController extends Controller
         
         echo "click count of an article ";
     }
-    
+
     public function actionListContacts()
     {
-    if(!isset($_GET['username']))
+        $viewName = "list_contacts";
+        if (! isset ( $_GET ['enterpriseId'] ))
         {
-            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user id missed.');
+            $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'enterprise id missed.' );
             return;
         }
         
-        $user = User::getUserByName($_GET['username']);
-        if($user == null)
-        {
-            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'the user does not exist');
-            return;
-        }
-        
-        echo "all contacts list";
+        $this->render($viewName,
+                array(
+                        'result' => "0",
+                        'info'   => "list contacts successfull",
+                        'contacts' => array()));
     }
     
     public function  actionCheckUpdate()
@@ -294,7 +292,6 @@ class ClientController extends Controller
             return;
         }
         $ver      = $_GET['ver'];
-         
         echo "whether there is a new version available or not.";
     }
     
