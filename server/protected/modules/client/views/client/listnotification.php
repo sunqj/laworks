@@ -15,14 +15,16 @@
 </response>
 
 <?php
-/* return xml example:
+/* 
+ * return xml example:
 
-<xml version="1.0" encoding="UTF-8" />
-<response>
-    <result value="0" info="list notification success" />
-        <data>
-
-        </data>
-</response>
+//    <?xml version="1.0" encoding="UTF-8"?>
+//    <response>
+//        <result value="0" info="list notification success"/>
+//        <data>
+//            <notification name="1" id="1" url="1.html"/>
+//            <notification name="2" id="2" url="2.html"/>
+//        </data>
+//    </response>
 */
 ?>
