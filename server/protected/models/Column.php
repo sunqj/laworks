@@ -145,6 +145,13 @@ class Column extends CActiveRecord
 	    return $retVal;
 	}
 	
+	public function getDummyColumnList()
+	{
+	    $columnList = Column::model()->findAll("column_id < 0");
+	    $retVal = CHtml::listData($columnList, 'column_id', 'column_name');
+	    return $retVal;
+	}
+	
 	public static function getColumnNameById($columnId)
 	{
 		$column = Column::model()->findByPk($columnId);

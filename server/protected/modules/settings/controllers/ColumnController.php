@@ -25,7 +25,7 @@ class ColumnController extends Controller
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
-     * 
+     *
      * @return array access control rules
      */
     public function accessRules()
@@ -33,12 +33,12 @@ class ColumnController extends Controller
         return array (
                 array (
                         'allow', // allow all users to perform 'index' and
-                                       // 'view' actions
+                                 // 'view' actions
                         'actions' => array (
                                 'index',
-                                'view', 
+                                'view',
                                 'upload',
-                        		'list',
+                                'list' 
                         ),
                         'users' => array (
                                 '*' 
@@ -46,7 +46,7 @@ class ColumnController extends Controller
                 ),
                 array (
                         'allow', // allow authenticated user to perform
-                                       // 'create' and 'update' actions
+                                 // 'create' and 'update' actions
                         'actions' => array (
                                 'create',
                                 'update' 
@@ -57,7 +57,7 @@ class ColumnController extends Controller
                 ),
                 array (
                         'allow', // allow admin user to perform 'admin'
-                                       // and 'delete' actions
+                                 // and 'delete' actions
                         'actions' => array (
                                 'admin',
                                 'delete' 
@@ -77,7 +77,7 @@ class ColumnController extends Controller
 
     /**
      * Displays a particular model.
-     * 
+     *
      * @param integer $id
      *            the ID of the model to be displayed
      */
@@ -119,7 +119,7 @@ class ColumnController extends Controller
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view'
      * page.
-     * 
+     *
      * @param integer $id
      *            the ID of the model to be updated
      */
@@ -149,17 +149,17 @@ class ColumnController extends Controller
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin'
      * page.
-     * 
+     *
      * @param integer $id
      *            the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
-        $columnArray = Column::model()->findAll('enterprise_id = ' . Yii::app()->user->enterprise_id);
-        if(count($columnArray) <= 1)
+        $columnArray = Column::model ()->findAll ( 'enterprise_id = ' . Yii::app ()->user->enterprise_id );
+        if (count ( $columnArray ) <= 1)
         {
-            throw new CHttpException("", "Last column can not be deleted.");
-            $this->redirect(Yii::app()->request->urlReferrer, true);
+            throw new CHttpException ( "", "Last column can not be deleted." );
+            $this->redirect ( Yii::app ()->request->urlReferrer, true );
         }
         
         $this->loadModel ( $id )->delete ();
@@ -186,27 +186,22 @@ class ColumnController extends Controller
     /**
      * Get all columns as a list for dropdown list controls
      */
-    public function  actionList()
+    public function actionList()
     {
-    	if(!isset($_GET['eid']))
-    	{
-    		return null;
-    	}
-    	$eId = $_GET['eid'];
-    	$columnList = Column::model()->getEnterpriseColumnList($eId);
-    	$dummyColumns = array(
-						-1 => '联系人',
-						-2 => '通知',
-						-3 => '设置',
-						-4 => '公共频道',
-    	                -5 => '视频监控',
-						//-6 => '投票',
-						//-7 => '讨论组',
-					);
-    	$columnList = array("userColumns" => $columnList, "dummyColumns" => $dummyColumns);
-    	echo json_encode($columnList);
+        if (! isset ( $_GET ['eid'] ))
+        {
+            return null;
+        }
+        $eId = $_GET ['eid'];
+        $columnList = Column::model ()->getEnterpriseColumnList ( $eId );
+        $dummyColumns = Column::model ()->getDummyColumnList ();
+        $columnList = array (
+                "userColumns" => $columnList,
+                "dummyColumns" => $dummyColumns 
+        );
+        echo json_encode ( $columnList );
     }
-    
+
     /**
      * Manages all models.
      */
@@ -226,7 +221,7 @@ class ColumnController extends Controller
      * Returns the data model based on the primary key given in the GET
      * variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * 
+     *
      * @param
      *            integer the ID of the model to be loaded
      */
@@ -240,7 +235,7 @@ class ColumnController extends Controller
 
     /**
      * Performs the AJAX validation.
-     * 
+     *
      * @param
      *            CModel the model to be validated
      */

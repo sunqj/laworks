@@ -385,17 +385,6 @@ insert into tianyi_permission(permission_id, permission_name) values
 insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values
 (0, 'admin', 'linuxred', 0, 0);
 
-/*column*/
-
-insert into tianyi_column(column_id, column_name, enterprise_id) values
-(0,"默认栏目", 0),
-(-1, "联系人",  0),
-(-2, "通知",  0),
-(-3, "设置",  0),
-(-4, "公共频道",  0),
-(-5, "投票",  0),
-(-6, "讨论组",  0);
-
 /*role_status*/
 insert into tianyi_role_status(role_status_id, role_status_name) values
 (0, "正常"), 
@@ -444,12 +433,22 @@ values
 ('contacts3', '10003', '20003', '30003', 1), 
 ('contacts4', '10004', '20004', '30004', 1);
 
+/*column*/
+insert into tianyi_column(column_id, column_name, enterprise_id) values
+(0,"默认栏目", 0),
+(-1, "联系人",  0),
+(-2, "通知",  0),
+(-3, "设置",  0),
+(-4, "公共频道",  0),
+(-5, "投票",  0),
+(-6, "讨论组",  0),
+(-7, "视频监控", 0);
+
 insert into tianyi_column(column_name, enterprise_id) 
 values
 ('值班信息', 1),
 ('日程安排', 1),
 ('公共信息', 1),
-('视频监控', 1),
 ('紧急事件', 1),
 ('工作信息', 1),
 ('内部新闻', 1);
