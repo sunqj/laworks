@@ -438,7 +438,88 @@ class Contacts extends CActiveRecord
     public static function exportContactsToZip()
     {
         $enterpriseId = Yii::app ()->user->enterprise_id;
+        //get all users and departments
+        $users = User::model()->findAll("permission_id = 3 and enterprise_id = $enterpriseId 
+        		and contact_id <> 0 order by user_position");
+        $departments = Department::model()->findAll("enterprise_id = $enterpriseId");
         
+        $departmentUsers = Array();
+        
+        //catagorize users according to its department id.
+        foreach($departments as $department)
+        {
+        	$depHash = Array(
+        			'id' => $department->department_id,
+        			'name' => $department->depatment_name,
+        			'member' => array()
+        			);
+        	$departmentUsers["$department->department_id"] = $depHash; 
+        }
+        
+        $defaultDep = array(
+        			'id' => 0,
+        			'name' => 'default department',
+        			'members' => array()
+        		);
+		$reult['0'] = $defaultDep;
+		
+		$nonDummyContact = Array();
+		$usedContactId = Array();
+        foreach ($users as $user)
+        {
+			array_push($departmentUsers[$user->department_id], $user);
+			array_push($usedContactId, $user->contactsTable->contact_id);
+        }
+        
+        //address dummy contacts
+        $inStr = implode(", ", $usedContactId);
+        $dummyContacts =  Contacts::model()->findAll("enterprise_id = $enterpriseId and contact_id not in ($inStr)");
+        //export it as xml to $HTTP_ROOT/upload/contact/unpacked and zipped to $HTTP_ROOT/upload/contact/packed,
+        //xml example:
+        /*
+        <?xml version="1.0" encoding="utf-8"?>
+        <response>
+            <data>
+                <contacts>
+                    <department id="1" name="depname1">
+                        <contact name="name1" cell="123" office="234" home="345" />
+                        <contact name="name2" cell="123" office="234" home="345" />
+                    </department>
+                    <department id="0" name="defaultdep" >
+                        <contact name="name0" cell="223" office="224" home="323" />
+                    </department>
+                    <department id="-1" name="dummy dep" >  
+                        <contact name="dummy" cell="2323" office="1122" home="1111" />
+                    </department>
+                </contacts>
+            </data>
+        </response>
+        */
+        $xmlHeader = '<?xml version="1.0" encoding="utf-8"?>';
+        $xmlStartTags = '<response><data><contacts>';
+        $xmlEndTags = '</response></data></contacts>';
+        $contentString = "";
+        foreach($departmentUsers as $department)
+        {
+        	$contentString .= "<department id='$department->department_id' name='$department->department_name' />";
+        	foreach($department as $user)
+        	{
+        		$contentString .= "<contact name='$user->username' cell='$user->contactsTable->contacts_cell'
+        					office='$user->contactsTable->contacts_office'
+        					home='$user->contactsTable->contacts_home' />";        		
+        	}
+        	$contentString .= "</department>";
+        }
+        
+        require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
+        $xmlContent = "$xmlHeader\n$xmlStartTags\n$contentString\n$xmlEndTags";
+        $xmlFilePath = getContactsXmlDir() . $enterpriseId . ".xml";
+        
+        $fp = fopen($xmlFilePath, 'w');
+        fwrite($fp, $xmlContent);
+        fclose($fp);
+        
+        system("zip $xmlFilePath " . getContactsPackedDir());
         
         return;
     }

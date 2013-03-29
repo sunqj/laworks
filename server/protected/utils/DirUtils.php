@@ -129,6 +129,17 @@ function getThemeDirRelative()
     return $dir;
 }
 
+function getContactsPackedDir()
+{
+	$uploadDir = getUploadDirAbsolute();
+	return "{$uploadDir}contacts/packed/";
+}
+
+function getContactsXmlDir()
+{
+	$uploadDir = getUploadDirAbsolute();
+	return "{$uploadDir}contacts/xml/";
+}
 
 function getEnterpriseDirsAbsolute($enterpriseId)
 {
