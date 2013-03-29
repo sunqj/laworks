@@ -185,7 +185,7 @@ class Contacts extends CActiveRecord
         $enterpriseLoginType = 0; // login type 0 => IMSI, 1 =>
                                   // username/password
         
-        $existedDepartmentArray = Department::model ()->findAll ( 'enterprise_id = ' . Yii::app ()->user->enterprise_id );
+        $existedDepartmentArray = Department::model ()->findAll ( "enterprise_id = $enterpriseId ");
         // temp arrays
         $departmentHash = Array ();
         $departmentNameArray = Array ();
@@ -195,7 +195,7 @@ class Contacts extends CActiveRecord
             $departmentHash [$dep->department_name] = $dep;
         }
         
-        $existedUserArray = User::model ()->findAll ( "permission_id = '3' and enterprise_id = " . Yii::app ()->user->enterprise_id );
+        $existedUserArray = User::model ()->findAll ( "permission_id = '3' and enterprise_id = $enterpriseId");
         $usernameArray = Array ();
         foreach ( $existedUserArray as $user )
         {
@@ -433,6 +433,14 @@ class Contacts extends CActiveRecord
             }
             $user->save ();
         }
+    }
+    
+    public static function exportContactsToZip()
+    {
+        $enterpriseId = Yii::app ()->user->enterprise_id;
+        
+        
+        return;
     }
 }
 
