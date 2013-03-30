@@ -526,7 +526,9 @@ class Contacts extends CActiveRecord
         	$contentString .= "<department id='{$department['id']}' name='{$department['name']}' >";
         	foreach($department['members'] as $user)
         	{
-        		$contentString .= "<contact name='{$user->contactsTable->contacts_name} ' 
+        		$contentString .= "<contact 
+        					id='{$user->contactsTable->contacts_id} ' 
+        					name='{$user->contactsTable->contacts_name} ' 
         					cell='{$user->contactsTable->contacts_cell} '
         					office='{$user->contactsTable->contacts_officetel} '
         					home='{$user->contactsTable->contacts_hometel}' /> ";        		
@@ -538,9 +540,11 @@ class Contacts extends CActiveRecord
         foreach($dummyContacts as $contacts)
         {
         	
-        	$contentString .= "<contact name='{$contacts->contacts_name}' 
-        			cell='{$contacts->contacts_cell}'
-        			office='{$contacts->contacts_officetel}'
+        	$contentString .= "<contact 
+        			id='{$contacts->contacts_id} '
+        			name='{$contacts->contacts_name} ' 
+        			cell='{$contacts->contacts_cell} '
+        			office='{$contacts->contacts_officetel} '
         			home='{$contacts->contacts_hometel}' />";
         }
         $contentString .= "</department>";
