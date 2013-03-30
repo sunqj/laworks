@@ -225,6 +225,7 @@ class ContactsController extends Controller
         $excelFile = $_POST['filename'];
         $retVal = Contacts::parseExcelFileToArray($excelFile);
         Contacts::importAll($retVal);
+        Contacts::exportContactsToZip();
         $this->redirect(array('admin'));
     }
     

@@ -132,13 +132,13 @@ function getThemeDirRelative()
 function getContactsPackedDir()
 {
 	$uploadDir = getUploadDirAbsolute();
-	return "{$uploadDir}contacts/packed/";
+	return "{$uploadDir}contact/packed/";
 }
 
 function getContactsXmlDir()
 {
 	$uploadDir = getUploadDirAbsolute();
-	return "{$uploadDir}contacts/xml/";
+	return "{$uploadDir}contact/xml/";
 }
 
 function getEnterpriseDirsAbsolute($enterpriseId)

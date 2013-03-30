@@ -296,8 +296,11 @@ class Contacts extends CActiveRecord
                     {
                         $department = new Department ();
                         $department->department_name = $dep;
+                        $department->enterprise_id = $enterpriseId;
                         array_push ( $newDepartmentArray, $department );
                         array_push ( $departmentArray, $department );
+                        array_push ( $departmentNameArray, $dep);
+                        $departmentHash[$dep] =  $department;
                     }
                 }
                 
@@ -335,7 +338,7 @@ class Contacts extends CActiveRecord
                 
                 // user table and contacts table
                 $contactsArray ["$lineIndex"] = $contacts;
-                $userArray ["$lineIndex"] = $user;
+                $userArray ["$lineIndex"] = $user;	
                 
                 $userContactsArray ["$lineIndex"] = Array (
                         'user' => $user,
@@ -355,8 +358,11 @@ class Contacts extends CActiveRecord
                     {
                         $department = new Department ();
                         $department->department_name = $dep;
+                        $department->enterprise_id = $enterpriseId;
                         array_push ( $newDepartmentArray, $department );
                         array_push ( $departmentArray, $department );
+                        array_push ( $departmentNameArray, $dep);
+                        $departmentHash[$dep] =  $department;
                     }
                 }
                 
@@ -440,40 +446,56 @@ class Contacts extends CActiveRecord
         $enterpriseId = Yii::app ()->user->enterprise_id;
         //get all users and departments
         $users = User::model()->findAll("permission_id = 3 and enterprise_id = $enterpriseId 
-        		and contact_id <> 0 order by user_position");
+        		and contacts_id <> 0 order by user_position");
         $departments = Department::model()->findAll("enterprise_id = $enterpriseId");
         
-        $departmentUsers = Array();
+        $result = Array();
         
         //catagorize users according to its department id.
-        foreach($departments as $department)
+        foreach ($departments as $department)
         {
         	$depHash = Array(
         			'id' => $department->department_id,
-        			'name' => $department->depatment_name,
-        			'member' => array()
+        			'name' => $department->department_name,
+        			'members' => array()
         			);
-        	$departmentUsers["$department->department_id"] = $depHash; 
+        	$result["$department->department_id"] = $depHash; 
         }
         
         $defaultDep = array(
-        			'id' => 0,
+        			'id' => "-1",
         			'name' => 'default department',
         			'members' => array()
         		);
-		$reult['0'] = $defaultDep;
+		$result['-1'] = $defaultDep;
 		
 		$nonDummyContact = Array();
 		$usedContactId = Array();
-        foreach ($users as $user)
-        {
-			array_push($departmentUsers[$user->department_id], $user);
-			array_push($usedContactId, $user->contactsTable->contact_id);
-        }
+		foreach($users as $user)
+		{
+			$userDepartments = UserDepartment::model()->findAll("user_id = $user->user_id");
+			//no records in user_department for $user, so the user belongs to default department
+			if($userDepartments == null)
+			{
+				array_push($result["-1"]['members'], $user);
+
+			}
+			//some records in user_department for $user, puts the user into each department
+			foreach($userDepartments as $userDepartment)
+			{
+				array_push($result["$userDepartment->department_id"]['members'], $user);
+			}
+			array_push($usedContactId, $user->contacts_id);
+		}
         
         //address dummy contacts
         $inStr = implode(", ", $usedContactId);
-        $dummyContacts =  Contacts::model()->findAll("enterprise_id = $enterpriseId and contact_id not in ($inStr)");
+        $condition = "enterprise_id = $enterpriseId";
+        if($inStr)
+        {
+        	$condition .= "  and contacts_id not in ($inStr)";
+        }
+        $dummyContacts =  Contacts::model()->findAll($condition);
         //export it as xml to $HTTP_ROOT/upload/contact/unpacked and zipped to $HTTP_ROOT/upload/contact/packed,
         //xml example:
         /*
@@ -497,29 +519,42 @@ class Contacts extends CActiveRecord
         */
         $xmlHeader = '<?xml version="1.0" encoding="utf-8"?>';
         $xmlStartTags = '<response><data><contacts>';
-        $xmlEndTags = '</response></data></contacts>';
+        $xmlEndTags = '</contacts></data></response>';
         $contentString = "";
-        foreach($departmentUsers as $department)
+        foreach($result as $department)
         {
-        	$contentString .= "<department id='$department->department_id' name='$department->department_name' />";
-        	foreach($department as $user)
+        	$contentString .= "<department id='{$department['id']}' name='{$department['name']}' >";
+        	foreach($department['members'] as $user)
         	{
-        		$contentString .= "<contact name='$user->username' cell='$user->contactsTable->contacts_cell'
-        					office='$user->contactsTable->contacts_office'
-        					home='$user->contactsTable->contacts_home' />";        		
+        		$contentString .= "<contact name='{$user->contactsTable->contacts_name} ' 
+        					cell='{$user->contactsTable->contacts_cell} '
+        					office='{$user->contactsTable->contacts_officetel} '
+        					home='{$user->contactsTable->contacts_hometel}' /> ";        		
         	}
         	$contentString .= "</department>";
         }
         
-        require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
+        $contentString .= "<department id='-2' name='contacts' >";
+        foreach($dummyContacts as $contacts)
+        {
+        	
+        	$contentString .= "<contact name='{$contacts->contacts_name}' 
+        			cell='{$contacts->contacts_cell}'
+        			office='{$contacts->contacts_officetel}'
+        			home='{$contacts->contacts_hometel}' />";
+        }
+        $contentString .= "</department>";
+        
         $xmlContent = "$xmlHeader\n$xmlStartTags\n$contentString\n$xmlEndTags";
-        $xmlFilePath = getContactsXmlDir() . $enterpriseId . ".xml";
+        $xmlDir =  getContactsXmlDir();
+        $xmlFilePath = $xmlDir . $enterpriseId . ".xml";
         
         $fp = fopen($xmlFilePath, 'w');
         fwrite($fp, $xmlContent);
         fclose($fp);
         
-        system("zip $xmlFilePath " . getContactsPackedDir());
+        $zipFileDir = getContactsPackedDir();
+        system("cd $xmlDir; zip {$zipFileDir}{$enterpriseId}.zip  $enterpriseId.xml");
         
         return;
     }
