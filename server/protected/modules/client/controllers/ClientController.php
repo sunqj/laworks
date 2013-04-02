@@ -310,7 +310,7 @@ class ClientController extends Controller
         	return;
         }
         
-        $url = "/server/apk/$eId/{$build->build_version}.apk";
+        $url = "/apk/$eId/{$build->build_version}.apk";
         $this->render($viewName,
         		array(
         				'result' => LA_RSP_SUCCESS,
