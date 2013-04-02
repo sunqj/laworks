@@ -5,7 +5,7 @@ require Yii::app ()->getBasePath () . '/utils/Constants.php';
 class ClientController extends Controller
 {
     public $layout = "//layout/xml";
-    private static $serverIp = "192.168.2.5";
+    private static $serverIp = "192.168.3.101";
 
     public function renderRetCodeAndInfoView($viewName, $retCode, $why)
     {
@@ -232,7 +232,6 @@ class ClientController extends Controller
                 'articles' => $articles,
                 'ip'       => ClientController::$serverIp,
         ));
-        
     }
     
     public function actionListBanner()
@@ -281,29 +280,45 @@ class ClientController extends Controller
     
     public function  actionCheckUpdate()
     {
-        if(!isset($_GET['username']))
+    	$viewName = 'check_update';
+        if(!isset($_GET['eId']))
         {
-            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user id missed.');
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'enterprise id missed.');
             return;
         }
         
-        $user = User::getUserByName($_GET['username']);
-        if($user == null)
-        {
-            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'the user does not exist');
-            return;
-        }
-        $ver      = $_GET['ver'];
-        echo "whether there is a new version available or not.";
-    }
-    
-    
-    public function actionColumnPage()
-    {
-        $columnId = $_GET['columnId'];
-        $page     = $_GET['page'];
+        $eId = $_GET['eId'];
+        $ver = '0';
+        $ver = $_GET['ver'];
         
-        echo "next page content";
+        $builds = Build::model()->findAll("enterprise_id = $eId order by build_date desc");
+        
+        if(count($builds) < 1)
+        {
+        	$this->renderRetCodeAndInfoView($viewName, LA_RSP_NOUPDATE, 'no updates found.');
+        	return;
+        }
+		
+        $build = $builds[0];
+        
+        $clientVerArray = explode("-", $_GET['ver']);
+        $clientBuildTime = intval($clientVerArray[1]);
+        $latestBuildTime = intval($build->build_date);
+        if($clientBuildTime > $latestBuildTime)
+        {
+        	$this->renderRetCodeAndInfoView($viewName, LA_RSP_NOUPDATE, 'no updates found.');
+        	return;
+        }
+        
+        $url = "/server/apk/$eId/{$build->build_version}.apk";
+        $this->render($viewName,
+        		array(
+        				'result' => LA_RSP_SUCCESS,
+        				'info'   => "new update found",
+        				'type'   => $build->build_type,
+        				'url'    => $url,
+        				'newver'=> $build->build_version
+        				));
     }
     
     /**

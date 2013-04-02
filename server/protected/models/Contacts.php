@@ -511,7 +511,7 @@ class Contacts extends CActiveRecord
         
         
         $xmlContent = "$xmlHeader\n$xmlStartTags\n$contentString\n$xmlEndTags";
-        require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
+        //require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
         $xmlDir =  getContactsXmlDir();
         $xmlFilePath = $xmlDir . $enterpriseId . ".xml";
         
