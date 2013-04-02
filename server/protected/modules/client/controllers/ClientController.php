@@ -92,22 +92,23 @@ class ClientController extends Controller
 
         $dummyColumns =	Column::model()->findAll("column_id < 0");
         $orderedColumns = array();
-        $theme = Theme::model()->findAll("enterprise_id = $user->enterprise_id");
-        $theme = $theme[0];
-		for($i = 1; $i < 10; ++ $i) 
-		{
-			$columnId = $theme[($i > 9 ? "theme_c$i" : "theme_c0$i")];
-			$columns = $columnId > 0 ? $commonColumns : $dummyColumns;
-			
-			foreach ( $columns as $column ) 
-			{
-				if ($column->column_id == $columnId) 
-				{
-					array_push ( $orderedColumns, $column );
-					break;
-				}
-			}
-		}
+        $theme = Theme::model()->findAll("enterprise_id     = $user->enterprise_id");
+        
+        $theme = count($theme) ? $theme[0] : Theme::model()->findByPk("0");
+        for($i = 1; $i < 10; ++ $i)
+        {
+            $columnId = $theme [($i > 9 ? "theme_c$i" : "theme_c0$i")];
+            $columns = $columnId > 0 ? $commonColumns : $dummyColumns;
+            
+            foreach ( $columns as $column )
+            {
+                if ($column->column_id == $columnId)
+                {
+                    array_push ( $orderedColumns, $column );
+                    break;
+                }
+            }
+        }
 
         $verInfo = Build::model()->getLatestVersion($clientVersion, $user->enterprise_id);
         
@@ -119,7 +120,7 @@ class ClientController extends Controller
                                       'url'        => $verInfo['url'],
                                       'columns'    => $orderedColumns,
                                       'user'       => $user,
-        							  'theme'      => $theme->theme_id,
+                                      'theme'      => $theme->theme_id,
                                       ));
         return;
     }
@@ -269,7 +270,8 @@ class ClientController extends Controller
             $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'enterprise id missed.' );
             return;
         }
-        
+        //Contacts::exportAndGroupContactsToZip($_GET ['enterpriseId']);
+        Contacts::exportAndSortContactsToZip($_GET['enterpriseId']);
         $this->render($viewName,
                 array(
                         'result' => "0",

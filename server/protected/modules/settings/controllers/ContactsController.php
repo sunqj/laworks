@@ -25,7 +25,7 @@ class ContactsController extends Controller
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
-     * 
+     *
      * @return array access control rules
      */
     public function accessRules()
@@ -33,11 +33,11 @@ class ContactsController extends Controller
         return array (
                 array (
                         'allow', // allow all users to perform 'index' and
-                                       // 'view' actions
+                                 // 'view' actions
                         'actions' => array (
                                 'index',
-                                'view' ,
-                                'import',
+                                'view',
+                                'import' 
                         ),
                         'users' => array (
                                 '*' 
@@ -45,7 +45,7 @@ class ContactsController extends Controller
                 ),
                 array (
                         'allow', // allow authenticated user to perform
-                                       // 'create' and 'update' actions
+                                 // 'create' and 'update' actions
                         'actions' => array (
                                 'create',
                                 'update',
@@ -60,7 +60,7 @@ class ContactsController extends Controller
                 ),
                 array (
                         'allow', // allow admin user to perform 'admin'
-                                       // and 'delete' actions
+                                 // and 'delete' actions
                         'actions' => array (
                                 'admin',
                                 'delete',
@@ -84,7 +84,7 @@ class ContactsController extends Controller
 
     /**
      * Displays a particular model.
-     * 
+     *
      * @param integer $id
      *            the ID of the model to be displayed
      */
@@ -126,7 +126,7 @@ class ContactsController extends Controller
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view'
      * page.
-     * 
+     *
      * @param integer $id
      *            the ID of the model to be updated
      */
@@ -156,7 +156,7 @@ class ContactsController extends Controller
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin'
      * page.
-     * 
+     *
      * @param integer $id
      *            the ID of the model to be deleted
      */
@@ -203,32 +203,34 @@ class ContactsController extends Controller
      */
     public function actionPreview()
     {
-        $excelFile = $_GET['filename'];
+        $excelFile = $_GET ['filename'];
         $retVal = Contacts::parseExcelFileToArray ( $excelFile );
-        $this->render ('preview', array (
-                'user'           => $retVal['user'],
-                'badLine'        => $retVal['badLine'],
-                'contacts'       => $retVal['contacts'],
-                'filename'       => $retVal['filename'],
-                'department'     => $retVal['department'],
-                'duplicateUser'  => $retVal['duplicateLine'],
-                'userDepartment' => $retVal['userDepartment'],
-        ));
+        $this->render ( 'preview', array (
+                'user' => $retVal ['user'],
+                'badLine' => $retVal ['badLine'],
+                'contacts' => $retVal ['contacts'],
+                'filename' => $retVal ['filename'],
+                'department' => $retVal ['department'],
+                'duplicateUser' => $retVal ['duplicateLine'],
+                'userDepartment' => $retVal ['userDepartment'] 
+        ) );
     }
 
     /**
-     * import real excel file related users, contacts, departments, and user_department 
+     * import real excel file related users, contacts, departments, and
+     * user_department
      */
-    
     public function actionImport()
     {
-        $excelFile = $_POST['filename'];
-        $retVal = Contacts::parseExcelFileToArray($excelFile);
-        Contacts::importAll($retVal);
-        Contacts::exportContactsToZip();
-        $this->redirect(array('admin'));
+        $excelFile = $_POST ['filename'];
+        $retVal = Contacts::parseExcelFileToArray ( $excelFile );
+        Contacts::importAll ( $retVal );
+        Contacts::exportAndSortContactsToZip( Yii::app ()->user->enterprise_id );
+        $this->redirect ( array (
+                'admin' 
+        ) );
     }
-    
+
     /**
      * upload excel file from client
      */
@@ -293,7 +295,7 @@ class ContactsController extends Controller
      * Returns the data model based on the primary key given in the GET
      * variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * 
+     *
      * @param
      *            integer the ID of the model to be loaded
      */
@@ -307,7 +309,7 @@ class ContactsController extends Controller
 
     /**
      * Performs the AJAX validation.
-     * 
+     *
      * @param
      *            CModel the model to be validated
      */

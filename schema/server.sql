@@ -452,3 +452,10 @@ values
 ('紧急事件', 1),
 ('工作信息', 1),
 ('内部新闻', 1);
+
+/* theme */
+insert into tianyi_theme values(0, "default", 1, 2, 3, 4, 5, -7, -3, -2, -1, 0, -100, -100, -100);
+
+
+/* department */
+insert into tianyi_department(department_id, department_name) values(-1, 'default');
