@@ -5,7 +5,7 @@ require Yii::app ()->getBasePath () . '/utils/Constants.php';
 class ClientController extends Controller
 {
     public $layout = "//layout/xml";
-    private static $serverIp = "192.168.3.101";
+    private static $serverIp = "192.168.2.5";
 
     public function renderRetCodeAndInfoView($viewName, $retCode, $why)
     {
@@ -128,30 +128,20 @@ class ClientController extends Controller
     public function actionListNotification()
     {
         $viewName = 'listnotification';
-        if(!isset($_GET['userid']))
+        if(!isset($_GET['eId']))
         {
-            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user id missed');
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'enterprise id missed');
             return; 
         }
         
-        $userid =$_GET['userid'];
-        $user = User::model()->findByPk($userid);
-        
-        if($user == null)
-        {
-            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user does not exist');
-            return;
-        }
-        
-
-        
-        $count = Notification::model()->count("enterprise_id = $user->enterprise_id");
+        $eId = $_GET['eId'];
+        $count = Notification::model()->count("enterprise_id = $eId");
         $pagination = new CPagination($count);
         $pagination->pageSize = LA_PAGE_SIZE;
         //default pageVar = page, set it explicit.
         $pagination->pageVar = 'page';
         $criteria = new CDbCriteria();
-        $criteria->condition = "enterprise_id = $user->enterprise_id";
+        $criteria->condition = "enterprise_id = $eId";
         $pagination->applyLimit($criteria);
         
         $notificationList = Notification::model()->findAll($criteria);
