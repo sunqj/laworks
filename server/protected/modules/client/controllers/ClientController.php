@@ -5,7 +5,7 @@ require Yii::app ()->getBasePath () . '/utils/Constants.php';
 class ClientController extends Controller
 {
     public $layout = "//layout/xml";
-    private static $serverIp = "192.168.2.5";
+    private static $serverIp = "192.168.3.101";
 
     public function renderRetCodeAndInfoView($viewName, $retCode, $why)
     {
@@ -128,20 +128,48 @@ class ClientController extends Controller
     public function actionListNotification()
     {
         $viewName = 'listnotification';
-        if(!isset($_GET['eId']))
+        if(!isset($_GET['uId']))
         {
-            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'enterprise id missed');
+            $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user id missed');
             return; 
         }
         
-        $eId = $_GET['eId'];
-        $count = Notification::model()->count("enterprise_id = $eId");
+        $userId = $_GET['uId'];
+        $user = User::model()->findByPk($userId);
+        
+        $eId = $user->enterpriseTable->enterprise_id;
+        $departments = UserDepartment::model()->findAll("user_id = $userId");
+
+        $conditionStr = "";
+
+        $dIdArray = Array(0);
+        	
+        foreach($departments as $department)
+        {
+        	array_push($dIdArray, $department->department_id);
+        }
+        $inStr = "(" . implode(", ", $dIdArray) . ")";
+        $conditionStr = "enterprise_id = $eId and (department_id in $inStr )";
+        
+        $readNotifications = NotificationUser::model()->findAll("user_id = $userId");
+        if(count($readNotifications))
+        {
+        	$nIdArray = Array();
+        	foreach($readNotifications as $notification)
+        	{
+        		array_push($nIdArray, $notification->notification_id);
+        	}
+        	$inStr = "(" . implode(", ", $nIdArray) . ")";
+        	$conditionStr .= "and notification_id not in $inStr";
+        }
+        
+        $count = Notification::model()->count($conditionStr);
         $pagination = new CPagination($count);
         $pagination->pageSize = LA_PAGE_SIZE;
         //default pageVar = page, set it explicit.
         $pagination->pageVar = 'page';
         $criteria = new CDbCriteria();
-        $criteria->condition = "enterprise_id = $eId";
+        $criteria->condition = $conditionStr;          
         $pagination->applyLimit($criteria);
         
         $notificationList = Notification::model()->findAll($criteria);
@@ -158,31 +186,45 @@ class ClientController extends Controller
     {
         $viewName = 'readnotification';
         
-        if(!isset($_GET['notificationId']))
+        if(!isset($_GET['nid']))
         {
             $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'notification id missed.');
             return;
         }
         
-        $notification = Notification::model()->findByPk($_GET['notificationId']);
+        $notificationId = $_GET['nid'];
+        $notification = Notification::model()->findByPk($notificationId);
         if($notificationId == null)
         {
             $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'the notification does not exist');
             return;
         }
         
-        if(!isset($_GET['username']))
+        if(!isset($_GET['userId']))
         {
             $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'user id missed.');
             return;
         }
         
-        $user = User::getUserByName($_GET['username']);
+        $userId = $_GET['userId'];
+        $user = User::model()->findByPk($userId);
+        
         if($user == null)
         {
             $this->renderRetCodeAndInfoView($viewName, LA_RSP_FAILED, 'the user does not exist');
             return;
         }
+        
+        $readFlags = NotificationUser::model()->find("user_id = $userId and notification_id = $notificationId");
+        
+        if(!count($readFlags))
+        {
+        	$flag = new NotificationUser();
+        	$flag->user_id = $userId;
+        	$flag->notification_id = $notificationId;
+        	$flag->save();
+        }
+        
         
         $this->renderRetCodeAndInfoView($viewName, LA_RSP_SUCCESS, 'read notification success');
         
@@ -340,6 +382,7 @@ class ClientController extends Controller
                                 "phoneunamelogin",
                                 "phoneimeidlogin",
                                 "listnotification",
+                        		"readnotification",
                                 "listcolumn",
                                 "listchannel",
                                 "listbanner",

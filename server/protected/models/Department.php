@@ -79,6 +79,12 @@ class Department extends CActiveRecord
         }
         return true;
     }
+
+    private function hasUser($userId)
+    {
+    	$userDepartment = UserDepartment::model()->find("user_id = $userId and department_id = $this->department_id");
+    	return !($userDepartment == null);
+    }
     
     public function beforeUpdate()
     {
@@ -88,6 +94,10 @@ class Department extends CActiveRecord
         //we should insert create all new record with one shot instead of one by one.
         foreach($this->userList as $userid)
         {
+        	if($this->hasUser($userId))
+        	{
+        		continue;
+        	}
             $userDepartment = new UserDepartment;
             $userDepartment->user_id = $userid;
             $userDepartment->department_id = $this->department_id;
