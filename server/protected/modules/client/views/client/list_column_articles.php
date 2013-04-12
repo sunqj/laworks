@@ -11,7 +11,8 @@
                     desc="<?php echo $article->article_summary; ?>"
                     url="<?php echo "http://{$ip}$article->article_url";?>"
                     type="<?php echo $article->article_type; ?>"
-                    icon="<?php echo "http://{$ip}$article->article_icon"; ?>"
+                    icon="<?php $icon = $article->article_icon == null ? null : $article->article_icon;
+                    echo $icon; ?>"
                     />
                 <?php endforeach; ?>
             </articles>
