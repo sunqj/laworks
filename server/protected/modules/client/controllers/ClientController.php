@@ -1,11 +1,11 @@
 <?php
 
 require Yii::app ()->getBasePath () . '/utils/Constants.php';
+require Yii::app ()->getBasePath () . '/utils/CommonUtils.php';
 
 class ClientController extends Controller
 {
     public $layout = "//layout/xml";
-    private static $serverIp = "192.168.3.101";
 
     public function renderRetCodeAndInfoView($viewName, $retCode, $why)
     {
@@ -178,7 +178,7 @@ class ClientController extends Controller
                 'result'  => LA_RSP_SUCCESS,
                 'info'    => 'list notification success',
                 'notificationList' => $notificationList,
-                'ip'      => ClientController::$serverIp,
+                'ip'      => getLocalAddr(),
                 ));
     }
     
@@ -262,7 +262,7 @@ class ClientController extends Controller
                 'result'  => LA_RSP_SUCCESS,
                 'info'    => 'get artile list success',
                 'articles' => $articles,
-                'ip'       => ClientController::$serverIp,
+                'ip'       => getLocalAddr()
         ));
     }
     
@@ -282,7 +282,7 @@ class ClientController extends Controller
                 'result'  => LA_RSP_SUCCESS,
                 'info'    => 'get banner list success',
                 'articles' => $articles,
-                'ip'       => ClientController::$serverIp,
+                'ip'       => getLocalAddr()
         ));
     }
     
@@ -353,6 +353,8 @@ class ClientController extends Controller
         				));
     }
     
+
+    
     /**
      *
      * @return array action filters
@@ -390,6 +392,7 @@ class ClientController extends Controller
                                 "checkupdate",
                                 "columnpage",
                                 "count",
+                        		"test",
                         ),
                         'users' => array (
                                 '*'
