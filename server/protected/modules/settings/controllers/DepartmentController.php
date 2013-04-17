@@ -73,6 +73,7 @@ class DepartmentController extends Controller
 			Yii::log("create, user list:" . implode(",", $model->userList));
 			if($model->save())
 			{
+				Contacts::exportAndSortContactsToZip($model->enterprise_id);
 				$this->redirect(array('view','id'=>$model->department_id));
 			}
 		}
@@ -99,6 +100,7 @@ class DepartmentController extends Controller
 			$model->attributes=$_POST['Department'];
 			if($model->save())
 			{
+				Contacts::exportAndSortContactsToZip($model->enterprise_id);
 			    $this->redirect(array('view','id'=>$model->department_id));
 			}
 
@@ -116,8 +118,9 @@ class DepartmentController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
-
+		$model=$this->loadModel($id);
+		$model->delete();
+		Contacts::exportAndSortContactsToZip($model->enterprise_id);
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
@@ -128,7 +131,8 @@ class DepartmentController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Department');
+		$dataProvider=new CActiveDataProvider('Department', array('criteria' => array(
+				'condition' => "department_id > 0")));
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
