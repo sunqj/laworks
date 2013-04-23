@@ -183,7 +183,7 @@ class Department extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('department_id',$this->department_id);
+		$criteria->compare('department_id', ">0");
 		$criteria->compare('department_name',$this->department_name,true);
 		$criteria->compare('department_desc',$this->department_desc,true);
 		$criteria->compare('department_status',$this->department_status);
