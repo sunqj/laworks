@@ -107,6 +107,8 @@ class DepartmentController extends Controller {
 						'view',
 						'id' => $model->department_id 
 				) );
+				Contacts::exportAndSortContactsToZip($model->enterprise_id);
+				$this->redirect(array('view','id'=>$model->department_id));
 			}
 		}
 		
@@ -129,13 +131,14 @@ class DepartmentController extends Controller {
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 		
-		if (isset ( $_POST ['Department'] )) {
-			$model->attributes = $_POST ['Department'];
-			if ($model->save ()) {
-				$this->redirect ( array (
-						'view',
-						'id' => $model->department_id 
-				) );
+
+		if(isset($_POST['Department']))
+		{
+			$model->attributes=$_POST['Department'];
+			if($model->save())
+			{
+				Contacts::exportAndSortContactsToZip($model->enterprise_id);
+			    $this->redirect(array('view','id'=>$model->department_id));
 			}
 		}
 		$model->userList = $model->getDepartmentUserIdList ();
@@ -152,25 +155,28 @@ class DepartmentController extends Controller {
 	 * @param integer $id
 	 *        	the ID of the model to be deleted
 	 */
-	public function actionDelete($id) {
-		$this->loadModel ( $id )->delete ();
-		
-		// if AJAX request (triggered by deletion via admin grid view), we
-		// should not redirect the browser
-		if (! isset ( $_GET ['ajax'] ))
-			$this->redirect ( isset ( $_POST ['returnUrl'] ) ? $_POST ['returnUrl'] : array (
-					'admin' 
-			) );
+
+	public function actionDelete($id)
+	{
+		$model=$this->loadModel($id);
+		$model->delete();
+		Contacts::exportAndSortContactsToZip($model->enterprise_id);
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 	
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex() {
-		$dataProvider = new CActiveDataProvider ( 'Department' );
-		$this->render ( 'index', array (
-				'dataProvider' => $dataProvider 
-		) );
+
+	public function actionIndex()
+	{
+		$dataProvider=new CActiveDataProvider('Department', array('criteria' => array(
+				'condition' => "department_id > 0")));
+		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
+		));
 	}
 	
 	/**

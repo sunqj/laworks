@@ -12,6 +12,7 @@
  * @property string $contacts_title
  * @property integer $enterprise_id
  */
+require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
 class Contacts extends CActiveRecord
 {
     // get all contacts belongs to same enterprise
@@ -511,7 +512,7 @@ class Contacts extends CActiveRecord
         
         
         $xmlContent = "$xmlHeader\n$xmlStartTags\n$contentString\n$xmlEndTags";
-        //require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
+        
         $xmlDir =  getContactsXmlDir();
         $xmlFilePath = $xmlDir . $enterpriseId . ".xml";
         

@@ -64,18 +64,61 @@ class Department extends CActiveRecord
         $userIdList = UserDepartment::model()->deleteAll("department_id = $this->department_id");
         return true;
     }
+		
+		// should give department->enterprise_id a value.
+	public function beforeSave() 
+	{
+		if (! parent::beforeSave ()) {
+			return false;
+		}
+		
+		if ($this->isNewRecord) {
+			// add a new record
+			if (Yii::app ()->user->Id != 0) {
+				$this->enterprise_id = Yii::app ()->user->enterprise_id;
+			}
+		}
+		
+		return true;   	
+   }
     
     //should create relation after create the department
     public function afterSave()
     {
         //here is a performance issue, we should make a little tuning here.
         //we should insert create all new record with one shot instead of one by one.
+        if($this->isNewRecord)
+        {
         foreach($this->userList as $userid)
         {
             $userDepartment = new UserDepartment;
             $userDepartment->user_id = $userid;
             $userDepartment->department_id = $this->department_id;
             $userDepartment->save();
+        }
+        }
+        else
+        {
+        	$userDepartments = UserDepartment::model()->findAll("department_id = $this->department_id");
+        	$existedUserIds = Array();
+        	foreach($userDepartments as $userDepartment)
+        	{
+        		array_push($existedUserIds, $userDepartment->user_id);
+        		if(!in_array($userDepartment->user_id, $this->userList))
+        		{
+        			$userDepartment->delete();
+        		}
+        	}
+        	foreach ($this->userList as $user_id)
+        	{
+        		if(!in_array($user_id, $existedUserIds))
+        		{
+        			$userDepartment = new UserDepartment;
+        			$userDepartment->user_id = $user_id;
+        			$userDepartment->department_id = $this->department_id;
+        			$userDepartment->save();
+        		}
+        	}
         }
         return true;
     }
@@ -183,7 +226,7 @@ class Department extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('department_id', ">0");
+		$criteria->compare('department_id', '>0');
 		$criteria->compare('department_name',$this->department_name,true);
 		$criteria->compare('department_desc',$this->department_desc,true);
 		$criteria->compare('department_status',$this->department_status);
