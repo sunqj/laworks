@@ -3,15 +3,16 @@
 /* @var $model LoginForm */
 /* @var $form CActiveForm  */
 
-$this->pageTitle=Yii::app()->name . ' - 登录';
+$this->pageTitle=Yii::app()->name .  Yii::t('login_message', 'login'); 
 $this->breadcrumbs=array(
-	'登录',
+    Yii::t('login_message', 'login'),
 );
 ?>
 
 <h1>Login</h1>
 
-<p>Please fill out the following form with your login credentials:</p>
+<?php //<p>Please fill out the following form with your login credentials:</p>
+?>
 
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -22,16 +23,18 @@ $this->breadcrumbs=array(
 	),
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+<?php
+//	<p class="note">Fields with <span class="required">*</span> are required.</p>
+?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'username'); ?>
+		<?php echo $form->labelEx($model,Yii::t('login_message', 'username')); ?>
 		<?php echo $form->textField($model,'username'); ?>
 		<?php echo $form->error($model,'username'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
+		<?php echo $form->labelEx($model,Yii::t('login_message', 'password')); ?>
 		<?php echo $form->passwordField($model,'password'); ?>
 		<?php echo $form->error($model,'password'); ?>
 		<p class="hint">

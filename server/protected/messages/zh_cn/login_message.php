@@ -19,8 +19,7 @@
  * @version $Id: $
  */
 return array (
-  'Image files' => '',
-  'Select a file' => '',
-  'Upload a picture' => '',
-  'Login' => '@@登录@@',
+  'login' => '登录',
+  'password' => '密码',
+  'username' => '用户名',
 );
