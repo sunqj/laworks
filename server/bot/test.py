@@ -10,25 +10,25 @@ url = "http://yjb.shaanxi.gov.cn/IssuedContentAction.do?dispatch=vContentListByS
 
 
 if __name__ == '__main__':
-    database = MySQLdb.connect(host='localhost', user='root',passwd='linuxred', db='server')
-    cursor = database.cursor()
-    sql = 'select * from tianyi_user'
-    count = cursor.execute(sql)
-    users = cursor.fetchall()
-    print users
+    #database = MySQLdb.connect(host='localhost', user='root',passwd='linuxred', db='server')
+    #cursor = database.cursor()
+    #sql = 'select * from tianyi_article'
+    #count = cursor.execute(sql)
+    #users = cursor.fetchall()
+    #print users
 
     page = urllib2.urlopen(url)
     soup = BeautifulSoup(page)
     links = soup.findAll(title=re.compile('.*'));
     articles = []
 
-    for index, link in enumerate(links):
+    for index, link in enumerate(links): 
         #print "%02s: \ntitle: %s\nlink:%s%s" %(index, link.get('title'), site_root, link.get('href'))
-        #print
         articles.append({'title': link.get('title'), 'link': link.get('href')})
 
     for article in articles:
         article_url = "%s%s" % (site_root, article['link'])
+        print article_url
 
         article_page = urllib2.urlopen(article_url)
         htm = article_page.read()
@@ -41,24 +41,15 @@ if __name__ == '__main__':
         tdtag = tdtags[0]
         fonttag = tdtag.findAll('font')[0]
 
-        print article['title']
         if fonttag.text:
-            import pdb
-            pdb.set_trace()
             print "fonttag:"
-            ptags = fonttag.findAll('p|div')
-            if ptags:
-                for ptag in ptags:
-                    print str(ptag)
-            else:
-                print fonttag.text
+            fonttext = fonttag.renderContents()
+            print fonttext
         else:
             print "ptag:"
-            ptags = tdtag.findAll('p')
-            for ptag in ptags:
-                ptag_content = str(ptag)
-                print ptag_content
-
+            tdtag.font.replaceWith("")
+            tdtext = tdtag.renderContents()
+            print tdtext
         print 
             
     
