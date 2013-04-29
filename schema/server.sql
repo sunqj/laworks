@@ -15,7 +15,7 @@ CREATE TABLE tianyi_article
     article_url                 varchar(256) not null,
     article_icon                varchar(256) default null,
     article_type                int default 0,
-    article_name                varchar(64) not null,
+    article_name                varchar(256) not null,
     article_content             longblob not null,
     article_summary             varchar(100) default null,
     article_isbanner            int default 0,
@@ -383,6 +383,7 @@ insert into tianyi_permission(permission_id, permission_name) values
 
 /*users*/
 insert into tianyi_user(user_id, username, password, permission_id, enterprise_id) values
+(-1, 'publisher', 'linuxred', 0, 0),
 (0, 'admin', 'linuxred', 0, 0);
 
 /*role_status*/
@@ -446,12 +447,12 @@ insert into tianyi_column(column_id, column_name, enterprise_id) values
 
 insert into tianyi_column(column_name, enterprise_id) 
 values
-('值班信息', 1),
-('日程安排', 1),
-('公共信息', 1),
-('紧急事件', 1),
-('工作信息', 1),
-('内部新闻', 1);
+('工作动态', 1),
+('突发事件', 1),
+('预案管理', 1),
+('应急演练', 1),
+('政策法规', 1),
+('宣传培训', 1);
 
 /* theme */
 insert into tianyi_theme values(0, "default", 1, 2, 3, 4, 5, -7, -3, -2, -1, 0, -100, -100, -100);
