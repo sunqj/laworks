@@ -112,7 +112,7 @@ class BotRC(plugin.Plugin):
                     article['url'] = "%s/%s" % (filedir, filename)
                     column_article_list.append(article)
                     # debug purpose, just add one line
-                    break
+                    #break
                     
 
             self.dict_data[column_id] = column_article_list 

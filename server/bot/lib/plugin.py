@@ -61,8 +61,6 @@ class Plugin:
                 continue
             values = []
             for article in article_list:
-                import pdb
-                pdb.set_trace()
                 #value = ' ("%s", "%s", %s, %s, %s, %s, "%s", "%s") ' % (article['name'], article['content'].decode('utf-8'), self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
                 value = (article['name'].encode('utf-8'), article['content'], self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
                 values.append(value)
@@ -72,14 +70,10 @@ class Plugin:
                 sql = 'insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values("%s", "%s", %s, %s, %s, %s, "%s", "%s") ' 
 
                 try:
-                    import pdb
-                    pdb.set_trace()
                     ret = self.cursor.executemany(sql, values);
                     logging.debug("sql execute return code: %s" % (ret))
                     self.db.commit()
                 except Exception, e:
-                    import pdb
-                    pdb.set_trace()
                     logging.error("Leo: sql %s" % (sql))
 
         self.cursor.close()
