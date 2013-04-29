@@ -8,11 +8,15 @@ import logging
 
 #setting update traceback
 import traceback
- 
+
+log_dir = "log"
+if not os.path.exists(log_dir):
+    os.mkdir(log_dir)
+
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                 datefmt='%a, %d %b %Y %H:%M:%S',
-                filename='log/bot.log',
+                filename='%s/bot.log' % (log_dir),
                 filemode='a')
 
 #3rd modules
@@ -57,24 +61,26 @@ class Plugin:
                 continue
             values = []
             for article in article_list:
-                value = ' ("%s", "%s", %s, %s, %s, %s, "%s", "%s") ' % (article['name'], article['content'].decode('utf-8'), self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
+                import pdb
+                pdb.set_trace()
+                #value = ' ("%s", "%s", %s, %s, %s, %s, "%s", "%s") ' % (article['name'], article['content'].decode('utf-8'), self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
+                value = (article['name'].encode('utf-8'), article['content'], self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
                 values.append(value)
 
 
             #sql = "insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values%s; "  % (",".join(values))
-                sql = "insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values%s; "  % (value)
-                logging.debug("sql: %s" %(sql))
+                sql = 'insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values("%s", "%s", %s, %s, %s, %s, "%s", "%s") ' 
 
                 try:
-                    ret = self.cursor.execute(sql.encode('utf-8'));
+                    import pdb
+                    pdb.set_trace()
+                    ret = self.cursor.executemany(sql, values);
                     logging.debug("sql execute return code: %s" % (ret))
                     self.db.commit()
                 except Exception, e:
-                    logging.error("Leo: sql %s" %(sql))
-
-                #print values
-                
-            print values
+                    import pdb
+                    pdb.set_trace()
+                    logging.error("Leo: sql %s" % (sql))
 
         self.cursor.close()
         self.db.close()
