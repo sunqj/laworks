@@ -4,9 +4,10 @@
 /*==============================================================*/
 
 drop database server;
-create database server;
+create database server DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 use server;
 SET sql_mode='NO_AUTO_VALUE_ON_ZERO';
+set names 'utf8';
 
 CREATE TABLE tianyi_article
 (
