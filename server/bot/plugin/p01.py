@@ -40,17 +40,20 @@ class BotRC(plugin.Plugin):
                 continue
 
             column_article_list = []
-            for index_page in url_list:
-                if not index_page.strip():
+            for index_page_url in url_list:
+                if not index_page_url.strip():
                     continue
-                print index_page
-                page_url = self.site + index_page
+                print index_page_url
+                page_url = self.site + index_page_url
 
                 try:
-                    index_page_content = urllib2.urlopen(page_url, timeout=15)
+                    index_page = urllib2.urlopen(page_url, timeout=15)
                 except Exception, e:
                     print e
-                index_page_soup = BeautifulSoup(index_page_content.read())
+
+                index_html = index_page.read()
+                index_page_content = unicode(index_html,'gb2312','ignore').encode('utf-8','ignore')
+                index_page_soup = BeautifulSoup(index_page_content)
                 links = index_page_soup.findAll(title=re.compile(".*"))
                 if not links:
                     continue
@@ -112,7 +115,7 @@ class BotRC(plugin.Plugin):
                     article['url'] = "%s/%s" % (filedir, filename)
                     column_article_list.append(article)
                     # debug purpose, just add one line
-                    #break
+                    break
                     
 
             self.dict_data[column_id] = column_article_list 
