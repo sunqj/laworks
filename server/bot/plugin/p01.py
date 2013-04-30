@@ -23,9 +23,9 @@ class BotRC(plugin.Plugin):
         self.entierprise_id = 2
         self.site = "http://yjb.shaanxi.gov.cn/"
         self.column_dict = {
-                1:["IssuedContentAction.do?dispatch=vContentListBySubid&columninfoid=23"],
-                   #"IssuedContentAction.do?dispatch=vContentListBySubid&columninfoid=24",
-                   #"IssuedContentAction.do?dispatch=vContentListBySubid&columninfoid=25"],
+                1:["IssuedContentAction.do?dispatch=vContentListBySubid&columninfoid=23",
+                   "IssuedContentAction.do?dispatch=vContentListBySubid&columninfoid=24",
+                   "IssuedContentAction.do?dispatch=vContentListBySubid&columninfoid=25"],
                 2:[],
                 3:[],
                 4:[],
@@ -116,7 +116,7 @@ class BotRC(plugin.Plugin):
                     article['url'] = "%s/%s" % (filedir, filename)
                     column_article_list.append(article)
                     # debug purpose, just add one line
-                    # break
+                    break
                     
 
             self.dict_data[column_id] = column_article_list 

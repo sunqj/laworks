@@ -68,11 +68,13 @@ class Plugin:
             for article in article_list:
                 #value = ' ("%s", "%s", %s, %s, %s, %s, "%s", "%s") ' % (article['name'], article['content'].decode('utf-8'), self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
 
+                import pdb
+                pdb.set_trace()
                 value = (article['name'], article['content'], self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
                 values.append(value)
 
                 #sql = "insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values%s; "  % (",".join(values))
-                sql = 'insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values("%s", "%s", %s, %s, %s, %s, "%s", "%s") ' 
+                sql = 'insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values(%s, %s, %s, %s, %s, %s, %s, %s) ' 
 
             try:
                 self.cursor.execute("set names utf8")
