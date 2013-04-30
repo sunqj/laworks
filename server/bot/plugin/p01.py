@@ -1,5 +1,6 @@
 #!/usr/bin/env python 
-#-*- encoding:UTF-8 -*-
+#-*- coding: utf-8 -*-，
+#coding = utf-8
 import os
 import re
 import sys
@@ -52,7 +53,7 @@ class BotRC(plugin.Plugin):
                     print e
 
                 index_html = index_page.read()
-                index_page_content = unicode(index_html,'gb2312','ignore').encode('utf-8','ignore')
+                index_page_content = unicode(index_html,'gb2312').encode('utf-8')
                 index_page_soup = BeautifulSoup(index_page_content)
                 links = index_page_soup.findAll(title=re.compile(".*"))
                 if not links:
@@ -61,7 +62,6 @@ class BotRC(plugin.Plugin):
                 for index, link in enumerate(links):
                     article_url = self.site + link.get('href')
                     print article_url
-                    article_name = link.get('title')
                     article_page = None
                     try:
                         article_page = urllib2.urlopen(article_url, timeout=10)
@@ -69,16 +69,17 @@ class BotRC(plugin.Plugin):
                         continue
 
                     htm = article_page.read()
-                    content = unicode(htm,'gb2312','ignore').encode('utf-8','ignore')
+                    content = unicode(htm,'gb2312').encode('utf-8')
                     article_content_soup = BeautifulSoup(content)
-
+                    titletags = article_content_soup.findAll('title')
+                    
+                    article_name = titletags[0].renderContents()
                     tdtags = article_content_soup.findAll('td', attrs={'class':'font19'})
                     
                     if not tdtags:
                         continue
 
                     tdtags = tdtags[0]
-                    
 
                     fonttags =  article_content_soup.findAll('td', attrs={'class':'font19'})
                     fonttag = fonttags[0]
@@ -110,12 +111,12 @@ class BotRC(plugin.Plugin):
 
                     real_filepath = "../%s/%s" % (filedir, filename)
                     
-                    #self.dump_content_tohtml(article_name, article['content'].encode('utf-8'), real_filepath)
+                    self.dump_content_tohtml(article_name, article['content'], real_filepath)
                     
                     article['url'] = "%s/%s" % (filedir, filename)
                     column_article_list.append(article)
                     # debug purpose, just add one line
-                    break
+                    # break
                     
 
             self.dict_data[column_id] = column_article_list 

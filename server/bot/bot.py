@@ -8,5 +8,5 @@ sys.path.append("%s/lib" % (os.getcwd()))
 import plugin
 
 if __name__ == '__main__':
-    r = plugin.PluginRunner("BotRC")
-    print r.run()
+    prunner = plugin.PluginRunner("BotRC")
+    prunner.run()

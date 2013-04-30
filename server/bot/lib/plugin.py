@@ -1,6 +1,10 @@
 #!/usr/bin/env python
-#-*- encoding:UTF-8 -*-
+#-*- coding: utf-8 -*-，
+#coding = utf-8
 import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 import os
 
 #setting up log
@@ -41,7 +45,7 @@ class Plugin:
     def dump_content_tohtml(self, title, content, filepath):
         html = """
         <html>
-            <title>%s<title>
+            <title>%s</title>
             <body>%s</body>
         </html>
         """
@@ -60,21 +64,24 @@ class Plugin:
             if not article_list:
                 continue
             values = []
+            value = None
             for article in article_list:
                 #value = ' ("%s", "%s", %s, %s, %s, %s, "%s", "%s") ' % (article['name'], article['content'].decode('utf-8'), self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
+
                 value = (article['name'], article['content'], self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
                 values.append(value)
 
-
-            #sql = "insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values%s; "  % (",".join(values))
+                #sql = "insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values%s; "  % (",".join(values))
                 sql = 'insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values("%s", "%s", %s, %s, %s, %s, "%s", "%s") ' 
 
-                try:
-                    ret = self.cursor.executemany(sql, values);
-                    logging.debug("sql execute return code: %s" % (ret))
-                    self.db.commit()
-                except Exception, e:
-                    logging.error("Leo: sql %s" % (sql))
+            try:
+                self.cursor.execute("set names utf8")
+                ret = self.cursor.executemany(sql, values)
+                #ret = self.cursor.execute(sql.decode('utf-8'), value)
+                logging.debug("sql execute return code: %s" % (ret))
+                self.db.commit()
+            except Exception, e:
+                logging.error("Leo: sql %s" % (sql))
 
         self.cursor.close()
         self.db.close()
@@ -85,7 +92,7 @@ class Plugin:
 class PluginRunner:
     def __init__(self, classname):
         self.classname = classname
-        self.db = MySQLdb.connect(host='localhost', user='root',passwd='linuxred', db='server', init_command="set names utf8")
+        self.db = MySQLdb.connect(host='localhost', user='root',passwd='linuxred', db='server', charset='utf8')
         self.cursor = self.db.cursor()
         self.plugin_list = []
         self.plugin_dict = {}
