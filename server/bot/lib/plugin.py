@@ -42,6 +42,24 @@ class Plugin:
         self.add_database_record()
         return True
 
+    def get_enterprise_logo(self, eid):
+        logo = '../upload/theme/unpacked/lg.png' 
+        if not os.path.exists(logo):
+            return null
+
+        return logo
+
+    def get_column_icon(self, cid):
+        sql = 'select column_icon from tianyi_column where column_id = %s ' % cid
+        self.cursor.execute(sql)
+        icon = self.cursor.fetchone()[0]
+
+        return icon
+
+    def unique_input_data():
+        """TODO: verify whether all record exists in database"""
+        pass
+
     def dump_content_tohtml(self, title, content, filepath):
         html = """
         <html>
@@ -68,8 +86,6 @@ class Plugin:
             for article in article_list:
                 #value = ' ("%s", "%s", %s, %s, %s, %s, "%s", "%s") ' % (article['name'], article['content'].decode('utf-8'), self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
 
-                import pdb
-                pdb.set_trace()
                 value = (article['name'], article['content'], self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
                 values.append(value)
 
