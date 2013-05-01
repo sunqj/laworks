@@ -82,29 +82,39 @@ class BotRC(plugin.Plugin):
                     fonttags =  article_content_soup.findAll('td', attrs={'class':'font19'})
                     fonttag = fonttags[0]
 
-                    #article_icon
-                    imgtags = tdtags.findAll('img')
                         
                     #article_content 
                     article = { }
 
+                    
+                    article['name'] = article_name
+                    tag = None
+                    if fonttag.text:
+                        tag = fonttag
+                        #article['content'] = fonttag.renderContents()
+                    else:
+                        tdtag.font.replaceWith("")
+                        tag = tdtag
+                        #article['content'] = tdtag.renderContents()
+                    
+                    tag = self.translate_url(tag, self.site) 
+
+                    #article_icon
+                    imgtags = tags.findAll('img')
+
                     article['icon'] = '' 
                     if imgtags:
                         article['icon'] = self.site + imgtags[0].get('src')
-
-                    article['name'] = article_name
-                    if fonttag.text:
-                        article['content'] = fonttag.renderContents()
-                    else:
-                        tdtag.font.replaceWith("")
-                        article['content'] = tdtag.renderContents()
+                    
+                    #article content
+                    article['content'] = tag.renderContents()
 
                     url = self.dump_content_tohtml(article_name, article['content'], column_id)
                     
                     article['url'] = url
                     column_article_list.append(article)
                     # debug purpose, just add one line
-                    # break
+                    break
                     
 
             self.dict_data[column_id] = column_article_list 

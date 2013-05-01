@@ -90,10 +90,19 @@ class Plugin:
 
         return exist_article
 
-    def translate_url(self, content, site):
+    def translate_url(self, tag, site):
         """translate relative url to absolute url"""
+        imgtags = tag.findAll('img')
+        for imgtag in imgtags:
+            for index, attr in enumerate(imgtag.attrs):
+                if attr[0] == 'src':
+                    imgtag.attrs[index] = (attr[0], "%s/%s" % (site, attr[1]))
 
-        return content
+        #atags =  tag.findAll('a')
+        #for atag  in atags:
+        #    pass
+
+        return tag 
 
 
     def get_site_basedir(self):
