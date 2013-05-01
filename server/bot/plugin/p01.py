@@ -4,7 +4,6 @@
 import os
 import re
 import sys
-import time
 import logging
 import urllib2
 
@@ -100,19 +99,9 @@ class BotRC(plugin.Plugin):
                         tdtag.font.replaceWith("")
                         article['content'] = tdtag.renderContents()
 
-                    cwd = os.getcwd()
-                    filedir= "/static/article/%s/%s/" % (column_id, time.strftime("%Y%m"))
-                    rel_dir = "..%s" % (filedir)
-                    if not os.path.exists(rel_dir):
-                        os.mkdir(rel_dir)
-
-                    filename = "%s.html" % (int(time.time()))
-
-                    real_filepath = "../%s/%s" % (filedir, filename)
+                    url = self.dump_content_tohtml(article_name, article['content'], column_id)
                     
-                    self.dump_content_tohtml(article_name, article['content'], real_filepath)
-                    
-                    article['url'] = "%s/%s" % (filedir, filename)
+                    article['url'] = url
                     column_article_list.append(article)
                     # debug purpose, just add one line
                     # break

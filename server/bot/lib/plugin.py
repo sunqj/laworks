@@ -3,6 +3,7 @@
 #coding = utf-8
 import sys
 import os
+import time
 
 #setting up log
 import logging
@@ -84,16 +85,34 @@ class Plugin:
 
         return exist_article
 
-    def dump_content_tohtml(self, title, content, filepath):
-        html = """
-        <html>
+    def get_site_basedir(self):
+        return "/server"
+
+    def dump_content_tohtml(self, title, content, column_id):
+        cwd = os.getcwd()
+        filedir= "/static/article/%s/%s/" % (column_id, time.strftime("%Y%m"))  
+
+        rel_dir = "..%s" % (filedir)
+        if not os.path.exists(rel_dir):
+            os.mkdir(rel_dir)
+
+        filename = "%s.html" % (int(time.time()))
+        real_filepath = "../%s/%s" % (filedir, filename)
+        url = "%s/%s/%s" %(self.get_site_basedir(), filedir, filename)
+
+        html = """<html>
+        <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
             <title>%s</title>
-            <body>%s</body>
+        </head>
+        <body>%s</body>
         </html>
         """
-        fp = file(filepath, 'w')
+        fp = file(real_filepath, 'w')
         fp.write(html % (title, content))
         fp.close()
+
+        return url
 
     def get_data(self):
         """ should rewrite by subclass """
