@@ -27,6 +27,7 @@ import MySQLdb
 
 class Plugin:
     def __init__(self):
+        """init data"""
         self.db = MySQLdb.connect(host='localhost', user='root',passwd='linuxred', db='server')
         self.cursor = self.db.cursor()
         self.dict_data = {}
@@ -34,14 +35,15 @@ class Plugin:
         # enterprise data
         self.create_user_id = -1
         self.enterprise_id = 0
-        self.column_dict = {}
 
     def run(self):
+        """wrapper of get_data and add_database_record"""
         self.get_data()
         self.add_database_record()
         return True
 
     def get_enterprise_logo(self, eid):
+        """get logo url of an enterprise"""
         logo = '../upload/theme/unpacked/lg.png' 
         if not os.path.exists(logo):
             return null
@@ -49,6 +51,7 @@ class Plugin:
         return logo
 
     def get_column_icon(self, cid):
+        """ get icon url of a column"""
         sql = 'select column_icon from tianyi_column where column_id = %s ' % cid
         self.cursor.execute(sql)
         icon = self.cursor.fetchone()[0]
@@ -56,6 +59,8 @@ class Plugin:
         return icon
 
     def get_exists_data(self):
+        """return a list of content that exists in database"""
+
         article_name_list = []
         for column_id, article_list in self.dict_data.iteritems():
             for article in article_list:
@@ -85,10 +90,18 @@ class Plugin:
 
         return exist_article
 
+    def translate_url(self, content, site):
+        """translate relative url to absolute url"""
+
+        return content
+
+
     def get_site_basedir(self):
+        """the base directory of whole site"""
         return "/server"
 
     def dump_content_tohtml(self, title, content, column_id):
+        """dump given title and content as a html file, and return relative url"""
         cwd = os.getcwd()
         filedir= "/static/article/%s/%s/" % (column_id, time.strftime("%Y%m"))  
 
@@ -115,10 +128,16 @@ class Plugin:
         return url
 
     def get_data(self):
-        """ should rewrite by subclass """
+        """ 
+        virtual method, should rewrite by subclass 
+        this method gets page data from remote site
+        """
         return True
 
     def add_database_record(self):
+        """
+        add all data in self.dict_data to database
+        """
         if not self.dict_data:
             return True
 
