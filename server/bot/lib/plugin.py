@@ -2,9 +2,6 @@
 #-*- coding: utf-8 -*-，
 #coding = utf-8
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
 import os
 
 #setting up log
@@ -17,6 +14,7 @@ log_dir = "log"
 if not os.path.exists(log_dir):
     os.mkdir(log_dir)
 
+#set up logger
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                 datefmt='%a, %d %b %Y %H:%M:%S',
@@ -56,9 +54,35 @@ class Plugin:
 
         return icon
 
-    def unique_input_data():
-        """TODO: verify whether all record exists in database"""
-        pass
+    def get_exists_data(self):
+        article_name_list = []
+        for column_id, article_list in self.dict_data.iteritems():
+            for article in article_list:
+                article_name_list.append(article['name'])
+        
+        if not article_name_list:
+            return []
+
+        exist_article = []
+        data = None
+        in_str = "( '%s' )" % ("', '".join(article_name_list))
+        sql = 'select article_name from tianyi_article where article_name in %s' % (in_str)
+
+        try:
+            self.cursor.execute("set names utf8")
+            self.cursor.execute(sql)
+            data = self.cursor.fetchall()
+        except:
+            logging.error("Leo: sql %s, error: %s" % (sql, e))
+            return None
+
+        if not data:
+            return None
+
+        for record in data:
+            exist_article.append(record[0])
+
+        return exist_article
 
     def dump_content_tohtml(self, title, content, filepath):
         html = """
@@ -78,28 +102,30 @@ class Plugin:
     def add_database_record(self):
         if not self.dict_data:
             return True
+
+        existed_articles = self.get_exists_data()
+        
         for column_id, article_list in self.dict_data.iteritems():
             if not article_list:
                 continue
             values = []
-            value = None
+            # value = None
             for article in article_list:
-                #value = ' ("%s", "%s", %s, %s, %s, %s, "%s", "%s") ' % (article['name'], article['content'].decode('utf-8'), self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
+                if existed_articles and article['name'] in existed_articles:
+                    continue
 
                 value = (article['name'], article['content'], self.enterprise_id, self.create_user_id, column_id, self.create_user_id, article['url'], article['icon'])
                 values.append(value)
 
-                #sql = "insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values%s; "  % (",".join(values))
-                sql = 'insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values(%s, %s, %s, %s, %s, %s, %s, %s) ' 
+            sql = 'insert into tianyi_article(article_name, article_content, enterprise_id, create_user_id, column_id, audit_user_id, article_url, article_icon) values(%s, %s, %s, %s, %s, %s, %s, %s) ' 
 
             try:
                 self.cursor.execute("set names utf8")
                 ret = self.cursor.executemany(sql, values)
-                #ret = self.cursor.execute(sql.decode('utf-8'), value)
                 logging.debug("sql execute return code: %s" % (ret))
                 self.db.commit()
             except Exception, e:
-                logging.error("Leo: sql %s" % (sql))
+                logging.error("Leo: sql %s, error: %s" % (sql, e))
 
         self.cursor.close()
         self.db.close()

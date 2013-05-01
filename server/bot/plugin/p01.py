@@ -20,7 +20,7 @@ from BeautifulSoup import BeautifulSoup
 class BotRC(plugin.Plugin):
     def __init__(self):
         plugin.Plugin.__init__(self)
-        self.entierprise_id = 2
+        self.enterprise_id = 2
         self.site = "http://yjb.shaanxi.gov.cn/"
         self.column_dict = {
                 1:["IssuedContentAction.do?dispatch=vContentListBySubid&columninfoid=23",
@@ -32,7 +32,6 @@ class BotRC(plugin.Plugin):
                 5:[],
                 6:[""]
                 }
-
 
     def get_data(self):
         for column_id, url_list in self.column_dict.iteritems():
@@ -116,7 +115,7 @@ class BotRC(plugin.Plugin):
                     article['url'] = "%s/%s" % (filedir, filename)
                     column_article_list.append(article)
                     # debug purpose, just add one line
-                    break
+                    # break
                     
 
             self.dict_data[column_id] = column_article_list 
