@@ -67,7 +67,12 @@ class BotRC(plugin.Plugin):
                         continue
 
                     htm = article_page.read()
-                    content = unicode(htm,'gb2312').encode('utf-8')
+                    try:
+                        content = unicode(htm,'gb2312').encode('utf-8')
+                    except:
+                        pass
+                        continue
+
                     article_content_soup = BeautifulSoup(content)
                     titletags = article_content_soup.findAll('title')
                     
@@ -100,11 +105,11 @@ class BotRC(plugin.Plugin):
                     tag = self.translate_url(tag, self.site) 
 
                     #article_icon
-                    imgtags = tags.findAll('img')
+                    imgtags = tag.findAll('img')
 
                     article['icon'] = '' 
                     if imgtags:
-                        article['icon'] = self.site + imgtags[0].get('src')
+                        article['icon'] = imgtags[0].get('src')
                     
                     #article content
                     article['content'] = tag.renderContents()
@@ -114,7 +119,7 @@ class BotRC(plugin.Plugin):
                     article['url'] = url
                     column_article_list.append(article)
                     # debug purpose, just add one line
-                    break
+                    # break
                     
 
             self.dict_data[column_id] = column_article_list 
