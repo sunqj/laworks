@@ -353,7 +353,123 @@ class ClientController extends Controller
         				));
     }
     
-
+	/*
+	 * discuss group related functions
+	 */
+    
+    /*
+     * list all discuss groups
+     */
+    public function actionListTopic()
+    {
+    	$viewName = 'list_topic';
+    	
+    	if (! isset ( $_GET ['eid'] ))
+    	{
+    		$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'enterprise id missed.' );
+    		return;
+    	}
+    	
+    	$eId = $_GET['eid'];
+    	$enterprise = Enterprise::model()->findByPk($eId);
+    	if(!$enterprise)
+    	{
+    		$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'enterprise does not exist.' );
+    		return;
+    	}
+    	
+    	$topics = Topic::model()->findAll("enterprise_id = $eId");
+    	$this->render($viewName,
+    			array(
+    					'result' => LA_RSP_SUCCESS,
+    					'info'   => "list topics successful",
+						'topics' => $topics,
+    			));
+    } 
+    
+    /*
+     * list all comments for a discuss group
+     */
+    public function actionListReply()
+    {
+    	$viewName = 'list_reply';
+    	if(!isset($_GET['tid']))
+    	{
+    		$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'topic id missed.' );
+    		return;
+    	}
+    	
+    	$tid = $_GET['tid'];
+    	$topic = Topic::model()->findByPk($tid);
+    	if(!$topic)
+    	{
+    		$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'topic does not exist.' );
+    		return;
+    	}
+    	
+    	$replies = Reply::model()->findAll("topic_id = $tid");
+    	
+    	$this->render($viewName,
+    			array(
+    					'result' => LA_RSP_SUCCESS,
+    					'info'   => "list replies successful",
+    					'replies' => $replies,
+    			));
+    }
+		
+		/*
+	 * write comment for a discuss group
+	 */
+	public function actionReplyTopic() 
+	{
+		$viewName = 'reply_topic';
+		if (! isset ( $_GET ['tid'] )) 
+		{
+			$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'topic id missed.' );
+			return;
+		}
+		
+		if (! isset ( $_GET ['uid'] )) 
+		{
+			$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'user id missed.' );
+			return;
+		}
+		
+		if (! isset ( $_GET ['content'] )) 
+		{
+			$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'content missed.' );
+			return;
+		}
+		
+		$tid = $_GET ['tid'];
+		$topic = Topic::model ()->findByPk ( $tid );
+		if (! $topic) 
+		{
+			$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'topic does not exist.' );
+			return;
+		}
+		
+		$uid = $_GET['uid'];
+		$user = User::model()->findByPk($uid);
+		if(!$user)
+		{
+			$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'user does not exist.' );
+			return;
+		}
+		
+		$content = $_GET['content'];
+		
+		$reply = new Reply;
+		$reply->user_id = $uid;
+		$reply->topic_id = $tid;
+		$reply->reply_create_gmt = time();
+		$reply->reply_content = $content;
+		$reply->save();
+		
+		$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_SUCCESS, 'reply topic ok.' );
+		return;
+	}
+    
     
     /**
      *
@@ -391,6 +507,9 @@ class ClientController extends Controller
                                 "listcontacts",
                                 "checkupdate",
                                 "columnpage",
+                        		"listtopic",
+                        		"listreply",
+                        		"replytopic",
                                 "count",
                         		"test",
                         ),

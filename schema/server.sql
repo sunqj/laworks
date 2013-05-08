@@ -304,7 +304,7 @@ CREATE TABLE tianyi_history
 CREATE TABLE tianyi_topic
 (
     topic_id                   int not null auto_increment,
-    topic_tag                  varchar(256) default null COMMENT '扩展：topic_tag',
+    topic_tag                  varchar(256) default null,
     topic_content              varchar(1024) not null,
     topic_created_gmt          int not null,
     topic_updated_gmt          int not null,
