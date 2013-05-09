@@ -370,15 +370,15 @@ class ClientController extends Controller
     		return;
     	}
     	
-    	$eId = $_GET['eid'];
-    	$enterprise = Enterprise::model()->findByPk($eId);
+    	$eid = $_GET['eid'];
+    	$enterprise = Enterprise::model()->findByPk($eid);
     	if(!$enterprise)
     	{
     		$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'enterprise does not exist.' );
     		return;
     	}
     	
-    	$topics = Topic::model()->findAll("enterprise_id = $eId");
+    	$topics = Topic::model()->findAll("enterprise_id = $eid");
     	$this->render($viewName,
     			array(
     					'result' => LA_RSP_SUCCESS,
@@ -470,6 +470,131 @@ class ClientController extends Controller
 		return;
 	}
     
+	/*
+	 * vote related functions
+	 */
+	public function actionListVote()
+	{
+		$viewName = 'list_vote';
+		if (! isset ( $_GET ['eid'] ))
+		{
+			$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'enterprise id missed.' );
+			return;
+		}
+		
+		$eid = $_GET ['eid'];
+		$votes = Vote::model()->findAll("enterprise_id = $eid");
+		
+		$this->render($viewName,
+				array(
+						'result' => LA_RSP_SUCCESS,
+						'info'   => "list replies successful",
+						'votes' => $votes,
+				));
+	}
+	
+	public function actionListOption()
+	{
+		$viewName = 'list_option';
+		if (! isset ( $_GET ['vid'] ))
+		{
+			$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'vote id missed.' );
+			return;
+		}
+		
+		$vid = $_GET ['vid'];
+		
+		$vote = Vote::model()->findByPk($vid);
+		$options = Option::model()->findAll("vote_id = $vid");
+		$hasVoted = false;
+		$result = UserVote::model()->findAll("user_id = $uid and vote_id = $vote->vote_id");
+		if($result)
+		{
+			$hasVoted = true;
+		}
+		
+		$this->render($viewName,
+				array(
+						'result' => LA_RSP_SUCCESS,
+						'info'   => "list replies successful",
+						'options' => $options,
+						'type'  => $vote->vote_type,
+						'voted' => $hasVoted,
+				));
+		
+	}
+	
+	public function actionDoVote()
+	{
+		$viewName = 'do_vote';
+		
+		if (! isset ( $_GET ['vid'] ))
+		{
+			$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'vote id missed.' );
+			return;
+		}
+		
+		if (! isset ( $_GET ['oids'] ))
+		{
+			$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'option ids missed.' );
+			return;
+		}
+		
+		
+		if (! isset ( $_GET ['uid'] ))
+		{
+			$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'user id missed.' );
+			return;
+		}
+		
+		$vid = $_GET ['vid'];
+		$vote = Vote::model()->findByPk($vid);
+		if(!$vote)
+		{
+			$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'vote does not exist.' );
+			return;
+		}
+		
+		$uid = $_GET ['uid'];
+		$user = User::model()->findByPk($uid);
+		if(!$user)
+		{
+			$this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'user does not exist.' );
+			return;
+		}
+		
+		$oids = $_GET ['oids'];
+		$optionIdList = explode(",", $oids);
+		$optionCountArray = Array();
+		foreach ( $optionIdList as $oid ) 
+		{
+			$userVote = new UserVote ();
+			$userVote->user_id = $uid;
+			$userVote->option_id = $oid;
+			$userVote->vote_id = $vid;
+			$userVote->save ();
+			
+			$option = Option::model()->findByPk("option_id = $oid");
+			$option->option_count = $option->option_count + 1;
+			$option->save ();
+		}
+		
+		$optionArray = Option::model()->findAll("vote_id = $vid");
+		
+		$this->render($viewName,
+				array(
+						'result' => LA_RSP_SUCCESS,
+						'info'   => "vote successful",
+						'options' => $options,
+				));
+		return;
+		
+	}
+	
+	/*
+	 * vote related functions
+	*/
+	
     
     /**
      *
@@ -483,6 +608,9 @@ class ClientController extends Controller
         );
     }
 
+    
+    
+    
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
