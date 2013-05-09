@@ -25,6 +25,7 @@ class Vote extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Vote the static model class
 	 */
+    public $optionList = Array();
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -46,13 +47,13 @@ class Vote extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('vote_name, vote_content, vote_audit_userid, vote_create_userid, enterprise_id', 'required'),
+			array('vote_name, vote_content', 'required'),
 			array('vote_type, vote_audit_userid, vote_create_userid, vote_audit_time_gmt, vote_create_time_gmt, vote_status, enterprise_id', 'numerical', 'integerOnly'=>true),
 			array('vote_url, vote_name, vote_icon, vote_content', 'length', 'max'=>256),
 			array('vote_summary', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('vote_id, vote_url, vote_type, vote_name, vote_icon, vote_summary, vote_content, vote_audit_userid, vote_create_userid, vote_audit_time_gmt, vote_create_time_gmt, vote_status, enterprise_id', 'safe', 'on'=>'search'),
+			array('vote_id, vote_type, vote_name, vote_summary, vote_content,  enterprise_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,6 +68,51 @@ class Vote extends CActiveRecord
 		);
 	}
 
+	public function afterSave()
+	{
+	    if(!$this->isNewRecord)
+	    {
+	        return true;
+	    }
+	    
+	    foreach($this->optionList as $option)
+	    {
+	        $voteOption = new Option;
+	        $voteOption->vote_id = $this->vote_id;
+	        $voteOption->option_count = 0;
+	        $voteOption->option_content = $option;
+	        $voteOption->save();
+	    }
+	}
+	
+	public function beforeSave()
+	{
+	    if (! parent::beforeSave ()) 
+	    {
+	        return false;
+	    }
+	    
+	    if ($this->isNewRecord) 
+	    {
+	        // add a new record
+	        if (Yii::app ()->user->Id != 0) {
+	            $this->enterprise_id = Yii::app ()->user->enterprise_id;
+	        }
+	        $curTime = time();
+	        $this->vote_create_time_gmt = $curTime;
+	        $this->vote_audit_time_gmt = $curTime;
+	        $this->vote_create_userid = Yii::app()->user->getId();
+	        $this->vote_audit_userid = Yii::app()->user->getId();
+	    }
+	    
+	    return true;
+	}
+	
+	public function beforeDelete()
+	{
+	    Option::model()->deleteAll("vote_id = $this->vote_id");
+	}
+	
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -88,7 +134,12 @@ class Vote extends CActiveRecord
 			'enterprise_id' => 'Enterprise',
 		);
 	}
-
+    
+	public static function getVoteTypeList()
+	{
+	    return Array("0" => "Single", "1" => "Multi");
+	}
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

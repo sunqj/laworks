@@ -56,6 +56,10 @@ should you have any questions.</p>
         </p>
 
         <p>
+            <a href="<?php echo YiiBase::app()->createUrl("settings/vote/admin");?>">投票管理</a>
+        </p>
+
+        <p>
             <a href="<?php echo YiiBase::app()->createUrl("settings/notification/admin"); ?>">通知管理</a>
         </p>
 

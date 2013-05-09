@@ -37,7 +37,7 @@ class VoteController extends Controller
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -70,6 +70,9 @@ class VoteController extends Controller
 		if(isset($_POST['Vote']))
 		{
 			$model->attributes=$_POST['Vote'];
+			
+			$model->optionList = isset($_POST['Vote']['vote_options']) ? 
+			    $_POST['Vote']['vote_options'] : Array();
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->vote_id));
 		}

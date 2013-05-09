@@ -10,7 +10,6 @@ $this->breadcrumbs=array(
 $this->menu=array(
 	array('label'=>'List Vote', 'url'=>array('index')),
 	array('label'=>'Create Vote', 'url'=>array('create')),
-	array('label'=>'Update Vote', 'url'=>array('update', 'id'=>$model->vote_id)),
 	array('label'=>'Delete Vote', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->vote_id),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Manage Vote', 'url'=>array('admin')),
 );
