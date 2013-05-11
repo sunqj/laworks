@@ -19,17 +19,13 @@ from BeautifulSoup import BeautifulSoup
 class BotRC(plugin.Plugin):
     def __init__(self):
         plugin.Plugin.__init__(self)
-        self.enterprise_id = 2
-        self.site = "http://yjb.shaanxi.gov.cn/"
+        self.enterprise_id = 3
+        self.site = "http://www.wngaj.gov.cn"
         self.column_dict = {
-                1:["IssuedContentAction.do?dispatch=vContentListBySubid&columninfoid=23",
-                   "IssuedContentAction.do?dispatch=vContentListBySubid&columninfoid=24",
-                   "IssuedContentAction.do?dispatch=vContentListBySubid&columninfoid=25"],
-                2:[],
-                3:[],
-                4:[],
-                5:[],
-                6:[""]
+                8:[
+                   "/info/iList.jsp?cat_id=1315"],
+                9:[],
+                10:[]
                 }
 
     def get_data(self):
@@ -51,9 +47,16 @@ class BotRC(plugin.Plugin):
                     print e
 
                 index_html = index_page.read()
-                index_page_content = unicode(index_html,'gb2312').encode('utf-8')
+                #index_page_content = unicode(index_html,'gb2312').encode('utf-8')
+                index_page_content = index_html
                 index_page_soup = BeautifulSoup(index_page_content)
-                links = index_page_soup.findAll(title=re.compile(".*"))
+                divtags = index_page_soup.findAll("div", attrs={'class': 'news_list_r_list'})
+                if(len(divtags) < 0):
+                    continue
+
+                divtag = divtags[0]
+                links = divtag.findAll(title=re.compile(".*"))
+
                 if not links:
                     continue
 
@@ -67,54 +70,37 @@ class BotRC(plugin.Plugin):
                         continue
 
                     htm = article_page.read()
-                    try:
-                        content = unicode(htm,'gb2312').encode('utf-8')
-                    except:
-                        pass
-                        continue
+                    ##try:
+                    #    #content = unicode(htm,'gb2312').encode('utf-8')
+                    ##except:
+                    #    #pass
+                    #    #continue
 
-                    article_content_soup = BeautifulSoup(content)
-                    titletags = article_content_soup.findAll('title')
+                    article_content_soup = BeautifulSoup(htm)
+                    titletags = article_content_soup.findAll('h1')
                     
                     article_name = titletags[0].renderContents()
-                    tdtags = article_content_soup.findAll('td', attrs={'class':'font19'})
+                    content_divs = article_content_soup.findAll('div', 
+                            attrs={'class':'news_content_l_content'})
                     
-                    if not tdtags:
+                    if(len(content_divs) < 1):
                         continue
 
-                    tdtags = tdtags[0]
+                    content_div = content_divs[0]
 
-                    fonttags =  article_content_soup.findAll('td', attrs={'class':'font19'})
-                    fonttag = fonttags[0]
+                    article = { 'icon': None }
 
-                        
-                    #article_content 
-                    article = { }
+                    article_content = content_div.renderContents()
 
-                    
                     article['name'] = article_name
-                    tag = None
-                    if fonttag.text:
-                        tag = fonttag
-                        #article['content'] = fonttag.renderContents()
-                    else:
-                        tdtag.font.replaceWith("")
-                        tag = tdtag
-                        #article['content'] = tdtag.renderContents()
-                    
-                    tag = self.translate_url(tag, self.site) 
+                    imgtags = content_div.findAll('img')
 
-                    #article_icon
-                    imgtags = tag.findAll('img')
-
-                    article['icon'] = '' 
                     if imgtags:
                         article['icon'] = imgtags[0].get('src')
                     
-                    #article content
-                    article['content'] = tag.renderContents()
+                    article['content'] = article_content
 
-                    url = self.dump_content_tohtml(article_name, article['content'], column_id)
+                    url = self.dump_content_tohtml(article_name, article_content, column_id)
                     
                     article['url'] = url
                     column_article_list.append(article)
