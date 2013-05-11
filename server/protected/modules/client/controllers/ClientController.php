@@ -358,6 +358,45 @@ class ClientController extends Controller
 	 */
     
     /*
+     * create a discuss group
+     */
+    public function actionCreateTopic()
+    {
+        
+        if(!isset($_GET['uid']))
+        {
+            $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'user id missed.' );
+            return;
+        }
+        
+        if(!isset($_GET['content']))
+        {
+            $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'content missed.' );
+            return;
+        }
+        
+        $userid = $_GET['uid'];
+        $user = User::model()->findByPk($userid);
+        if(!$user)
+        {
+            $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'invalid user' );
+            return;
+        }
+        $topic = new Topic;
+        $now = time();
+        $topic->user_id = $user->user_id;
+        $topic->enterprise_id = $user->enterprise_id;
+        $topic->topic_created_gmt = $now;
+        $topic->topic_updated_gmt = $now;
+        $topic->topic_content = $_GET['content'];
+        $topic->save();
+        
+        $viewName = 'create_topic';
+        
+        $this->renderRetCodeAndInfoView($viewName, LA_RSP_SUCCESS, 'create topic successful');
+    }
+    
+    /*
      * list all discuss groups
      */
     public function actionListTopic()
@@ -635,6 +674,7 @@ class ClientController extends Controller
                                 "listcontacts",
                                 "checkupdate",
                                 "columnpage",
+                                "createtopic",
                         		"listtopic",
                         		"listreply",
                         		"replytopic",
