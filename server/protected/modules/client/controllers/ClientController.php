@@ -457,59 +457,6 @@ class ClientController extends Controller
     }
 
     /*
-     * write comment for a discuss group
-     */
-    public function actionReplyTopic() 
-    {
-        $viewName = 'reply_topic';
-        if (! isset ( $_GET ['tid'] )) 
-        {
-            $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'topic id missed.' );
-            return;
-        }
-
-        if (! isset ( $_GET ['uid'] )) 
-        {
-            $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'user id missed.' );
-            return;
-        }
-
-        if (! isset ( $_GET ['content'] )) 
-        {
-            $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'content missed.' );
-            return;
-        }
-
-        $tid = $_GET ['tid'];
-        $topic = Topic::model ()->findByPk ( $tid );
-        if (! $topic) 
-        {
-            $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'topic does not exist.' );
-            return;
-        }
-
-        $uid = $_GET['uid'];
-        $user = User::model()->findByPk($uid);
-        if(!$user)
-        {
-            $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'user does not exist.' );
-            return;
-        }
-
-        $content = $_GET['content'];
-
-        $reply = new Reply;
-        $reply->user_id = $uid;
-        $reply->topic_id = $tid;
-        $reply->reply_create_gmt = time();
-        $reply->reply_content = $content;
-        $reply->save();
-
-        $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_SUCCESS, 'reply topic ok.' );
-        return;
-    }
-
-    /*
      * vote related functions
      */
     public function actionListVote()
@@ -684,17 +631,6 @@ class ClientController extends Controller
 
     }
 
-    /*
-     * vote related functions
-     */
-
-
-
-
-    /*
-     * vote related functions
-     */
-
 
     /**
      *
@@ -745,10 +681,6 @@ class ClientController extends Controller
                     "count",
                     "test",
                 ),
-                'users' => array (
-                    '*'
-                )
-            ),
             'users' => array (
                 '*'
             )
