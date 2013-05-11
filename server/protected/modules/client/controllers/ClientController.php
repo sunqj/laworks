@@ -506,11 +506,13 @@ class ClientController extends Controller
 		
 		$vote = Vote::model()->findByPk($vid);
 		$options = Option::model()->findAll("vote_id = $vid");
-		$hasVoted = false;
+		$hasVoted = 0;
+		$uid = $_GET['uid'];
 		$result = UserVote::model()->findAll("user_id = $uid and vote_id = $vote->vote_id");
+		
 		if($result)
 		{
-			$hasVoted = true;
+			$hasVoted = 1;
 		}
 		
 		$this->render($viewName,
@@ -565,7 +567,7 @@ class ClientController extends Controller
 		
 		$oids = $_GET ['oids'];
 		$optionIdList = explode(",", $oids);
-		$optionCountArray = Array();
+		$options = Array();
 		foreach ( $optionIdList as $oid ) 
 		{
 			$userVote = new UserVote ();
@@ -574,9 +576,10 @@ class ClientController extends Controller
 			$userVote->vote_id = $vid;
 			$userVote->save ();
 			
-			$option = Option::model()->findByPk("option_id = $oid");
+			$option = Option::model()->findByPk($oid);
 			$option->option_count = $option->option_count + 1;
 			$option->save ();
+			array_push($options, $option);
 		}
 		
 		$optionArray = Option::model()->findAll("vote_id = $vid");
@@ -637,6 +640,9 @@ class ClientController extends Controller
                                 "columnpage",
                         		"listtopic",
                         		"listreply",
+                        		"listvote",
+                        		"listoption",
+                        		"dovote",
                         		"replytopic",
                                 "count",
                         		"test",
