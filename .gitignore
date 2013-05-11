@@ -4,3 +4,4 @@ web/protected/runtime/*
 web/upload/*
 web/js/*
 web/static/*
+tags
