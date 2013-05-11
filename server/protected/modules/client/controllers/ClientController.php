@@ -555,7 +555,7 @@ class ClientController extends Controller
         $this->render($viewName,
             array(
                 'result' => LA_RSP_SUCCESS,
-                'info'   => "list replies successful",
+                'info'   => "list option successful",
                 'options' => $options,
                 'type'  => $vote->vote_type,
                 'voted' => $hasVoted,
