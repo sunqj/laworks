@@ -94,6 +94,7 @@ class Column extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$enterprise_id = Yii::app()->user->enterprise_id;
 		$criteria->compare('column_id','>0');
 		$criteria->compare('column_icon',$this->column_icon,true);
 		$criteria->compare('column_name',$this->column_name,true);
@@ -102,7 +103,7 @@ class Column extends CActiveRecord
 		$criteria->compare('column_create_gmt',$this->column_create_gmt);
 		$criteria->compare('column_update_gmt',$this->column_update_gmt);
 		$criteria->compare('column_status',$this->column_status);
-		$criteria->compare('enterprise_id',$this->enterprise_id);
+		$criteria->compare('enterprise_id',$enterprise_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
