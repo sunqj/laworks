@@ -567,7 +567,7 @@ class ClientController extends Controller
     {
         $viewName = 'do_vote';
 
-        if (! isset ( $_GET ['vid'] ))
+        if (!isset ( $_GET ['vid']))
         {
             $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'vote id missed.' );
             return;
