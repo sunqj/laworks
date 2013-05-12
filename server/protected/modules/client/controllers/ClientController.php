@@ -489,7 +489,7 @@ class ClientController extends Controller
         }
 
         $vid = $_GET ['vid'];
-
+        $uid = $_GET ['uid'];
         $vote = Vote::model()->findByPk($vid);
         $options = Option::model()->findAll("vote_id = $vid");
         $hasVoted = false;
