@@ -28,15 +28,15 @@ class VoteController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'upload'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'upload'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete', 'upload'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -171,4 +171,47 @@ class VoteController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	
+	function actionUpload()
+	{
+	    if (isset ( $_POST ['Vote'] ))
+	    {
+	        $model = new Vote();
+	        require Yii::app ()->getBasePath () . '/utils/DirUtils.php';
+	        $uploadImage = CUploadedFile::getInstance ( $model, 'vote_icon' );
+	        $fileExt = trim ( strtolower ( $uploadImage->getExtensionName () ) );
+	        if ($fileExt != 'jpg' && $fileExt != 'jpeg' && $fileExt != 'png' && $fileExt != 'gif')
+	        {
+	            // is not correct file type.
+	            echo "1:file extension not match.";
+	            return;
+	        }
+	
+	        $fileName = time () . ".$fileExt";
+	        $targetFile = getVoteIconDirAbsolute () . $fileName;
+	
+	        $ret = $uploadImage->saveAs ( $targetFile );
+	
+	        if ($ret == 1)
+	        {
+	            echo "0:" . getVoteIcondirRelative() . $fileName;
+	            return;
+	        }
+	    }
+	    echo "1:Unknow error";
+	    return;
+	}
+	
+	function init()
+	{
+	    if (isset ( $_POST ['SESSION_ID'] ))
+	    {
+	        $session = Yii::app ()->getSession ();
+	        $session->close ();
+	        $session->sessionID = $_POST ['SESSION_ID'];
+	        $session->open ();
+	    }
+	}
+	
 }

@@ -100,6 +100,42 @@ label {
 		<?php echo $form->textField($model,'vote_content',array('size'=>60,'maxlength'=>256)); ?>
 		<?php echo $form->error($model,'vote_content'); ?>
 	</div>
+	
+		<div class="row">
+	    <?php echo $form->labelEx($model,'vote_icon'); ?>
+		<?php $this->widget('application.extensions.MUploadify.MUploadify',array(
+		        'model'=>$model,
+		        'attribute'=>'vote_icon',
+		        'auto'=>true,
+		        'script'=>array('vote/upload','id'=>$model->vote_id),
+		        'onComplete'=>'js:function(event, queueID, fileObj, response, data)
+		            {
+		                while(img_prev.firstChild)
+		                {
+		                    var oldNode = img_prev.removeChild(img_prev.firstChild);
+		                    oldNode = null;
+		                }
+		                rArray = response.split(":");
+
+		                if(rArray[0] == 0)
+		                {
+							//alert(rArray[1]);
+		                    var imgChild = "<img src="+rArray[1]+ " style=\"max-width:100px\" />";
+		                    $("#img_prev").append(imgChild);
+		                    $("#ytVote_vote_icon").val(rArray[1]);
+		                }
+		                else
+		                {
+		                    alert(rArray[1]);
+		                }
+                    }',            
+            ));
+		?>
+	</div>
+
+	<div id="img_prev" name="img_prev">    </div>
+	
+	
     <label><h5>投票选项</h5></label>
     <input name="button" type="button" onClick="addTextBox()" value="增加一项" />
     <div id="tableAFS"> </div>
