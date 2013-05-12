@@ -19,7 +19,7 @@ from BeautifulSoup import BeautifulSoup
 class BotRC(plugin.Plugin):
     def __init__(self):
         plugin.Plugin.__init__(self)
-        self.enterprise_id = 2
+        self.enterprise_id = 1
         self.site = "http://yjb.shaanxi.gov.cn/"
         self.column_dict = {
                 1:["IssuedContentAction.do?dispatch=vContentListBySubid&columninfoid=23",

@@ -177,7 +177,11 @@ class ColumnController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider ( 'Column' );
+    	$eid = Yii::app()->user->enterprise_id;
+        $dataProvider = new CActiveDataProvider ( 'Column',
+        		Array('criteria' => array('condition' => "enterprise_id = $eid" )
+        				) 
+        		);
         $this->render ( 'index', array (
                 'dataProvider' => $dataProvider 
         ) );

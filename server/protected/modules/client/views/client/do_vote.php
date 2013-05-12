@@ -6,8 +6,8 @@
             <options>
                 <?php foreach($options as $option): ?>
                     <option 
-                    id="<?php echo $option->option_id; ?>" 
-                    count="<?php echo $option->option_count; ?>"  />
+                    id="<?php echo $option->option_id; ?>" count="<?php echo $option->option_count; ?>" 
+                    />
                 <?php endforeach; ?>
             </options>
         </data>
