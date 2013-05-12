@@ -417,7 +417,18 @@ class ClientController extends Controller
             return;
         }
 
-        $topics = Topic::model()->findAll("enterprise_id = $eid");
+        
+        $conditionStr = "enterprise_id = $eid";
+        $count = Topic::model()->count($conditionStr);
+        $pagination = new CPagination($count);
+        $pagination->pageSize = LA_PAGE_SIZE;
+        //default pageVar = page, set it explicit.
+        $pagination->pageVar = 'page';
+        $criteria = new CDbCriteria();
+        $criteria->condition = $conditionStr;
+        $pagination->applyLimit($criteria);
+        
+        $topics = Topic::model()->findAll($criteria);
         $this->render($viewName,
             array(
                 'result' => LA_RSP_SUCCESS,
@@ -446,7 +457,17 @@ class ClientController extends Controller
             return;
         }
 
-        $replies = Reply::model()->findAll("topic_id = $tid");
+        $conditionStr = "topic_id = $tid";
+        $count = Reply::model()->count($conditionStr);
+        $pagination = new CPagination($count);
+        $pagination->pageSize = LA_PAGE_SIZE;
+        //default pageVar = page, set it explicit.
+        $pagination->pageVar = 'page';
+        $criteria = new CDbCriteria();
+        $criteria->condition = $conditionStr;
+        $pagination->applyLimit($criteria);
+        
+        $replies = Reply::model()->findAll($criteria);
 
         $this->render($viewName,
             array(
@@ -469,7 +490,18 @@ class ClientController extends Controller
         }
 
         $eid = $_GET ['eid'];
-        $votes = Vote::model()->findAll("enterprise_id = $eid");
+        $conditionStr = "enterprise_id = $eid";
+        
+        $count = Vote::model()->count($conditionStr);
+        $pagination = new CPagination($count);
+        $pagination->pageSize = LA_PAGE_SIZE;
+        //default pageVar = page, set it explicit.
+        $pagination->pageVar = 'page';
+        $criteria = new CDbCriteria();
+        $criteria->condition = $conditionStr;
+        $pagination->applyLimit($criteria);
+        
+        $votes = Vote::model()->findAll($criteria);
 
         $this->render($viewName,
             array(
