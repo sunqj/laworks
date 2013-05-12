@@ -111,6 +111,7 @@ class Vote extends CActiveRecord
 	public function beforeDelete()
 	{
 	    Option::model()->deleteAll("vote_id = $this->vote_id");
+	    return true;
 	}
 	
 	/**
