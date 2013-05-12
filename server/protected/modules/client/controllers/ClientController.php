@@ -605,7 +605,7 @@ class ClientController extends Controller
             return;
         }
 
-        if (! isset ( $_GET ['oids'] ))
+        if ((!isset ( $_GET ['oids']) || ($_GET ['oids']) == '' ))
         {
             $this->renderRetCodeAndInfoView ( $viewName, LA_RSP_FAILED, 'option ids missed.' );
             return;
