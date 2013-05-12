@@ -4,7 +4,7 @@
         <?php if(!$result): ?>
         <data>
             <options type="<?php echo $type; ?>" voted="<?php echo $voted; ?>"> 
-                <?php foreach($options as $option): ?>it stat
+                <?php foreach($options as $option): ?>
                     <option 
                     content="<?php echo $option->option_content; ?>" 
                     id="<?php echo $option->option_id; ?>"

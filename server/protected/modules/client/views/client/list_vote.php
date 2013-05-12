@@ -9,6 +9,7 @@
                     name="<?php echo $vote->vote_name; ?>" 
                     summary="<?php echo $vote->vote_summary; ?>" 
                     content="<?php echo $vote->vote_content; ?>" 
+                    icon="<?php echo $vote->vote_icon; ?>" 
                     id="<?php echo $vote->vote_id; ?>" />
                     
                 <?php endforeach; ?>
